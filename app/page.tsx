@@ -6,6 +6,28 @@ import NavCard from "./NavCard";
 export default function Page() {
   return (
     <main className="flex min-h-screen flex-col p-6">
+      <div className="relative block md:h-64 h-auto w-full overflow-hidden rounded-xl border-4 border-white shadow-xl">
+        <Image
+          src="/heatwave-map.png"
+          alt="Australia Heatwave Map"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        <div className="flex h-full items-center p-12 bg-black/40 text-white relative z-10 backdrop-blur-sm hover:backdrop-blur duration-300">
+          <div className="max-w-2xl">
+            <h1 className="text-xl md:text-5xl font-black mb-4 drop-shadow-lg">
+              Centralized Heatwave Info
+            </h1>
+            <p className="text-l md:text-xl opacity-90">
+              Your go-to resource for building community resilience against
+              heatwaves. Explore tools, resources, and information to help you
+              prepare for and respond to extreme heat events.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="flex text-center flex-col md:flex-row gap-4 justify-around text-white font-bold text-2xl mt-6">
         <NavCard
           href="/"
