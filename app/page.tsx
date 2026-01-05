@@ -51,7 +51,7 @@ export default function Page() {
           label="Test Your Heatwave Readiness Score"
         />
         <NavCard
-          href="/"
+          href="/heatwave-map"
           bgColor="bg-yellow-400"
           iconSrc="/icons/map-icon.svg"
           altText="Map Icon"
@@ -68,18 +68,20 @@ export default function Page() {
       <div className="flex gap-4 bg-gray-100 h-auto mt-6 rounded-lg p-4">
         <div className="flex flex-col md:flex-row w-full gap-4">
           <div className="flex flex-col flex-1 bg-white rounded-lg p-4 shadow">
-            <h2 className="font-semibold text-lg">Get Started</h2>
+            <h2 className="font-semibold text-lg">
+              Check Live Data from The Buerau of Meteorology
+            </h2>
             <p className="mt-2 flex-1">
-              Begin by exploring our resources and tools designed to help you
-              enhance heatwave resilience in your community.
+              Explore real-time heatwave data, forecasts, and alerts to stay
+              informed about current and upcoming heatwave events in your area.
             </p>
-            <Link
-              href="/get-started"
+            <a
               className="mt-4 inline-flex items-center text-red-800 font-semibold hover:underline"
+              href="https://www.bom.gov.au/"
             >
-              Explore Resources
+              Go to The Buerau of Meterology website
               <ArrowRightIcon className="ml-1 h-5 w-5" />
-            </Link>
+            </a>
           </div>
         </div>
         <div className="flex flex-col md:flex-row w-full gap-4">
@@ -94,7 +96,6 @@ export default function Page() {
               className="mt-4 inline-flex items-center text-red-800 font-semibold hover:underline"
             >
               Get Involved
-              <ArrowRightIcon className="ml-1 h-5 w-5" />
             </Link>
           </div>
         </div>
