@@ -3,11 +3,18 @@ import Map, { Source, Layer } from "react-map-gl/maplibre";
 import React, { useMemo, useEffect, useState } from "react";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { heatwaveData, HeatwaveData } from "./data/heatwaveData";
+import MapContextSwitcher from "./MapContextSwitcher";
 const VIC_BOUNDS: [[number, number], [number, number]] = [
   [139.21, -38.31], // Southwest
   [161.13, -26.74], // Northeast
 ];
 type HeatwaveMetric = keyof HeatwaveData;
+
+/*
+TODO: - Add Legend Component
+- Add Accessibility Features
+- Optimize Performance / Memory Usage (Merge heatwaveData and GeoJSON manually to prevent re-merging on each render)
+*/
 const METRIC_LABELS: Partial<Record<HeatwaveMetric, string>> = {
   vulnerability_score: "Social Vulnerability",
   cat_hist_1951_2023: "Historical Records (1951-2023)",
@@ -21,12 +28,18 @@ const METRIC_LABELS: Partial<Record<HeatwaveMetric, string>> = {
   cat_2070_SSP3: "Worst-Case Scenario (2070)",
   cat_2090_SSP3: "Worst-Case Scenario (2090)",
 };
-
+type Scenario = "vulnerability" | "SSP2" | "SSP3";
+type Year = "2030" | "2050" | "2070" | "2090";
 export default function MapView() {
+  const [scenario, setScenario] = useState<Scenario>("vulnerability");
+  const [year, setYear] = useState<Year>("2030");
   const [geoData, setGeoData] = useState(null);
-  const [activeMetric, setActiveMetric] = useState<HeatwaveMetric>(
-    "vulnerability_score"
-  );
+  const activeMetric = useMemo(() => {
+    if (scenario === "vulnerability") return "vulnerability_score";
+    return `cat_${year}_${scenario}` as HeatwaveMetric;
+  }, [scenario, year]);
+
+  const years: Year[] = ["2030", "2050", "2070", "2090"];
   useEffect(() => {
     fetch("/data/nsw_lga.json")
       .then((res) => res.json())
@@ -51,21 +64,6 @@ export default function MapView() {
   return (
     <div className="flex flex-col gap-4">
       {/* 2. The Switcher UI */}
-      <div className="flex flex-wrap gap-2 p-4 bg-white shadow-sm rounded-lg">
-        {Object.entries(METRIC_LABELS).map(([key, label]) => (
-          <button
-            key={key}
-            onClick={() => setActiveMetric(key as HeatwaveMetric)}
-            className={`px-4 py-2 rounded transition-colors ${
-              activeMetric === key
-                ? "bg-blue-600 text-white shadow-md"
-                : "bg-gray-100 hover:bg-gray-200 text-gray-700"
-            }`}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
       <div className="h-[600px] w-full">
         <Map
           initialViewState={{
@@ -77,6 +75,13 @@ export default function MapView() {
           // NO API KEY REQUIRED. NO ACCOUNT REQUIRED.
           mapStyle="https://tiles.openfreemap.org/styles/liberty"
         >
+          <MapContextSwitcher
+            scenario={scenario}
+            setScenario={setScenario}
+            year={year}
+            setYear={setYear}
+            years={years}
+          />
           {geoData && (
             <Source id="nsw-lga-data" type="geojson" data={geoData}>
               {/* 2. Style the fill-color based on the vulnerability_score */}
