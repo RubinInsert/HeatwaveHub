@@ -104,7 +104,7 @@ export default function MapContextSwitcher({
           <div className="pt-2 border-t border-gray-100">
             <p className="text-[11px] text-gray-500 italic leading-tight">
               {scenario === "vulnerability"
-                ? "Showing baseline community sensitivity."
+                ? "Showing baseline community sensitivity based on the 2021 Australian Census data."
                 : `Projected heatwave risk by ${year} under ${scenario} conditions.`}
             </p>
           </div>
