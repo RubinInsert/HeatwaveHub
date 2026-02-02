@@ -65,7 +65,7 @@ export default function Page() {
             label="Find A Cooling Centre Near You"
           />
           <NavCard
-            href="/"
+            href="/test"
             bgColor="bg-blue-400"
             iconSrc="/icons/assessment-icon.svg"
             altText="Assessment Icon"
@@ -88,8 +88,8 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mt-12 md:ml-32 md:mr-32 bg-white rounded-2xl overflow-hidden">
-        <div className="p-8 md:p-12">
+      <section className="mt-12 md:ml-32 md:mr-32 border-t-8 border-gray-200 hover:border-orange-400 transition-colors duration-200 shadow-lg bg-white rounded-2xl overflow-hidden">
+        <div className="p-8 md:p-12 ">
           {/* Header Section */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 border-b border-gray-100 pb-8">
             <div>
@@ -134,7 +134,7 @@ export default function Page() {
           </div>
         </div>
       </section>
-      <section className="flex md:flex-row flex-col items-center justify-evenly p-8 border border-gray-200">
+      <section className="mt-12 flex md:flex-row flex-col items-center justify-evenly p-8 border border-gray-200">
         <h1 className="text-lg font-semibold w-1/2">
           {" "}
           Funding provided by{" "}
