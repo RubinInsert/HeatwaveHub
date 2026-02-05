@@ -51,7 +51,7 @@ export default function Page() {
 
         <div className="flex text-center flex-col md:flex-row gap-4 justify-around text-white font-bold text-2xl mt-12">
           <NavCard
-            href="/"
+            href="/prepare"
             bgColor="bg-orange-400"
             iconSrc="/icons/emergency-heat-icon.svg"
             altText="Heatwave Icon"
