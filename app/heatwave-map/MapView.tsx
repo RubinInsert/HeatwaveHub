@@ -1,7 +1,8 @@
 "use client";
 import Map, { Source, Layer } from "react-map-gl/maplibre";
+import type { Expression } from "maplibre-gl";
 import React, { useMemo, useEffect, useState } from "react";
-import DynamicLegend from "./MapLegend";
+import DynamicLegend, { LEGEND_CONFIG } from "./MapLegend";
 import "maplibre-gl/dist/maplibre-gl.css";
 //import { heatwaveData, HeatwaveData } from "./data/heatwaveData";
 import Papa from "papaparse"; // 1. Import PapaParse
@@ -44,10 +45,35 @@ export default function MapView() {
     } else if (scenario === "exposure") {
       return "exposure_group";
     }
+
     // Matches: 2030_risk_equal_SSP2_group
     return `${year}_risk_equal_${scenario}_group`;
   }, [scenario, year]);
+  const fillColor = useMemo((): any => {
+    // Use 'any' or 'Expression' as the return type
+    const legendKey =
+      scenario === "SSP2" || scenario === "SSP3" ? "risk" : scenario;
+    const config = (
+      LEGEND_CONFIG as Record<string, { label: string; color: string }[]>
+    )[legendKey];
 
+    if (!config) return "#ccc";
+
+    // Define the expression and explicitly cast the starting array
+    const expression: any[] = [
+      "match",
+      ["to-number", ["get", activeMetric], 0],
+    ];
+
+    config.forEach((item, index) => {
+      expression.push(index + 1);
+      expression.push(item.color);
+    });
+
+    expression.push("#eeeeee");
+
+    return expression;
+  }, [scenario, activeMetric]);
   const years: Year[] = ["2030", "2050", "2070", "2090"];
   useEffect(() => {
     const loadData = async () => {
@@ -145,24 +171,7 @@ export default function MapView() {
                 id="lga-fill"
                 type="fill"
                 paint={{
-                  "fill-color": [
-                    "interpolate",
-                    ["linear"],
-                    // Convert the string from the CSV into a number for the map
-                    ["to-number", ["get", activeMetric], 0],
-                    0,
-                    "#444444ff",
-                    1,
-                    "#fee0d2",
-                    2,
-                    "#fc9272",
-                    3,
-                    "#de2d26",
-                    // Note: Your CSV has values up to 11.
-                    // You should probably add more steps here:
-                    11,
-                    "#67000d",
-                  ],
+                  "fill-color": fillColor,
                   "fill-opacity": 0.6,
                   "fill-outline-color": "#ffffff",
                 }}
