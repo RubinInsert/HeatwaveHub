@@ -54,25 +54,6 @@ export default function Page() {
         <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 bg-white p-2 md:w-1/2">
           {" "}
           {/* Map Container */}
-          <div className="absolute top-6 left-6 z-10 bg-white/80 backdrop-blur-md p-3 rounded-lg shadow-md border border-white/50">
-            <h3 className="text-xs font-black uppercase text-slate-500">
-              Legend
-            </h3>
-            <div className="flex flex-col gap-2 mt-2">
-              <div className="flex items-center gap-2 text-slate-600 uppercase font-bold text-xs">
-                <div className="h-2 w-8 bg-orange-500 rounded-full" />
-                High Risk
-              </div>
-              <div className="flex items-center gap-2 text-slate-600 uppercase font-bold text-xs">
-                <div className="h-2 w-8 bg-orange-300 rounded-full" />
-                Median Risk
-              </div>
-              <div className="flex items-center gap-2 text-slate-600 uppercase font-bold text-xs">
-                <div className="h-2 w-8 bg-orange-100 rounded-full" />
-                Low Risk
-              </div>
-            </div>
-          </div>
           <MapClient />
         </div>
         <div className="md:pl-8 md:w-1/2 flex flex-col justify-center">
