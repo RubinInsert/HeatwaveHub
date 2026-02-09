@@ -11,21 +11,21 @@ export default function PreparePage() {
   // LGA Data stays here as it's static for now
   const lgaStrategies = [
     {
-      title: "Urban Heat Island Mitigation",
+      title: "Mitigation Strat 1",
       description:
-        "Implement tree canopy targets and cool-roof policies to lower ambient street temperatures in high-density zones.",
+        "Implement X, Y, and Z",
       icon: MapIcon,
     },
     {
-      title: "Resilience Infrastructure",
+      title: "Mitigation Strat 2",
       description:
-        "Audit public facilities for 'Cooling Centre' suitability (backup power, HVAC capacity) and accessibility.",
+        "Implement X, Y, and Z",
       icon: BuildingOffice2Icon,
     },
     {
-      title: "Community Communication",
+      title: "Mitigation Strat 3",
       description:
-        "Establish multi-channel early warning systems that reach vulnerable demographics without digital access.",
+        "Implement X, Y, and Z",
       icon: MegaphoneIcon,
     },
   ];
