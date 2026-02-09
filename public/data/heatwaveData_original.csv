@@ -1,0 +1,336 @@
+﻿LGA_CODE_2021,LGA_NAME24,STE_NAME21,"expossure_group
+1=Low Expossure
+2=Moderate Expossure
+3=High Expossure","vulnerability_group
+1 = Very Low Vulnerability
+2 = Low Vulnerability
+3 = Limited Vulnerability
+4 = Moderate Vulnerability
+5 = High Vulnerability
+6 = Very High Vulnerability
+7 = Severe Vulnerability
+8 = Extreme Vulnerability","hist_risk_equal_group
+1=Very Low Risk
+2=Low Risk
+3=Limited Risk
+4=Mild Risk
+5=Median Risk
+6=Moderate Risk
+7=High Risk
+8=Very High Risk
+9=Severe Risk
+10=Very Severe Risk
+11=Extreme Risk",recent_risk_equal_group,2030_risk_equal_SSP2_group,2050_risk_equal_SSP2_group,2070_risk_equal_SSP2_group,2090_risk_equal_SSP2_group,2030_risk_equal_SSP3_group,2050_risk_equal_SSP3_group,2070_risk_equal_SSP3_group,2090_risk_equal_SSP3_group
+LGA40070,Adelaide,South Australia,2,4,3,4,4,5,5,5,4,5,5,7
+LGA40120,Adelaide Hills,South Australia,2,2,1,1,1,1,1,2,1,1,2,3
+LGA40150,Adelaide Plains,South Australia,1,2,1,2,2,3,3,3,2,3,3,4
+LGA10050,Albury,New South Wales,3,6,5,6,7,8,8,9,7,8,9,10
+LGA40220,Alexandrina,South Australia,2,8,7,8,7,8,8,8,7,8,9,9
+LGA20110,Alpine,Victoria,2,6,1,2,2,4,4,5,3,4,5,8
+LGA20260,Ararat,Victoria,1,6,3,4,4,5,5,6,4,5,6,8
+LGA10180,Armidale,New South Wales,2,5,1,2,2,4,4,6,2,5,7,9
+LGA20570,Ballarat,Victoria,3,7,4,5,5,6,7,7,5,7,7,9
+LGA10250,Ballina,New South Wales,2,7,4,5,6,8,9,9,7,9,10,11
+LGA30300,Balonne,Queensland,1,3,3,5,5,7,8,9,5,8,9,11
+LGA10300,Balranald,New South Wales,1,2,2,3,3,4,5,6,3,5,6,8
+LGA30370,Banana,Queensland,2,1,1,1,3,4,6,8,3,6,8,10
+LGA20660,Banyule,Victoria,3,3,2,2,3,3,4,4,3,4,4,5
+LGA30450,Barcoo,Queensland,1,1,2,4,5,7,8,9,5,8,9,11
+LGA40310,Barossa,South Australia,2,4,2,3,3,4,4,5,3,4,5,6
+LGA40430,Barunga West,South Australia,1,8,9,9,10,10,10,11,10,10,11,11
+LGA20740,Bass Coast,Victoria,2,8,5,5,6,7,7,8,6,7,8,9
+LGA10470,Bathurst,New South Wales,2,4,2,3,3,4,5,7,3,5,7,9
+LGA20830,Baw Baw,Victoria,3,3,1,1,1,2,2,3,1,3,3,5
+LGA10500,Bayside (NSW),New South Wales,3,1,1,1,1,3,3,5,1,3,5,8
+LGA20910,Bayside (Vic.),Victoria,3,1,1,1,1,1,1,1,1,1,1,3
+LGA10550,Bega Valley,New South Wales,2,8,3,4,5,6,7,8,5,7,8,9
+LGA10600,Bellingen,New South Wales,2,8,4,5,6,7,8,9,6,8,9,11
+LGA21010,Benalla,Victoria,2,6,4,5,5,7,7,8,5,7,8,9
+LGA40520,Berri Barmera,South Australia,1,2,1,2,3,3,4,4,3,4,5,6
+LGA10650,Berrigan,New South Wales,1,2,1,2,3,4,4,5,3,4,5,7
+LGA30760,Blackall Tambo,Queensland,1,5,5,6,8,9,10,11,8,10,11,11
+LGA10750,Blacktown,New South Wales,3,1,3,4,4,5,6,8,4,6,8,9
+LGA10800,Bland,New South Wales,1,4,4,5,5,6,7,8,5,7,8,10
+LGA10850,Blayney,New South Wales,1,4,1,2,3,4,5,6,3,5,6,9
+LGA10900,Blue Mountains,New South Wales,3,6,3,4,4,5,6,8,4,7,8,9
+LGA10950,Bogan,New South Wales,1,3,4,5,5,7,8,9,5,8,9,11
+LGA21110,Boroondara,Victoria,3,2,1,2,2,2,3,3,2,3,3,5
+LGA11150,Bourke,New South Wales,1,2,3,4,4,6,7,8,4,7,8,10
+LGA11200,Brewarrina,New South Wales,1,5,5,7,7,9,9,10,8,9,10,11
+LGA21180,Brimbank,Victoria,3,5,4,5,5,6,6,7,5,7,7,8
+LGA31000,Brisbane,Queensland,3,2,11,11,11,11,11,11,11,11,11,11
+LGA11250,Broken Hill,New South Wales,2,8,9,9,9,10,10,11,9,10,11,11
+LGA31750,Bulloo,Queensland,1,1,1,1,1,1,2,3,1,2,3,6
+LGA21270,Buloke,Victoria,1,7,5,7,7,8,8,9,7,8,9,10
+LGA31820,Bundaberg,Queensland,3,1,1,2,3,5,7,8,3,6,9,10
+LGA40700,Burnside,South Australia,2,2,2,2,2,3,3,4,3,3,4,5
+LGA11300,Burwood,New South Wales,2,6,4,4,5,6,7,8,4,7,8,10
+LGA11350,Byron,New South Wales,2,2,1,1,2,3,4,5,2,4,6,9
+LGA11400,Cabonne,New South Wales,2,4,2,3,4,5,6,8,4,6,8,9
+LGA11450,Camden,New South Wales,3,1,1,1,1,2,2,3,1,2,3,5
+LGA21370,Campaspe,Victoria,2,7,5,7,7,7,8,9,7,8,9,10
+LGA11500,Campbelltown (NSW),New South Wales,3,3,3,3,4,5,5,7,4,5,7,9
+LGA40910,Campbelltown (SA),South Australia,2,4,4,4,4,5,5,6,4,5,6,7
+LGA11520,Canada Bay,New South Wales,3,1,1,1,1,1,2,3,1,2,3,6
+LGA11570,Canterbury-Bankstown,New South Wales,3,3,6,7,7,8,9,9,7,9,9,11
+LGA21450,Cardinia,Victoria,3,2,1,1,1,1,2,2,1,2,2,4
+LGA11600,Carrathool,New South Wales,1,2,2,2,3,4,4,5,3,4,6,8
+LGA21610,Casey,Victoria,3,1,2,3,3,4,4,4,3,4,5,7
+LGA11650,Central Coast (NSW),New South Wales,3,7,9,9,9,10,11,11,9,11,11,11
+LGA11700,Central Darling,New South Wales,1,5,5,7,7,8,9,9,7,9,10,11
+LGA21670,Central Goldfields,Victoria,2,1,1,1,1,1,1,1,1,1,1,2
+LGA32270,Central Highlands (Qld),Queensland,2,1,1,1,2,3,5,7,2,4,7,10
+LGA11720,Cessnock,New South Wales,3,7,5,6,6,8,8,9,6,8,9,10
+LGA41060,Charles Sturt,South Australia,3,4,5,5,5,7,7,7,6,7,7,8
+LGA32330,Cherbourg,Queensland,1,6,4,5,6,8,9,10,7,9,10,11
+LGA41140,Clare and Gilbert Valleys,South Australia,1,5,3,4,4,5,5,6,4,5,6,7
+LGA11730,Clarence Valley,New South Wales,2,7,4,5,6,8,8,9,6,9,10,11
+LGA41190,Cleve,South Australia,1,2,1,2,2,2,3,3,2,3,3,4
+LGA11750,Cobar,New South Wales,1,2,3,4,4,5,7,8,4,7,8,9
+LGA11800,Coffs Harbour,New South Wales,3,7,5,7,7,9,9,10,8,9,10,11
+LGA21750,Colac Otway,Victoria,2,7,2,3,3,4,4,5,3,4,5,7
+LGA12000,Coolamon,New South Wales,1,5,4,5,5,7,8,9,5,8,9,10
+LGA12150,Coonamble,New South Wales,1,7,7,8,8,9,10,11,8,10,11,11
+LGA47800,Coorong,South Australia,1,7,4,5,5,5,6,7,5,6,7,8
+LGA12160,Cootamundra-Gundagai,New South Wales,1,8,6,7,8,9,9,10,8,9,10,11
+LGA41560,Copper Coast,South Australia,2,8,8,8,9,9,9,10,9,9,10,10
+LGA21830,Corangamite,Victoria,2,5,2,2,2,3,4,4,3,4,4,6
+LGA12350,Cowra,New South Wales,2,8,7,8,8,9,10,11,8,10,11,11
+LGA12380,Cumberland,New South Wales,3,7,7,8,8,9,9,10,8,9,10,11
+LGA21890,Darebin,Victoria,3,4,3,4,4,5,5,5,4,5,5,7
+LGA32750,Diamantina,Queensland,1,1,1,1,2,4,5,6,2,4,6,9
+LGA12390,Dubbo,New South Wales,2,4,4,5,5,7,7,9,5,8,9,10
+LGA12700,Dungog,New South Wales,1,5,2,3,3,4,5,7,3,5,7,9
+LGA22110,East Gippsland,Victoria,2,8,5,7,7,8,8,9,7,8,9,10
+LGA12730,Edward River,New South Wales,1,6,5,6,6,7,8,9,7,8,9,10
+LGA41750,Elliston,South Australia,1,3,2,3,3,3,4,4,3,4,4,5
+LGA12750,Eurobodalla,New South Wales,2,8,5,6,7,8,9,9,7,9,9,11
+LGA12850,Fairfield,New South Wales,3,7,8,9,9,10,10,11,9,10,11,11
+LGA12870,Federation,New South Wales,2,8,7,8,8,9,9,10,8,9,10,11
+LGA41830,Flinders Ranges,South Australia,1,3,3,3,4,5,5,6,4,5,6,8
+LGA12900,Forbes,New South Wales,1,6,5,5,7,8,8,9,7,8,9,11
+LGA41960,Franklin Harbour,South Australia,1,4,3,3,4,4,4,5,4,5,5,6
+LGA22170,Frankston,Victoria,3,4,3,3,4,4,5,5,4,5,5,7
+LGA33220,Fraser Coast,Queensland,3,8,10,11,11,11,11,11,11,11,11,11
+LGA22250,Gannawarra,Victoria,1,8,7,8,8,9,9,9,8,9,9,10
+LGA42030,Gawler,South Australia,2,6,5,5,5,7,7,7,6,7,7,8
+LGA12930,Georges River,New South Wales,3,2,1,2,2,3,4,5,2,4,5,8
+LGA12950,Gilgandra,New South Wales,1,3,3,4,4,6,7,8,4,7,8,10
+LGA33360,Gladstone,Queensland,3,3,3,3,5,7,9,10,5,8,10,11
+LGA22310,Glen Eira,Victoria,3,2,1,1,1,2,2,3,2,2,3,4
+LGA13010,Glen Innes Severn,New South Wales,1,8,5,7,7,9,9,10,8,9,10,11
+LGA22410,Glenelg,Victoria,2,8,4,5,5,6,7,7,5,7,7,9
+LGA33430,Gold Coast,Queensland,3,3,9,10,10,11,11,11,11,11,11,11
+LGA22490,Golden Plains,Victoria,2,7,3,4,4,5,5,7,4,5,7,8
+LGA33610,Goondiwindi,Queensland,1,3,2,4,4,6,7,9,4,7,9,11
+LGA13310,Goulburn Mulwaree,New South Wales,2,6,2,3,3,4,5,7,3,5,6,9
+LGA42110,Goyder,South Australia,1,7,5,7,7,8,8,9,7,8,9,9
+LGA42250,Grant,South Australia,1,1,1,1,1,1,1,1,1,1,1,1
+LGA22620,Greater Bendigo,Victoria,3,6,5,7,7,8,8,9,7,8,9,10
+LGA22670,Greater Dandenong,Victoria,3,5,3,4,4,5,5,6,5,5,6,8
+LGA22750,Greater Geelong,Victoria,3,5,5,5,6,7,7,8,6,7,8,9
+LGA13340,Greater Hume,New South Wales,1,4,2,3,4,5,5,7,4,5,7,9
+LGA22830,Greater Shepparton,Victoria,3,6,4,5,5,7,7,8,5,7,8,9
+LGA13450,Griffith,New South Wales,2,2,2,3,3,4,4,5,3,4,6,8
+LGA13550,Gunnedah,New South Wales,2,4,3,4,4,6,7,9,4,7,9,10
+LGA13660,Gwydir,New South Wales,1,8,7,8,9,10,10,11,9,10,11,11
+LGA33620,Gympie,Queensland,2,8,9,9,10,11,11,11,10,11,11,11
+LGA13800,Hawkesbury,New South Wales,3,3,2,2,3,4,4,6,3,4,5,8
+LGA13850,Hay,New South Wales,1,6,5,7,7,8,8,9,7,8,9,10
+LGA22910,Hepburn,Victoria,2,7,4,5,5,6,6,7,5,7,7,9
+LGA13910,Hilltops,New South Wales,2,3,2,2,3,4,5,7,3,5,7,9
+LGA22980,Hindmarsh,Victoria,1,8,6,7,7,8,8,9,8,9,9,10
+LGA23110,Hobsons Bay,Victoria,3,2,1,1,1,2,2,3,1,2,3,4
+LGA42600,Holdfast Bay,South Australia,2,5,3,4,5,5,5,6,5,6,6,7
+LGA14000,Hornsby,New South Wales,3,2,1,2,2,3,4,5,2,4,5,8
+LGA23190,Horsham,Victoria,2,4,2,3,3,4,4,5,3,4,5,7
+LGA23270,Hume,Victoria,3,6,6,7,7,8,8,9,8,8,9,10
+LGA14100,Hunters Hill,New South Wales,2,3,1,2,2,3,3,5,2,3,5,8
+LGA23350,Indigo,Victoria,2,4,2,3,4,5,5,7,4,5,7,9
+LGA14170,Inner West,New South Wales,3,2,2,3,3,4,4,6,3,4,6,9
+LGA14220,Inverell,New South Wales,2,6,4,5,6,8,9,10,6,9,10,11
+LGA33960,Ipswich,Queensland,3,6,7,8,9,10,11,11,9,11,11,11
+90103,Jervis Bay,Other Territories,1,3,1,1,1,2,3,4,1,2,4,7
+LGA14300,Junee,New South Wales,1,3,2,3,4,5,5,7,4,5,7,9
+LGA42750,Kangaroo Island,South Australia,1,5,1,2,2,2,2,3,2,2,3,4
+LGA43080,Karoonda East Murray,South Australia,1,7,5,5,6,7,7,8,6,7,8,9
+LGA14350,Kempsey,New South Wales,2,8,8,9,9,10,11,11,9,11,11,11
+LGA14400,Kiama,New South Wales,2,5,1,1,2,3,4,5,2,4,5,7
+LGA43220,Kimba,South Australia,1,2,1,2,2,3,3,4,3,3,4,5
+LGA63410,King Island,Tasmania,1,5,1,1,1,1,1,2,1,1,2,4
+LGA43360,Kingston (SA),South Australia,1,3,1,1,1,2,2,3,1,2,3,4
+LGA23430,Kingston (Vic.),Victoria,3,4,3,3,3,4,4,5,4,4,5,7
+LGA23670,Knox,Victoria,3,3,2,3,3,4,4,4,3,4,4,6
+LGA14500,Ku-ring-gai,New South Wales,3,1,1,1,1,2,2,3,1,2,3,6
+LGA14550,Kyogle,New South Wales,1,2,1,1,1,2,3,4,1,3,5,8
+LGA14600,Lachlan,New South Wales,1,5,4,5,6,7,8,9,6,8,9,10
+LGA14650,Lake Macquarie,New South Wales,3,6,5,7,7,8,8,9,7,8,9,11
+LGA14700,Lane Cove,New South Wales,2,1,1,1,1,1,1,2,1,1,2,4
+LGA23810,Latrobe (Vic.),Victoria,3,8,5,5,6,7,8,8,7,8,8,10
+LGA14750,Leeton,New South Wales,1,4,4,5,5,6,7,8,5,7,8,9
+LGA43650,Light,South Australia,2,1,1,1,1,2,2,2,1,2,3,4
+LGA14850,Lismore,New South Wales,2,7,5,5,7,8,9,10,7,9,10,11
+LGA14870,Lithgow,New South Wales,2,8,5,6,6,8,8,9,6,8,9,11
+LGA14900,Liverpool,New South Wales,3,2,3,4,4,5,6,8,4,6,8,9
+LGA14920,Liverpool Plains,New South Wales,1,7,4,5,6,7,8,9,6,8,9,11
+LGA14950,Lockhart,New South Wales,1,4,3,4,4,5,6,7,4,6,7,9
+LGA34580,Lockyer Valley,Queensland,2,6,4,5,6,8,9,10,7,9,10,11
+LGA23940,Loddon,Victoria,1,8,6,8,7,8,9,9,8,9,9,10
+LGA34590,Logan,Queensland,3,4,8,8,9,10,11,11,9,11,11,11
+LGA34710,Longreach,Queensland,1,2,3,4,5,7,9,10,5,8,10,11
+LGA43710,Lower Eyre Peninsula,South Australia,1,3,1,1,1,1,2,2,1,2,2,3
+LGA43790,Loxton Waikerie,South Australia,1,5,4,4,5,6,6,7,5,6,7,8
+LGA24130,Macedon Ranges,Victoria,2,2,1,1,1,1,1,2,1,1,2,3
+LGA15050,Maitland,New South Wales,3,5,4,5,5,7,7,8,5,7,9,10
+LGA24210,Manningham,Victoria,3,4,2,3,3,4,4,5,4,4,5,7
+LGA24250,Mansfield,Victoria,1,5,1,2,2,3,4,5,2,4,5,7
+LGA34860,Maranoa,Queensland,2,1,1,2,3,5,7,8,3,6,8,10
+LGA24330,Maribyrnong,Victoria,3,7,4,5,5,6,7,7,5,7,7,8
+LGA44060,Marion,South Australia,3,4,3,4,5,5,5,6,5,6,6,7
+LGA24410,Maroondah,Victoria,3,3,2,2,2,3,3,4,3,4,4,5
+LGA24600,Melbourne,Victoria,3,3,2,3,3,4,4,4,3,4,4,6
+LGA24650,Melton,Victoria,3,1,1,1,1,2,2,3,1,2,3,4
+LGA24780,Merri-bek,Victoria,3,5,3,3,4,4,5,5,4,5,5,7
+LGA44210,Mid Murray,South Australia,1,8,7,8,8,9,9,9,8,9,9,10
+LGA15240,Mid-Coast,New South Wales,3,7,5,5,7,8,9,9,7,9,9,11
+LGA15270,Mid-Western,New South Wales,2,5,3,4,4,5,6,8,4,6,8,9
+LGA24850,Mildura,Victoria,2,2,2,3,3,4,4,5,3,4,5,7
+LGA44340,Mitcham,South Australia,3,2,2,3,3,3,3,4,3,4,4,5
+LGA24900,Mitchell,Victoria,2,8,5,7,7,8,8,9,7,8,9,10
+LGA24970,Moira,Victoria,3,3,4,5,5,7,7,8,5,7,8,9
+LGA25060,Monash,Victoria,3,2,1,2,2,3,3,3,2,3,3,5
+LGA25150,Moonee Valley,Victoria,2,7,3,4,4,5,5,6,5,5,6,8
+LGA25250,Moorabool,Victoria,3,4,3,3,4,5,5,5,4,5,6,7
+LGA15300,Moree Plains,New South Wales,2,1,1,3,3,4,5,7,3,5,8,10
+LGA35010,Moreton Bay,Queensland,3,6,9,10,11,11,11,11,11,11,11,11
+LGA25340,Mornington Peninsula,Victoria,3,5,3,4,4,5,5,6,4,5,7,8
+LGA15350,Mosman,New South Wales,2,1,1,1,1,1,1,3,1,1,3,5
+LGA25430,Mount Alexander,Victoria,2,7,4,5,5,6,6,7,5,6,7,9
+LGA44550,Mount Barker,South Australia,2,3,1,2,2,2,2,3,2,3,3,4
+LGA44620,Mount Gambier,South Australia,2,7,4,4,4,5,5,6,4,5,6,7
+LGA44830,Mount Remarkable,South Australia,1,3,3,4,4,5,5,6,4,5,6,7
+LGA25490,Moyne,Victoria,2,3,1,1,1,1,2,2,1,2,2,4
+LGA45040,Murray Bridge,South Australia,2,7,5,6,6,7,7,7,6,7,7,8
+LGA15520,Murray River,New South Wales,2,5,4,5,5,6,7,8,5,7,8,9
+LGA25620,Murrindindi,Victoria,2,7,3,4,4,5,5,6,4,5,6,8
+LGA15560,Murrumbidgee,New South Wales,1,4,3,5,5,6,7,8,5,7,8,9
+LGA35600,Murweh,Queensland,1,5,5,7,7,9,10,11,8,10,11,11
+LGA15650,Muswellbrook,New South Wales,2,4,3,3,3,5,5,7,3,5,7,9
+LGA15700,Nambucca Valley,New South Wales,2,1,1,1,1,1,1,2,1,1,2,4
+LGA45090,Naracoorte Lucindale,South Australia,1,4,1,2,2,3,3,4,2,3,4,5
+LGA15750,Narrabri,New South Wales,2,4,4,5,5,7,8,9,5,8,9,11
+LGA15800,Narrandera,New South Wales,1,6,5,6,6,7,8,9,6,8,9,10
+LGA15850,Narromine,New South Wales,1,4,4,5,5,7,8,9,5,8,9,10
+LGA15900,Newcastle,New South Wales,3,5,5,5,5,7,8,9,5,8,9,10
+LGA25710,Nillumbik,Victoria,3,1,1,1,1,1,1,1,1,1,1,2
+LGA35740,Noosa,Queensland,3,5,4,4,5,8,9,10,6,9,10,11
+LGA35760,North Burnett,Queensland,1,8,7,8,9,10,11,11,9,11,11,11
+LGA15950,North Sydney,New South Wales,3,1,1,1,1,1,2,3,1,2,3,6
+LGA45120,Northern Areas,South Australia,1,6,4,5,5,7,7,8,6,7,8,9
+LGA15990,Northern Beaches,New South Wales,3,1,1,2,2,3,4,5,2,4,5,8
+LGA25810,Northern Grampians,Victoria,2,7,5,6,6,7,7,8,6,7,8,9
+LGA45290,Norwood Payneham and St Peters,South Australia,2,4,3,4,4,5,5,5,4,5,6,7
+LGA16100,Oberon,New South Wales,1,4,1,1,1,3,3,5,2,3,5,7
+LGA45340,Onkaparinga,South Australia,3,6,5,7,7,7,7,8,7,8,8,9
+LGA16150,Orange,New South Wales,2,5,2,3,3,5,5,7,4,5,7,9
+LGA45400,Orroroo Carrieton,South Australia,1,7,6,7,7,8,8,9,7,9,9,10
+LGA16200,Parkes,New South Wales,2,3,3,4,5,6,7,8,5,7,8,10
+LGA35800,Paroo,Queensland,1,2,4,5,5,7,9,9,6,8,10,11
+LGA16260,Parramatta,New South Wales,3,1,2,3,3,4,5,6,3,4,6,8
+LGA16350,Penrith,New South Wales,3,3,4,5,5,7,7,9,5,7,9,10
+LGA45540,Peterborough,South Australia,1,8,10,10,10,11,11,11,10,11,11,11
+LGA45680,Playford,South Australia,3,6,6,7,7,8,8,8,7,8,8,9
+LGA45890,Port Adelaide Enfield,South Australia,3,5,5,7,7,7,8,8,7,8,8,9
+LGA46090,Port Augusta,South Australia,2,4,4,5,5,6,7,7,5,7,7,8
+LGA46300,Port Lincoln,South Australia,2,5,1,2,2,3,3,3,2,3,3,4
+LGA16380,Port Macquarie-Hastings,New South Wales,3,8,7,8,8,9,10,11,8,10,11,11
+LGA25900,Port Phillip,Victoria,3,2,1,1,1,1,2,2,1,2,2,3
+LGA46450,Port Pirie,South Australia,2,8,7,8,8,9,9,9,9,9,10,10
+LGA16400,Port Stephens,New South Wales,3,8,6,7,7,9,9,10,7,9,10,11
+LGA46510,Prospect,South Australia,2,1,1,1,1,2,2,3,1,2,3,4
+LGA25990,Pyrenees,Victoria,1,2,1,1,1,1,1,2,1,2,2,4
+LGA16490,Queanbeyan-Palerang,New South Wales,3,2,1,1,1,1,1,3,1,1,2,4
+LGA26080,Queenscliffe,Victoria,1,7,3,4,4,5,5,6,4,5,6,9
+LGA36150,Quilpie,Queensland,1,2,4,5,6,8,9,10,6,9,10,11
+LGA16550,Randwick,New South Wales,3,1,1,1,1,1,2,4,1,2,4,7
+LGA36250,Redland,Queensland,3,5,5,6,7,9,9,10,7,9,11,11
+LGA46670,Renmark Paringa,South Australia,1,5,4,5,5,7,7,8,6,7,8,9
+LGA16610,Richmond Valley,New South Wales,2,8,7,7,8,9,10,10,8,10,11,11
+LGA46860,Robe,South Australia,1,4,1,1,1,2,2,3,1,2,3,4
+LGA36370,Rockhampton,Queensland,3,6,5,6,8,10,11,11,9,10,11,11
+LGA46970,Roxby Downs,South Australia,1,1,1,1,1,1,1,1,1,1,1,1
+LGA16700,Ryde,New South Wales,3,2,1,1,2,3,3,4,2,3,4,7
+LGA47140,Salisbury,South Australia,3,5,6,7,7,8,8,9,7,8,9,9
+LGA36510,Scenic Rim,Queensland,2,6,3,4,5,7,8,9,5,8,10,11
+LGA16900,Shellharbour,New South Wales,3,4,1,1,2,3,4,5,2,4,5,8
+LGA16950,Shoalhaven,New South Wales,3,8,7,7,8,9,9,10,8,9,10,11
+LGA17000,Singleton,New South Wales,2,4,2,3,3,4,5,7,3,5,7,9
+LGA17040,Snowy Monaro,New South Wales,2,3,1,1,1,1,1,2,1,1,2,4
+LGA17080,Snowy Valleys,New South Wales,2,6,2,3,3,4,5,7,3,5,7,9
+LGA36580,Somerset,Queensland,2,7,5,6,7,9,9,10,8,9,11,11
+LGA36630,South Burnett,Queensland,2,8,9,9,10,11,11,11,10,11,11,11
+LGA26170,South Gippsland,Victoria,2,6,1,2,2,3,4,4,3,3,4,6
+LGA36660,Southern Downs,Queensland,2,7,5,6,7,9,9,10,7,9,11,11
+LGA26260,Southern Grampians,Victoria,2,7,3,4,4,5,5,6,4,5,6,8
+LGA47290,Southern Mallee,South Australia,1,5,3,4,4,5,5,6,4,5,7,8
+LGA26350,Stonnington,Victoria,3,2,1,1,1,2,2,2,1,2,2,4
+LGA26430,Strathbogie,Victoria,1,7,5,6,6,8,8,9,7,8,9,10
+LGA17100,Strathfield,New South Wales,2,1,1,1,1,1,1,2,1,1,2,5
+LGA36720,Sunshine Coast,Queensland,3,5,7,8,9,10,11,11,9,11,11,11
+LGA26490,Surf Coast,Victoria,2,1,1,1,1,1,1,1,1,1,1,1
+LGA17150,Sutherland,New South Wales,3,2,2,2,3,4,4,6,3,4,6,9
+LGA26610,Swan Hill,Victoria,2,3,3,4,4,5,5,6,4,5,7,8
+LGA17200,Sydney,New South Wales,3,1,1,2,2,3,4,5,2,4,5,8
+LGA17310,Tamworth,New South Wales,3,6,4,5,6,8,9,10,6,9,10,11
+LGA47630,Tatiara,South Australia,1,3,1,2,2,3,4,4,2,4,4,5
+LGA47700,Tea Tree Gully,South Australia,3,3,3,4,4,5,5,6,5,5,6,7
+LGA17350,Temora,New South Wales,1,3,2,3,4,5,6,7,4,6,7,9
+LGA17400,Tenterfield,New South Wales,1,8,8,9,9,10,11,11,9,11,11,11
+LGA17420,The Hills,New South Wales,3,3,3,4,4,5,6,7,4,6,7,9
+LGA36910,Toowoomba,Queensland,3,4,5,6,7,9,9,10,7,9,11,11
+LGA26670,Towong,Victoria,1,7,3,4,4,6,7,8,5,7,8,10
+LGA47910,Tumby Bay,South Australia,1,7,4,5,5,5,5,6,5,5,6,7
+LGA17550,Tweed,New South Wales,3,7,6,7,8,9,10,10,8,10,11,11
+LGA89399,Unincorporated ACT,Australian Capital Territory,3,2,3,5,4,6,7,8,4,7,8,9
+LGA19399,Unincorporated NSW,New South Wales,1,1,1,1,2,3,4,5,2,3,5,7
+LGA29399,Unincorporated Vic,Victoria,1,2,1,1,1,1,1,1,1,1,1,2
+LGA47980,Unley,South Australia,2,3,2,3,3,4,4,5,3,4,5,5
+LGA17620,Upper Hunter,New South Wales,2,5,2,3,3,5,5,7,4,5,7,9
+LGA17640,Upper Lachlan,New South Wales,1,5,2,3,3,4,5,7,3,5,7,9
+LGA17650,Uralla,New South Wales,1,7,3,4,4,6,7,9,5,7,9,11
+LGA48050,Victor Harbor,South Australia,2,8,9,9,10,10,10,10,10,10,10,11
+LGA17750,Wagga Wagga,New South Wales,3,4,3,4,4,6,7,8,5,7,8,9
+LGA48130,Wakefield,South Australia,1,7,5,6,7,7,8,8,7,8,8,9
+LGA17850,Walcha,New South Wales,1,6,2,3,3,4,5,7,3,5,7,9
+LGA17900,Walgett,New South Wales,1,5,5,6,7,8,9,10,7,9,10,11
+LGA48260,Walkerville,South Australia,1,6,5,5,5,7,7,7,6,7,7,8
+LGA26700,Wangaratta,Victoria,2,3,1,2,2,3,4,5,2,4,5,7
+LGA17950,Warren,New South Wales,1,4,5,5,6,8,8,9,6,9,9,11
+LGA26730,Warrnambool,Victoria,2,5,1,2,3,3,3,4,2,3,4,5
+LGA18020,Warrumbungle,New South Wales,1,6,4,5,6,8,8,9,6,8,9,11
+LGA48340,Wattle Range,South Australia,2,7,4,4,4,5,5,7,5,5,7,8
+LGA18050,Waverley,New South Wales,3,1,1,1,1,1,1,1,1,1,2,5
+LGA18100,Weddin,New South Wales,1,8,8,8,9,10,10,11,9,10,11,11
+LGA26810,Wellington,Victoria,2,6,2,3,3,4,4,5,3,4,5,7
+LGA18200,Wentworth,New South Wales,1,3,3,4,4,5,6,7,4,6,7,9
+LGA48410,West Torrens,South Australia,3,4,4,5,5,5,5,7,5,6,7,7
+LGA26890,West Wimmera,Victoria,1,6,3,4,4,5,5,7,4,6,7,8
+LGA37310,Western Downs,Queensland,2,4,3,4,5,8,9,10,6,9,10,11
+LGA26980,Whitehorse,Victoria,3,3,3,3,3,4,4,5,4,4,5,7
+LGA27070,Whittlesea,Victoria,3,3,2,3,4,4,5,5,4,5,5,7
+LGA48540,Whyalla,South Australia,2,6,5,6,7,7,8,8,7,8,8,9
+LGA18250,Willoughby,New South Wales,3,1,1,1,1,1,1,2,1,1,2,5
+LGA18350,Wingecarribee,New South Wales,2,5,2,2,3,4,5,6,3,5,6,8
+LGA27170,Wodonga,Victoria,2,6,4,5,6,7,8,9,6,8,9,10
+LGA18400,Wollondilly,New South Wales,2,2,1,1,1,1,2,3,1,2,3,5
+LGA18450,Wollongong,New South Wales,3,4,3,3,4,5,6,7,4,6,7,9
+LGA18500,Woollahra,New South Wales,2,1,1,1,1,1,1,2,1,1,2,5
+LGA37550,Woorabinda,Queensland,1,6,5,5,8,9,10,11,8,10,11,11
+LGA48640,Wudinna,South Australia,1,1,1,1,1,1,1,2,1,1,2,3
+LGA27260,Wyndham,Victoria,3,1,1,1,1,2,2,3,1,2,3,4
+LGA48750,Yankalilla,South Australia,1,8,5,6,7,7,7,8,7,7,8,9
+LGA27350,Yarra,Victoria,3,1,1,1,1,1,1,2,1,1,2,3
+LGA27450,Yarra Ranges,Victoria,3,6,3,4,4,5,5,7,4,5,7,8
+LGA27630,Yarriambiack,Victoria,1,8,7,8,8,9,9,9,8,9,9,10
+LGA18710,Yass Valley,New South Wales,2,3,1,2,2,4,4,6,2,4,5,8
+LGA48830,Yorke Peninsula,South Australia,1,8,8,8,8,9,9,9,8,9,9,10

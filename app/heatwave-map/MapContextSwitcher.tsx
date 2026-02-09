@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-export type Scenario = "vulnerability" | "SSP2" | "SSP3";
+export type Scenario = "vulnerability" | "exposure" | "SSP2" | "SSP3";
 export type Year = "2030" | "2050" | "2070" | "2090";
 
 interface SwitcherProps {
@@ -61,13 +61,14 @@ export default function MapContextSwitcher({
               className="w-full p-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 outline-none text-black text-sm"
             >
               <option value="vulnerability">Social Vulnerability</option>
+              <option value="exposure">Exposure</option>
               <option value="SSP2">Moderate Scenario (SSP2)</option>
               <option value="SSP3">Extreme Scenario (SSP3)</option>
             </select>
           </div>
 
           {/* B) Timeline Slider (Conditional) */}
-          {scenario !== "vulnerability" && (
+          {scenario !== "vulnerability" && scenario !== "exposure" && (
             <div className="animate-in slide-in-from-top-1 duration-300">
               <div className="flex justify-between items-center mb-2">
                 <label className="text-xs font-bold text-gray-500 uppercase">
