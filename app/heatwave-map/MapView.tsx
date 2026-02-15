@@ -1,5 +1,5 @@
 "use client";
-import Map, { Source, Layer } from "react-map-gl/maplibre";
+import Map, { Source, Layer, Popup } from "react-map-gl/maplibre";
 import type { Expression } from "maplibre-gl";
 import React, { useMemo, useEffect, useState } from "react";
 import DynamicLegend, { LEGEND_CONFIG } from "./MapLegend";
@@ -34,10 +34,43 @@ TODO: - Add Legend Component
 // };
 type Scenario = "vulnerability" | "exposure" | "SSP2" | "SSP3";
 type Year = "2030" | "2050" | "2070" | "2090";
+const getGeoJSONCode = (code2021: string, conversionLookup: any) => {
+  const cleanedCode = Number(code2021.replace("LGA", "")); // Converts "LGA10500" to 10500
+  const code2019 = conversionLookup[cleanedCode]; // Looks up the corresponding 2019 code (e.g., "10500")
+  if (code2019) {
+    // If a valid 2019 code is found
+    // The code must be parsed again as the map JSON data has numeric codes ignoring the first digit as it is local to a single state.
+    // To account for this:
+    const withoutFirstDigit = code2019.toString().slice(1); // 1. Remove the first digit (e.g., "10500" -> "0500")
+    const cleaned2019 = Number(withoutFirstDigit).toString(); // 2. Convert to number and back to string to remove leading zeros (e.g., "0500" -> "500")
+    return cleaned2019;
+  }
+  return "";
+};
 export default function MapView() {
   const [scenario, setScenario] = useState<Scenario>("vulnerability");
   const [year, setYear] = useState<Year>("2030");
   const [geoData, setGeoData] = useState(null);
+  const [hoverInfo, setHoverInfo] = useState<{
+    // Used to track click information within the map to enable LGA info popups
+    longitude: number;
+    latitude: number;
+    properties: any;
+  } | null>(null);
+  const onClick = (event: any) => {
+    // When the user clicks on the map
+    const feature = event.features && event.features[0];
+
+    if (feature) {
+      setHoverInfo({
+        longitude: event.lngLat.lng,
+        latitude: event.lngLat.lat,
+        properties: feature.properties,
+      });
+    } else {
+      setHoverInfo(null);
+    }
+  };
   const activeMetric = useMemo(() => {
     if (scenario === "vulnerability") {
       // This matches the exact multiline header in your CSV
@@ -79,15 +112,20 @@ export default function MapView() {
     const loadData = async () => {
       // 3. Fetch both GeoJSON and CSV concurrently
       // Inside your useEffect loadData function
-      const [geoRes, heatwaveRes, conversionRes] = await Promise.all([
-        fetch("/data/nsw_lga.json"),
-        fetch("/data/heatwaveData.csv"),
-        fetch("/data/LGACODE_CONVERSION_2019_TO_2021.csv"),
-      ]);
+      const [geoRes, heatwaveRes, conversionRes, censusRes, censusLiteracyRes] =
+        await Promise.all([
+          fetch("/data/nsw_lga.json"), // GeoJSON data for NSW LGAs (i.e. LGA map boundaries)
+          fetch("/data/heatwaveData.csv"), // Heatwave vulnerability data provided by team
+          fetch("/data/LGACODE_CONVERSION_2019_TO_2021.csv"), // Conversion file to match GeoJSON abs codes to 2021 LGA codes (To be merged with GeoJSON prior to launch)
+          fetch("/data/2021_ABS_Census_G1.csv"), // ABS Census data to be used for LGA information popups
+          fetch("/data/2021_ABS_Census_G11D.csv"), // ABS Census data to be used for LGA information popups (contains language spoken at home data which is used to determine English literacy vulnerability)
+        ]);
 
       const topoJson = await geoRes.json(); // GeoJSON data for NSW LGAs - this is the base map layer
       const heatwaveText = await heatwaveRes.text(); // Data provided by team containing LGA classifications
       const conversionText = await conversionRes.text(); // A conversion file from 2019 LGA codes to 2021 LGA codes. This is due to the LGA map data being published in 2019 leading to mismatch codes.
+      const censusText = await censusRes.text(); // ABS Census data to be used for LGA information popups
+      const censusLiteracyText = await censusLiteracyRes.text(); // ABS Census data to be used for LGA information popups (contains language spoken at home data which is used to determine English literacy vulnerability)
       const codeConversions = Papa.parse(conversionText, {
         header: true,
         skipEmptyLines: true,
@@ -97,7 +135,33 @@ export default function MapView() {
       codeConversions.forEach((row: any) => {
         conversionLookup[row.LGA_CODE_2021] = row.LGA_CODE_2019;
       });
-
+      const censusData = Papa.parse(censusText, {
+        header: true,
+        skipEmptyLines: true,
+      }).data;
+      const censusData_Literacy = Papa.parse(censusLiteracyText, {
+        header: true,
+        skipEmptyLines: true,
+      }).data;
+      const censusLookup: Record<string, any> = {};
+      censusData.forEach((row: any) => {
+        if (row.LGA_CODE_2021) {
+          censusLookup[getGeoJSONCode(row.LGA_CODE_2021, conversionLookup)] =
+            row;
+        }
+      });
+      censusData_Literacy.forEach((row: any) => {
+        if (row.LGA_CODE_2021) {
+          const cleaned2019 = getGeoJSONCode(
+            row.LGA_CODE_2021,
+            conversionLookup,
+          );
+          censusLookup[cleaned2019] = {
+            ...censusLookup[cleaned2019],
+            ...row,
+          };
+        }
+      });
       // 1. Create the Heatwave Data Lookup
       const heatwaveRaw = Papa.parse(heatwaveText, {
         header: true,
@@ -127,13 +191,15 @@ export default function MapView() {
         const geoCode = Number(feature.properties.abscode).toString();
         console.log("GeoJSON code:", geoCode);
         // Find the heatwave stats using the cleaned numeric code
-        const csvStats = heatwaveLookup[geoCode] || {};
+        const heatStats = heatwaveLookup[geoCode] || {};
+        const censusStats = censusLookup[geoCode] || {};
 
         return {
           ...feature,
           properties: {
             ...feature.properties,
-            ...csvStats,
+            ...heatStats,
+            ...censusStats, // Merges census data for popup display
           },
         };
       });
@@ -155,6 +221,8 @@ export default function MapView() {
           maxBounds={VIC_BOUNDS}
           // NO API KEY REQUIRED. NO ACCOUNT REQUIRED.
           mapStyle="https://tiles.openfreemap.org/styles/liberty"
+          onClick={onClick}
+          interactiveLayerIds={["lga-fill"]} // Makes only the LGA polygons clickable
         >
           <MapContextSwitcher
             scenario={scenario}
@@ -209,6 +277,69 @@ export default function MapView() {
                 }}
               />
             </Source>
+          )}
+          {hoverInfo && (
+            <Popup
+              longitude={hoverInfo.longitude}
+              latitude={hoverInfo.latitude}
+              anchor="bottom"
+              onClose={() => setHoverInfo(null)}
+              closeOnClick={false}
+              className="z-50"
+            >
+              <div className="p-2 text-black">
+                <h3 className="font-bold border-b mb-1">
+                  {hoverInfo.properties.lganame || "LGA Details"}
+                </h3>
+                <ul className="list-disc list-inside text-xs text-red-600">
+                  {/* If the LGA has a young population with a proportion of more than 18% of the general population */}
+                  {Number(hoverInfo.properties.Age_0_4_yr_P) /
+                    Number(hoverInfo.properties.Tot_P_P) >
+                    0.18 && (
+                    <li>
+                      <span className="font-bold">Vulnerability: </span>High
+                      Proportion of Young Children
+                    </li>
+                  )}
+                  {/* If the LGA has a high proportion of elderly with more than 15% of the general population being over 65 */}
+                  {(Number(hoverInfo.properties.Age_65_74_yr_P) +
+                    Number(hoverInfo.properties.Age_75_84_yr_P) +
+                    Number(hoverInfo.properties.Age_85ov_P)) /
+                    Number(hoverInfo.properties.Tot_P_P) >
+                    0.18 && (
+                    <li>
+                      <span className="font-bold">Vulnerability: </span>High
+                      Proportion of Elderly
+                    </li>
+                  )}
+                  {/* If the LGA has a high proportion of Indigenous population with more than 3% of the general population identifying as indigenous */}
+                  {Number(hoverInfo.properties.Indigenous_P_Tot_P) /
+                    Number(hoverInfo.properties.Tot_P_P) >
+                    0.1 && (
+                    <li>
+                      <span className="font-bold">Vulnerability: </span>High
+                      Proportion of Indigenous Population
+                    </li>
+                  )}
+                  {/* If the LGA has a high proportion of people with low english literacy
+                    T_UOLSE_NWNAA_T - TOTAL_Uses_other_language_and_speaks_English_Not_well_or_not_at_all_Total */}
+                  {Number(hoverInfo.properties.T_UOLSE_NWNAA_T) /
+                    Number(hoverInfo.properties.Tot_P_P) >
+                    0.02 && (
+                    <li>
+                      <span className="font-bold">Vulnerability: </span>High
+                      Proportion of People with Low English Literacy
+                    </li>
+                  )}
+
+                  {/* If the LGA has a high proportion of people with low income (<$650/week)*/}
+                </ul>
+
+                <p className="text-xs text-gray-500 mt-2">
+                  LGA Code: {hoverInfo.properties.abscode}
+                </p>
+              </div>
+            </Popup>
           )}
         </Map>
       </div>

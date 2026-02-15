@@ -1,5 +1,17 @@
 "use client";
+/* PROTO HEATWAVE QUESTIONS
+Are you affected by heat test
+Post code (that you spent the most time in last week)
+A bit about you – gender, age
+Do you identify with any of these? over +65, history of kidney/cardiac disease, indigenous, homeless
+Are you experiencing any of these symptoms of heat related illness – extreme thirst, dizziness, light headedness, fainting collapsing, feeling confused, muscle twitching or cramping , lack of coordination/difficulty moving, racing heart beat
 
+
+How are you managing your heat related...
+How did you manage your symptoms – stopped or reduced activity , removed clothing, drank more fluids, stayed inside/sought shade, had a shower or bath, went for a swim, sprayed splashed with water, turned on fan, turned on air conditioning , found a cooler location, other
+How did you seek to manage symptoms, pharmacy, medical centre of hospital , other
+Where you absent from work – how many days 
+*/
 import React, { useState } from "react";
 import {
   ShieldCheck,
@@ -16,10 +28,13 @@ const QUESTIONS = [
   {
     id: 1,
     category: "Vulnerability",
-    question: "Are you over the age of 65?",
+    question: "How old are you?",
     options: [
-      { label: "Yes", score: 14, icon: "👴" },
-      { label: "No", score: 0, icon: "👤" },
+      { label: "65+", score: 14, icon: "👴" },
+      { label: "55-64", score: 14, icon: "👴" },
+      { label: "45-54", score: 14, icon: "👴" },
+      { label: "35-44", score: 14, icon: "👴" },
+      { label: "Younger than 34", score: 0, icon: "👤" },
     ],
   },
   {
