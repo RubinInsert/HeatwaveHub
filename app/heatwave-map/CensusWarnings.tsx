@@ -49,6 +49,12 @@ export default function CensusWarnings({ hoverContext }: any) {
         0.02 && (
         <Warning warningText="High Proportion of People with Low Income" />
       )}
+      {/* If the LGA has a high proportion of people living alone with more than 15% of the general population living alone */}
+      {Number(hoverContext.properties.housing_Num_Psns_UR_1_Total) /
+        Number(hoverContext.properties.housing_Total_Total) >
+        0.15 && (
+        <Warning warningText="High Proportion of People Living Alone" />
+      )}
     </ul>
   );
 }
