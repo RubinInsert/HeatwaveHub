@@ -7,6 +7,8 @@ import "maplibre-gl/dist/maplibre-gl.css";
 //import { heatwaveData, HeatwaveData } from "./data/heatwaveData";
 import Papa from "papaparse"; // 1. Import PapaParse
 import MapContextSwitcher from "./MapContextSwitcher";
+import { AlertTriangleIcon, Icon } from "lucide-react";
+import CensusWarnings from "./CensusWarnings";
 const VIC_BOUNDS: [[number, number], [number, number]] = [
   [139.21, -38.31], // Southwest
   [161.13, -26.74], // Northeast
@@ -46,6 +48,52 @@ const getGeoJSONCode = (code2021: string, conversionLookup: any) => {
     return cleaned2019;
   }
   return "";
+};
+interface CensusTable {
+  [metricName: string]: string | number;
+}
+
+// Define the structure of an LGA entry which contains multiple tables
+interface LgaCensusData {
+  LGA_CODE_2021?: string;
+  [tableId: string]: CensusTable | string | undefined;
+}
+
+const parseCensusFiles = async (
+  fileConfigs: Array<[string, string]>,
+  conversionLookup: any,
+) => {
+  const censusLookup: Record<string, LgaCensusData> = {};
+  const allCensusText = await Promise.all(
+    fileConfigs.map((fileConfig) =>
+      fetch(fileConfig[0]).then((res) => res.text()),
+    ),
+  );
+  allCensusText.forEach((text, index) => {
+    const prefix = fileConfigs[index][1]; // e.g., "housing"
+    const parsed = Papa.parse(text, {
+      header: true,
+      skipEmptyLines: true,
+    }).data;
+    parsed.forEach((row: any) => {
+      if (row.LGA_CODE_2021) {
+        const cleaned2019 = getGeoJSONCode(row.LGA_CODE_2021, conversionLookup);
+        if (!censusLookup[cleaned2019]) {
+          censusLookup[cleaned2019] = { LGA_CODE_2021: row.LGA_CODE_2021 };
+        }
+        if (!censusLookup[cleaned2019][prefix]) {
+          censusLookup[cleaned2019][prefix] = {};
+        }
+        Object.keys(row).forEach((key) => {
+          if (key !== "LGA_CODE_2021") {
+            const flatKey = `${prefix}_${key}`; // MapLibre automatically flattens nested JSON, so we need to create a flat hierachy like "housing_Total_Total" instead of "housing": { "Total_Total": value }
+            censusLookup[cleaned2019][flatKey] = row[key];
+          }
+        });
+      }
+    });
+  });
+  return censusLookup;
 };
 export default function MapView() {
   const [scenario, setScenario] = useState<Scenario>("vulnerability");
@@ -112,20 +160,15 @@ export default function MapView() {
     const loadData = async () => {
       // 3. Fetch both GeoJSON and CSV concurrently
       // Inside your useEffect loadData function
-      const [geoRes, heatwaveRes, conversionRes, censusRes, censusLiteracyRes] =
-        await Promise.all([
-          fetch("/data/nsw_lga.json"), // GeoJSON data for NSW LGAs (i.e. LGA map boundaries)
-          fetch("/data/heatwaveData.csv"), // Heatwave vulnerability data provided by team
-          fetch("/data/LGACODE_CONVERSION_2019_TO_2021.csv"), // Conversion file to match GeoJSON abs codes to 2021 LGA codes (To be merged with GeoJSON prior to launch)
-          fetch("/data/2021_ABS_Census_G1.csv"), // ABS Census data to be used for LGA information popups
-          fetch("/data/2021_ABS_Census_G11D.csv"), // ABS Census data to be used for LGA information popups (contains language spoken at home data which is used to determine English literacy vulnerability)
-        ]);
+      const [geoRes, heatwaveRes, conversionRes] = await Promise.all([
+        fetch("/data/nsw_lga.json"), // GeoJSON data for NSW LGAs (i.e. LGA map boundaries)
+        fetch("/data/heatwaveData.csv"), // Heatwave vulnerability data provided by team
+        fetch("/data/LGACODE_CONVERSION_2019_TO_2021.csv"), // Conversion file to match GeoJSON abs codes to 2021 LGA codes (To be merged with GeoJSON prior to launch)
+      ]);
 
       const topoJson = await geoRes.json(); // GeoJSON data for NSW LGAs - this is the base map layer
       const heatwaveText = await heatwaveRes.text(); // Data provided by team containing LGA classifications
       const conversionText = await conversionRes.text(); // A conversion file from 2019 LGA codes to 2021 LGA codes. This is due to the LGA map data being published in 2019 leading to mismatch codes.
-      const censusText = await censusRes.text(); // ABS Census data to be used for LGA information popups
-      const censusLiteracyText = await censusLiteracyRes.text(); // ABS Census data to be used for LGA information popups (contains language spoken at home data which is used to determine English literacy vulnerability)
       const codeConversions = Papa.parse(conversionText, {
         header: true,
         skipEmptyLines: true,
@@ -135,33 +178,15 @@ export default function MapView() {
       codeConversions.forEach((row: any) => {
         conversionLookup[row.LGA_CODE_2021] = row.LGA_CODE_2019;
       });
-      const censusData = Papa.parse(censusText, {
-        header: true,
-        skipEmptyLines: true,
-      }).data;
-      const censusData_Literacy = Papa.parse(censusLiteracyText, {
-        header: true,
-        skipEmptyLines: true,
-      }).data;
-      const censusLookup: Record<string, any> = {};
-      censusData.forEach((row: any) => {
-        if (row.LGA_CODE_2021) {
-          censusLookup[getGeoJSONCode(row.LGA_CODE_2021, conversionLookup)] =
-            row;
-        }
-      });
-      censusData_Literacy.forEach((row: any) => {
-        if (row.LGA_CODE_2021) {
-          const cleaned2019 = getGeoJSONCode(
-            row.LGA_CODE_2021,
-            conversionLookup,
-          );
-          censusLookup[cleaned2019] = {
-            ...censusLookup[cleaned2019],
-            ...row,
-          };
-        }
-      });
+      const censusLookup = await parseCensusFiles(
+        [
+          ["/data/2021_ABS_Census_G1.csv", "general"], // These id's will be prefixed to all census metrics keys. E.g. "general_Tot_P_P".
+          ["/data/2021_ABS_Census_G11D.csv", "literacy"],
+          ["/data/2021_ABS_Census_G17B.csv", "income"],
+          ["/data/2021_ABS_Census_G35.csv", "housing"],
+        ],
+        conversionLookup,
+      );
       // 1. Create the Heatwave Data Lookup
       const heatwaveRaw = Papa.parse(heatwaveText, {
         header: true,
@@ -291,53 +316,12 @@ export default function MapView() {
                 <h3 className="font-bold border-b mb-1">
                   {hoverInfo.properties.lganame || "LGA Details"}
                 </h3>
-                <ul className="list-disc list-inside text-xs text-red-600">
-                  {/* If the LGA has a young population with a proportion of more than 18% of the general population */}
-                  {Number(hoverInfo.properties.Age_0_4_yr_P) /
-                    Number(hoverInfo.properties.Tot_P_P) >
-                    0.18 && (
-                    <li>
-                      <span className="font-bold">Vulnerability: </span>High
-                      Proportion of Young Children
-                    </li>
-                  )}
-                  {/* If the LGA has a high proportion of elderly with more than 15% of the general population being over 65 */}
-                  {(Number(hoverInfo.properties.Age_65_74_yr_P) +
-                    Number(hoverInfo.properties.Age_75_84_yr_P) +
-                    Number(hoverInfo.properties.Age_85ov_P)) /
-                    Number(hoverInfo.properties.Tot_P_P) >
-                    0.18 && (
-                    <li>
-                      <span className="font-bold">Vulnerability: </span>High
-                      Proportion of Elderly
-                    </li>
-                  )}
-                  {/* If the LGA has a high proportion of Indigenous population with more than 3% of the general population identifying as indigenous */}
-                  {Number(hoverInfo.properties.Indigenous_P_Tot_P) /
-                    Number(hoverInfo.properties.Tot_P_P) >
-                    0.1 && (
-                    <li>
-                      <span className="font-bold">Vulnerability: </span>High
-                      Proportion of Indigenous Population
-                    </li>
-                  )}
-                  {/* If the LGA has a high proportion of people with low english literacy
-                    T_UOLSE_NWNAA_T - TOTAL_Uses_other_language_and_speaks_English_Not_well_or_not_at_all_Total */}
-                  {Number(hoverInfo.properties.T_UOLSE_NWNAA_T) /
-                    Number(hoverInfo.properties.Tot_P_P) >
-                    0.02 && (
-                    <li>
-                      <span className="font-bold">Vulnerability: </span>High
-                      Proportion of People with Low English Literacy
-                    </li>
-                  )}
-
-                  {/* If the LGA has a high proportion of people with low income (<$650/week)*/}
-                </ul>
-
+                {/* Displays warnings based on census data. E.g. "Vulnerability Warning: High Proportion of Low Income people" */}
+                <CensusWarnings hoverContext={hoverInfo} />{" "}
                 <p className="text-xs text-gray-500 mt-2">
                   LGA Code: {hoverInfo.properties.abscode}
                 </p>
+                <p className="text-xs text-gray-500 mt-2">statistic: {}</p>
               </div>
             </Popup>
           )}
