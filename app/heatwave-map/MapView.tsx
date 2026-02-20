@@ -9,6 +9,7 @@ import Papa from "papaparse"; // 1. Import PapaParse
 import MapContextSwitcher from "./MapContextSwitcher";
 import { AlertTriangleIcon, Icon } from "lucide-react";
 import CensusWarnings from "./CensusWarnings";
+import { DEV_StandardDeviationCalc } from "./DEV_StandardDeviationCalc";
 const VIC_BOUNDS: [[number, number], [number, number]] = [
   [139.21, -38.31], // Southwest
   [161.13, -26.74], // Northeast
@@ -183,6 +184,8 @@ export default function MapView() {
           ["/data/2021_ABS_Census_G1.csv", "general"], // These id's will be prefixed to all census metrics keys. E.g. "general_Tot_P_P".
           ["/data/2021_ABS_Census_G11D.csv", "literacy"],
           ["/data/2021_ABS_Census_G17B.csv", "income"],
+          ["/data/2021_ABS_Census_G18.csv", "assistance"],
+          ["/data/2021_ABS_Census_G20A.csv", "health"],
           ["/data/2021_ABS_Census_G35.csv", "housing"],
         ],
         conversionLookup,
@@ -321,12 +324,12 @@ export default function MapView() {
                 <p className="text-xs text-gray-500 mt-2">
                   LGA Code: {hoverInfo.properties.abscode}
                 </p>
-                <p className="text-xs text-gray-500 mt-2">statistic: {}</p>
               </div>
             </Popup>
           )}
         </Map>
       </div>
+      {/*geoData && <DEV_StandardDeviationCalc geoData={geoData} /> FOR DEVELOPMENT PURPOSES TO CALCULATE STANDARD DEVIATIONS*/}
     </div>
   );
 }

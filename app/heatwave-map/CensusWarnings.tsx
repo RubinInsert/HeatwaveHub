@@ -1,5 +1,6 @@
 import React from "react";
 import { AlertTriangleIcon } from "lucide-react";
+import VULNERABILITY_THRESHOLDS from "./VulnerabilityThresholds";
 ("use client");
 function Warning({ warningText }: { warningText: string }) {
   return (
@@ -18,24 +19,28 @@ export default function CensusWarnings({ hoverContext }: any) {
       {/* If the LGA has a young population with a proportion of more than 18% of the general population */}
       {Number(hoverContext.properties.general_Age_0_4_yr_P) /
         Number(hoverContext.properties.general_Tot_P_P) >
-        0.01 && <Warning warningText="High Proportion of Young Children" />}
+        VULNERABILITY_THRESHOLDS.Young_Pop && (
+        <Warning warningText="High Proportion of Young Children" />
+      )}
       {/* If the LGA has a high proportion of elderly with more than 15% of the general population being over 65 */}
       {(Number(hoverContext.properties.general_Age_65_74_yr_P) +
         Number(hoverContext.properties.general_Age_75_84_yr_P) +
         Number(hoverContext.properties.general_Age_85ov_P)) /
         Number(hoverContext.properties.general_Tot_P_P) >
-        0.18 && <Warning warningText="High Proportion of Elderly" />}
+        VULNERABILITY_THRESHOLDS.Elder_Pop && (
+        <Warning warningText="High Proportion of Elderly" />
+      )}
       {/* If the LGA has a high proportion of Indigenous population with more than 3% of the general population identifying as indigenous */}
       {Number(hoverContext.properties.general_Indigenous_P_Tot_P) /
         Number(hoverContext.properties.general_Tot_P_P) >
-        0.1 && (
+        VULNERABILITY_THRESHOLDS.Indigenous_Pop && (
         <Warning warningText="High Proportion of Indigenous Population" />
       )}
       {/* If the LGA has a high proportion of people with low english literacy
                     T_UOLSE_NWNAA_T - TOTAL_Uses_other_language_and_speaks_English_Not_well_or_not_at_all_Total */}
       {Number(hoverContext.properties.literacy_T_UOLSE_NWNAA_T) /
         Number(hoverContext.properties.general_Tot_P_P) >
-        0.02 && (
+        VULNERABILITY_THRESHOLDS.LowLit_Pop && (
         <Warning warningText="High Proportion of Low English Literacy" />
       )}
 
@@ -46,14 +51,27 @@ export default function CensusWarnings({ hoverContext }: any) {
         Number(hoverContext.properties.income_P_400_499_Tot) +
         Number(hoverContext.properties.income_P_500_649_Tot)) /
         Number(hoverContext.properties.general_Tot_P_P) >
-        0.02 && (
+        VULNERABILITY_THRESHOLDS.LowIncome_Pop && (
         <Warning warningText="High Proportion of People with Low Income" />
       )}
       {/* If the LGA has a high proportion of people living alone with more than 15% of the general population living alone */}
       {Number(hoverContext.properties.housing_Num_Psns_UR_1_Total) /
         Number(hoverContext.properties.housing_Total_Total) >
-        0.15 && (
+        VULNERABILITY_THRESHOLDS.LivingAlone_Pop && (
         <Warning warningText="High Proportion of People Living Alone" />
+      )}
+
+      {/* If the LGA has a high proportion of people who need assistance */}
+      {Number(hoverContext.properties.assistance_P_Tot_Need_for_assistance) /
+        Number(hoverContext.properties.assistance_P_Tot_Tot) >
+        VULNERABILITY_THRESHOLDS.NeedingAssistance_Pop && (
+        <Warning warningText="High Proportion of People Needing Assistance" />
+      )}
+      {/* If the LGA has a high proportion of people with long term cardiovascular, respiratory, or mental health conditions */}
+      {Number(hoverContext.properties.health_P_1m_cond_Tot_Tot) /
+        Number(hoverContext.properties.general_Tot_P_P) >
+        VULNERABILITY_THRESHOLDS.HealthConditions_Pop && (
+        <Warning warningText="High Proportion of People with Long Term Health Conditions" />
       )}
     </ul>
   );
@@ -61,4 +79,6 @@ export default function CensusWarnings({ hoverContext }: any) {
 
 // QUESTIONS FOR TEAM:
 // Does low income account for personal income, or household income?
-// What quantiles should we use for the thresholds?
+// In your presentation it mentions
+// What quantiles should we use for the thresholds of each warning?
+// Bring up Nambucca Valley. The area has extremely high vulnerability metrics but is measured as low vulnerability on the map. Should location have such a drastic impact?
