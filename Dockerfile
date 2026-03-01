@@ -12,6 +12,9 @@ RUN pnpm install
 # Copy the rest of your files
 COPY . .
 
+RUN pnpm exec prisma generate
+
+
 # In development, we don't 'build'—we just run the dev server
 EXPOSE 3000
 CMD ["pnpm", "dev"]

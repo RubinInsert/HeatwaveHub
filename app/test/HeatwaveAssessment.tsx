@@ -12,7 +12,8 @@ How did you manage your symptoms – stopped or reduced activity , removed cloth
 How did you seek to manage symptoms, pharmacy, medical centre of hospital , other
 Where you absent from work – how many days 
 */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { saveAssessment } from "app/actions/submit-assessment";
 import {
   ShieldCheck,
   AlertTriangle,
@@ -23,7 +24,60 @@ import {
   ChevronRight,
   CheckCircle2,
 } from "lucide-react";
-
+const mockSubmissions = [
+  {
+    postcode: "2300", // Newcastle CBD
+    ageGroup: "65+",
+    hasChronicIllness: true,
+    score: 85,
+    riskLevel: "High",
+    symptoms: ["dizziness", "racing heart beat", "extreme thirst"],
+    managementActions: ["stayed inside", "turned on air conditioning"],
+    isIndigenous: false,
+    isHomeless: false,
+    workAbsenceDays: 0,
+    soughtMedicalHelp: true,
+  },
+  {
+    postcode: "2287", // Wallsend
+    ageGroup: "35-44",
+    hasChronicIllness: false,
+    score: 20,
+    riskLevel: "Low",
+    symptoms: ["muscle twitching"],
+    managementActions: ["drank more fluids", "turned on fan"],
+    isIndigenous: true,
+    isHomeless: false,
+    workAbsenceDays: 1,
+    soughtMedicalHelp: false,
+  },
+  {
+    postcode: "2290", // Charlestown
+    ageGroup: "55-64",
+    hasChronicIllness: true,
+    score: 55,
+    riskLevel: "Moderate",
+    symptoms: ["light headedness", "fainting"],
+    managementActions: ["sought shade", "had a shower"],
+    isIndigenous: false,
+    isHomeless: false,
+    workAbsenceDays: 2,
+    soughtMedicalHelp: true,
+  },
+  {
+    postcode: "2304", // Mayfield
+    ageGroup: "Younger than 34",
+    hasChronicIllness: false,
+    score: 10,
+    riskLevel: "Low",
+    symptoms: [],
+    managementActions: ["went for a swim"],
+    isIndigenous: false,
+    isHomeless: false,
+    workAbsenceDays: 0,
+    soughtMedicalHelp: false,
+  },
+];
 const QUESTIONS = [
   {
     id: 1,
@@ -102,7 +156,15 @@ export default function HeatwaveAssessment() {
   const [step, setStep] = useState(0);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
-
+  useEffect(() => {
+    if (isFinished) {
+      const runTest = async () => {
+        console.log("Finished screen detected. Saving test data...");
+        await saveAssessment(mockSubmissions[0]);
+      };
+      runTest();
+    }
+  }, [isFinished]);
   const totalSteps = QUESTIONS.length;
   const currentQuestion = QUESTIONS[step];
 

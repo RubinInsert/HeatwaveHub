@@ -1,12 +1,12 @@
 services:
   db:
-    image: postgis/postgis:15-3.3
+    image: postgres:15-alpine
     environment:
       POSTGRES_USER: heatwave_user
       POSTGRES_PASSWORD: secure_password
       POSTGRES_DB: heatwave_hub
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

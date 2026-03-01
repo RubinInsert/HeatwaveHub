@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Add this to your prisma/schema.prisma
+
+model Assessment {
+  id                String   @id @default(cuid())
+  createdAt         DateTime @default(now())
+  
+  // Demographics
+  postcode          String   // Key for mapping to your LGA data
+  ageGroup          String
+  gender            String?
+  
+  // Risk Profile (Stored as booleans for easy filtering)
+  isOver65          Boolean  @default(false)
+  hasChronicIllness Boolean  @default(false)
+  isIndigenous      Boolean  @default(false)
+  isHomeless        Boolean  @default(false)
+  
+  // Results
+  totalScore        Int
+  riskLevel         String   // "High", "Moderate", "Low"
+
+  // Symptom details (Stored as a list of strings)
+  symptoms          String[] 
+  managementActions String[]
+  
+  // Impact
+  workAbsenceDays   Int      @default(0)
+  soughtMedicalHelp Boolean  @default(false)
+}
