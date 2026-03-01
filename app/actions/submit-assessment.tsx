@@ -3,6 +3,10 @@
 import { prisma } from "app/lib/prisma";
 
 export async function saveAssessment(data: any) {
+  if (!process.env.DATABASE_URL) {
+    console.log("No Database URL found. Skipping save (Demo Mode).");
+    return { success: true, id: "demo-mode" };
+  }
   try {
     const submission = await prisma.assessment.create({
       data: {

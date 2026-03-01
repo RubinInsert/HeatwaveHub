@@ -12,6 +12,11 @@ services:
 
   web:
     build: .
+    command: >
+      sh -c "npx wait-port db:5432 && 
+             pnpm dlx prisma generate && 
+             pnpm dlx prisma db push && 
+             pnpm dev"
     ports:
       - "3000:3000"
     volumes:
