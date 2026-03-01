@@ -1,7 +1,7 @@
+"use client";
 import React from "react";
 import { AlertTriangleIcon } from "lucide-react";
 import VULNERABILITY_THRESHOLDS from "./VulnerabilityThresholds";
-("use client");
 function Warning({ warningText }: { warningText: string }) {
   return (
     <li className="p-1 bg-red-200 flex gap-3 justify-between items-center rounded">
