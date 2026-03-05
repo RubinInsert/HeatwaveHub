@@ -10,6 +10,7 @@ import MapContextSwitcher from "./MapContextSwitcher";
 import { AlertTriangleIcon, Icon } from "lucide-react";
 import CensusWarnings from "./CensusWarnings";
 import { DEV_StandardDeviationCalc } from "./DEV_StandardDeviationCalc";
+import VulnerabilityTable from "./DEV_Table";
 const VIC_BOUNDS: [[number, number], [number, number]] = [
   [139.21, -38.31], // Southwest
   [161.13, -26.74], // Northeast
@@ -246,7 +247,7 @@ export default function MapView() {
             latitude: -37.8,
             zoom: 0,
           }}
-          maxBounds={VIC_BOUNDS}
+          //maxBounds={VIC_BOUNDS}
           // NO API KEY REQUIRED. NO ACCOUNT REQUIRED.
           mapStyle="https://tiles.openfreemap.org/styles/liberty"
           onClick={onClick}
@@ -324,6 +325,7 @@ export default function MapView() {
                 <p className="text-xs text-gray-500 mt-2">
                   LGA Code: {hoverInfo.properties.abscode}
                 </p>
+                <VulnerabilityTable hoverContext={hoverInfo} />
               </div>
             </Popup>
           )}

@@ -43,7 +43,6 @@ export default function CensusWarnings({ hoverContext }: any) {
         VULNERABILITY_THRESHOLDS.LowLit_Pop && (
         <Warning warningText="High Proportion of Low English Literacy" />
       )}
-
       {/* If the LGA has a high proportion of people with low income (<$650/week)*/}
       {(Number(hoverContext.properties.income_P_1_149_Tot) +
         Number(hoverContext.properties.income_P_150_299_Tot) +
@@ -60,7 +59,6 @@ export default function CensusWarnings({ hoverContext }: any) {
         VULNERABILITY_THRESHOLDS.LivingAlone_Pop && (
         <Warning warningText="High Proportion of People Living Alone" />
       )}
-
       {/* If the LGA has a high proportion of people who need assistance */}
       {Number(hoverContext.properties.assistance_P_Tot_Need_for_assistance) /
         Number(hoverContext.properties.assistance_P_Tot_Tot) >
