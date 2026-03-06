@@ -44,7 +44,8 @@ export default function CensusWarnings({ hoverContext }: any) {
         <Warning warningText="High Proportion of Low English Literacy" />
       )}
       {/* If the LGA has a high proportion of people with low income (<$650/week)*/}
-      {(Number(hoverContext.properties.income_P_1_149_Tot) +
+      {(Number(hoverContext.properties.income_P_Neg_Nil_income_Tot) +
+        Number(hoverContext.properties.income_P_1_149_Tot) +
         Number(hoverContext.properties.income_P_150_299_Tot) +
         Number(hoverContext.properties.income_P_300_399_Tot) +
         Number(hoverContext.properties.income_P_400_499_Tot) +
@@ -54,8 +55,8 @@ export default function CensusWarnings({ hoverContext }: any) {
         <Warning warningText="High Proportion of People with Low Income" />
       )}
       {/* If the LGA has a high proportion of people living alone with more than 15% of the general population living alone */}
-      {Number(hoverContext.properties.housing_Num_Psns_UR_1_Total) /
-        Number(hoverContext.properties.housing_Total_Total) >
+      {Number(hoverContext.properties.housing_P_LonePsn_Tot) /
+        Number(hoverContext.properties.general_Tot_P_P) >
         VULNERABILITY_THRESHOLDS.LivingAlone_Pop && (
         <Warning warningText="High Proportion of People Living Alone" />
       )}
@@ -66,10 +67,22 @@ export default function CensusWarnings({ hoverContext }: any) {
         <Warning warningText="High Proportion of People Needing Assistance" />
       )}
       {/* If the LGA has a high proportion of people with long term cardiovascular, respiratory, or mental health conditions */}
-      {Number(hoverContext.properties.health_P_1m_cond_Tot_Tot) /
+      {(Number(hoverContext.properties.health_P_Heart_disease_Tot) +
+        Number(hoverContext.properties.health_P_Kidney_disease_Tot) +
+        Number(hoverContext.properties.health_P_Lung_cond_Tot)) /
         Number(hoverContext.properties.general_Tot_P_P) >
         VULNERABILITY_THRESHOLDS.HealthConditions_Pop && (
         <Warning warningText="High Proportion of People with Long Term Health Conditions" />
+      )}
+      {/* If the LGA has a high proportion of people who suffer from mental health issues*/}
+      {Number(hoverContext.properties.mental_P_Mental_health_cond_Tot) /
+        Number(hoverContext.properties.general_Tot_P_P) >
+        VULNERABILITY_THRESHOLDS.MentalHealth_Pop && (
+        <Warning warningText="High Proportion of People with Mental Health Issues" />
+      )}
+      {Number(hoverContext.properties.ndvi_MEDIAN_NDVI) >
+        VULNERABILITY_THRESHOLDS.NDVI && (
+        <Warning warningText="Low Proportion of Vegetation" />
       )}
     </ul>
   );

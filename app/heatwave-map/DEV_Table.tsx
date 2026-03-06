@@ -37,7 +37,8 @@ const VulnerabilityTable = ({ hoverContext }: any) => {
     {
       label: "Low Income (<$650/wk)",
       value: calcProp(
-        Number(props.income_P_1_149_Tot) +
+        Number(props.income_P_Neg_Nil_income_Tot) + // NEW
+          Number(props.income_P_1_149_Tot) +
           Number(props.income_P_150_299_Tot) +
           Number(props.income_P_300_399_Tot) +
           Number(props.income_P_400_499_Tot) +
@@ -48,8 +49,8 @@ const VulnerabilityTable = ({ hoverContext }: any) => {
     {
       label: "Living Alone",
       value: calcProp(
-        props.housing_Num_Psns_UR_1_Total,
-        props.housing_Total_Total,
+        props.housing_Num_Psns_UR_1_Total, // P_LonePsn_Tot
+        props.housing_Total_Total, // P_Tot_Tot
       ),
     },
     {
@@ -61,8 +62,9 @@ const VulnerabilityTable = ({ hoverContext }: any) => {
     },
     {
       label: "Long-term Health Conditions",
-      value: calcProp(props.health_P_1m_cond_Tot_Tot, props.general_Tot_P_P),
+      value: calcProp(props.health_P_1m_cond_Tot_Tot, props.general_Tot_P_P), // P_Heart_disease_Tot + P_Kidney_disease_Tot + P_Lung_cond_Tot
     },
+    // Include Mental Health Condtitions - P_Mental_health_cond_Tot
   ];
 
   return (

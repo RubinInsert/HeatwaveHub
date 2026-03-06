@@ -187,7 +187,10 @@ export default function MapView() {
           ["/data/2021_ABS_Census_G17B.csv", "income"],
           ["/data/2021_ABS_Census_G18.csv", "assistance"],
           ["/data/2021_ABS_Census_G20A.csv", "health"],
-          ["/data/2021_ABS_Census_G35.csv", "housing"],
+          //["/data/2021_ABS_Census_G35.csv", "housing"], // Old metric. G27B contains the new metrics
+          ["/data/2021_ABS_Census_G27B.csv", "housing"],
+          ["/data/2021_ABS_Census_G19B.csv", "mental"],
+          ["/data/ndvi.csv", "ndvi"],
         ],
         conversionLookup,
       );
@@ -218,7 +221,6 @@ export default function MapView() {
       const mergedFeatures = topoJson.features.map((feature: any) => {
         // Get code from GeoJSON (e.g., "10500" or "0500")
         const geoCode = Number(feature.properties.abscode).toString();
-        console.log("GeoJSON code:", geoCode);
         // Find the heatwave stats using the cleaned numeric code
         const heatStats = heatwaveLookup[geoCode] || {};
         const censusStats = censusLookup[geoCode] || {};
@@ -325,13 +327,16 @@ export default function MapView() {
                 <p className="text-xs text-gray-500 mt-2">
                   LGA Code: {hoverInfo.properties.abscode}
                 </p>
-                <VulnerabilityTable hoverContext={hoverInfo} />
               </div>
             </Popup>
           )}
         </Map>
       </div>
-      {/*geoData && <DEV_StandardDeviationCalc geoData={geoData} /> FOR DEVELOPMENT PURPOSES TO CALCULATE STANDARD DEVIATIONS*/}
+      {
+        geoData && (
+          <DEV_StandardDeviationCalc geoData={geoData} />
+        ) /* FOR DEVELOPMENT PURPOSES TO CALCULATE STANDARD DEVIATION */
+      }
     </div>
   );
 }

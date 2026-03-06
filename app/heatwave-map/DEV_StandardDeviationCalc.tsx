@@ -44,7 +44,8 @@ export function DEV_StandardDeviationCalc({ geoData }: { geoData: any }) {
       {
         label: "Low Income (<$650/wk)",
         calc: (p: any) =>
-          (n(p, "income_P_1_149_Tot") +
+          (n(p, "income_P_Neg_Nil_income_Tot") +
+            n(p, "income_P_1_149_Tot") +
             n(p, "income_P_150_299_Tot") +
             n(p, "income_P_300_399_Tot") +
             n(p, "income_P_400_499_Tot") +
@@ -66,6 +67,15 @@ export function DEV_StandardDeviationCalc({ geoData }: { geoData: any }) {
         label: "Long Term Health Conditions",
         calc: (p: any) =>
           n(p, "health_P_1m_cond_Tot_Tot") / n(p, "general_Tot_P_P"),
+      },
+      {
+        label: "Mental Health Conditions",
+        calc: (p: any) =>
+          n(p, "mental_P_Mental_health_cond_Tot") / n(p, "general_Tot_P_P"),
+      },
+      {
+        label: "NDVI (Vegetation Index)",
+        calc: (p: any) => n(p, "ndvi_MEDIAN_NDVI"),
       },
     ];
 
