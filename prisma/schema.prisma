@@ -13,32 +13,45 @@ datasource db {
   provider = "postgresql"
 }
 
-// Add this to your prisma/schema.prisma
 
 model Assessment {
-  id                String   @id @default(cuid())
-  createdAt         DateTime @default(now())
+  id              String   @id @default(cuid())
+  createdAt       DateTime @default(now())
+  postcode        String
+  ageGroup        String
+  gender          String?
   
-  // Demographics
-  postcode          String   // Key for mapping to your LGA data
-  ageGroup          String
-  gender            String?
+  // This connects many Answers to one Assessment
+  answers         Answer[]
   
-  // Risk Profile (Stored as booleans for easy filtering)
-  isOver65          Boolean  @default(false)
-  hasChronicIllness Boolean  @default(false)
-  isIndigenous      Boolean  @default(false)
-  isHomeless        Boolean  @default(false)
-  
-  // Results
-  totalScore        Int
-  riskLevel         String   // "High", "Moderate", "Low"
+  totalScore      Int
+  riskLevel       String
+}
 
-  // Symptom details (Stored as a list of strings)
-  symptoms          String[] 
-  managementActions String[]
+model Question {
+  id           String   @id @default(cuid())
+  text         String   // e.g., "Are you over 65?"
+  slug         String   @unique // e.g., "is-over-65"
+  category     String   // e.g., "Risk Profile"
+  isActive     Boolean  @default(true) // Allows you to "remove" questions without deleting data
+  weight       Int      @default(1)    // Use this for calculating scores
+  options      Option[]  // Connects multiple options (buttons) to one question
+  answers      Answer[]
+}
+model Option {
+  id           String   @id @default(cuid())
+  label        String   // e.g., "Yes"
+  icon         String   // e.g., "🏠" or "ShieldCheck"
+  score        Int      // The points this specific button is worth
+  questionId   String
+  question     Question @relation(fields: [questionId], references: [id])
+}
+model Answer {
+  id            String     @id @default(cuid())
+  assessmentId  String
+  questionId    String
+  value         String     // Store response as a string or JSON to handle booleans/text
   
-  // Impact
-  workAbsenceDays   Int      @default(0)
-  soughtMedicalHelp Boolean  @default(false)
+  assessment    Assessment @relation(fields: [assessmentId], references: [id])
+  question      Question   @relation(fields: [questionId], references: [id])
 }

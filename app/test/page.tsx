@@ -2,8 +2,13 @@ import AcmeLogo from "@/app/ui/acme-logo";
 import Link from "next/link";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import HeatwaveAssessment from "./HeatwaveAssessment";
-
-export default function Page() {
+import { prisma } from "app/lib/prisma";
+export default async function Page() {
+  const questions = await prisma.question.findMany({
+    where: { isActive: true },
+    include: { options: true },
+  });
+  console.log("Active Questions:", questions);
   return (
     <main className="flex min-h-screen flex-col bg-slate-50">
       {/* 1. Specialized Assessment Header */}
@@ -42,7 +47,7 @@ export default function Page() {
         </div>
 
         {/* 3. The Assessment Component */}
-        <HeatwaveAssessment />
+        <HeatwaveAssessment questions={questions} />
 
         {/* 4. Support/Privacy Footer */}
         <div className="max-w-2xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-slate-200 pt-8">

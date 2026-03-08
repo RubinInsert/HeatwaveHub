@@ -186,7 +186,7 @@ export default function MapView() {
           ["/data/2021_ABS_Census_G11D.csv", "literacy"],
           ["/data/2021_ABS_Census_G17B.csv", "income"],
           ["/data/2021_ABS_Census_G18.csv", "assistance"],
-          ["/data/2021_ABS_Census_G20A.csv", "health"],
+          ["/data/2021_ABS_Census_G19B.csv", "health"],
           //["/data/2021_ABS_Census_G35.csv", "housing"], // Old metric. G27B contains the new metrics
           ["/data/2021_ABS_Census_G27B.csv", "housing"],
           ["/data/2021_ABS_Census_G19B.csv", "mental"],

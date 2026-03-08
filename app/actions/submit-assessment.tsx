@@ -12,12 +12,17 @@ export async function saveAssessment(data: any) {
       data: {
         postcode: data.postcode,
         ageGroup: data.ageGroup,
-        isOver65: data.ageGroup === "65+",
-        hasChronicIllness: data.hasChronicIllness,
-        totalScore: data.score,
+        gender: data.gender, // Matches schema
+        totalScore: data.totalScore,
         riskLevel: data.riskLevel,
-        symptoms: data.symptoms,
-        // ... map the rest of your state here
+
+        // This is how you handle the "Variable" part (the Symptoms/Answers)
+        answers: {
+          create: data.selections.map((sel: any) => ({
+            questionId: sel.questionId,
+            value: sel.optionLabel, // This replaces the old 'symptoms' array
+          })),
+        },
       },
     });
     return { success: true, id: submission.id };

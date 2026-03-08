@@ -1,5 +1,5 @@
 "use client";
-/* PROTO HEATWAVE QUESTIONS
+/* PROTO HEATWAVE questions
 Are you affected by heat test
 Post code (that you spent the most time in last week)
 A bit about you – gender, age
@@ -13,6 +13,7 @@ How did you seek to manage symptoms, pharmacy, medical centre of hospital , othe
 Where you absent from work – how many days 
 */
 import React, { useState, useEffect } from "react";
+import { Question } from "@/prisma/generated/prisma/client";
 import { saveAssessment } from "app/actions/submit-assessment";
 import {
   ShieldCheck,
@@ -24,158 +25,57 @@ import {
   ChevronRight,
   CheckCircle2,
 } from "lucide-react";
-const mockSubmissions = [
-  {
-    postcode: "2300", // Newcastle CBD
-    ageGroup: "65+",
-    hasChronicIllness: true,
-    score: 85,
-    riskLevel: "High",
-    symptoms: ["dizziness", "racing heart beat", "extreme thirst"],
-    managementActions: ["stayed inside", "turned on air conditioning"],
-    isIndigenous: false,
-    isHomeless: false,
-    workAbsenceDays: 0,
-    soughtMedicalHelp: true,
-  },
-  {
-    postcode: "2287", // Wallsend
-    ageGroup: "35-44",
-    hasChronicIllness: false,
-    score: 20,
-    riskLevel: "Low",
-    symptoms: ["muscle twitching"],
-    managementActions: ["drank more fluids", "turned on fan"],
-    isIndigenous: true,
-    isHomeless: false,
-    workAbsenceDays: 1,
-    soughtMedicalHelp: false,
-  },
-  {
-    postcode: "2290", // Charlestown
-    ageGroup: "55-64",
-    hasChronicIllness: true,
-    score: 55,
-    riskLevel: "Moderate",
-    symptoms: ["light headedness", "fainting"],
-    managementActions: ["sought shade", "had a shower"],
-    isIndigenous: false,
-    isHomeless: false,
-    workAbsenceDays: 2,
-    soughtMedicalHelp: true,
-  },
-  {
-    postcode: "2304", // Mayfield
-    ageGroup: "Younger than 34",
-    hasChronicIllness: false,
-    score: 10,
-    riskLevel: "Low",
-    symptoms: [],
-    managementActions: ["went for a swim"],
-    isIndigenous: false,
-    isHomeless: false,
-    workAbsenceDays: 0,
-    soughtMedicalHelp: false,
-  },
-];
-const QUESTIONS = [
-  {
-    id: 1,
-    category: "Vulnerability",
-    question: "How old are you?",
-    options: [
-      { label: "65+", score: 14, icon: "👴" },
-      { label: "55-64", score: 14, icon: "👴" },
-      { label: "45-54", score: 14, icon: "👴" },
-      { label: "35-44", score: 14, icon: "👴" },
-      { label: "Younger than 34", score: 0, icon: "👤" },
-    ],
-  },
-  {
-    id: 1,
-    category: "Vulnerability",
-    question: "Do you care for someone under 5 years old?",
-    options: [
-      { label: "Yes", score: 14, icon: "👴" },
-      { label: "No", score: 0, icon: "👤" },
-    ],
-  },
-  {
-    id: 1,
-    category: "Vulnerability",
-    question: "Are you Aboriginal or Torres Strait Islander?",
-    options: [
-      { label: "Yes", score: 14, icon: "👴" },
-      { label: "No", score: 0, icon: "👤" },
-    ],
-  },
-  {
-    id: 1,
-    category: "Vulnerability",
-    question: "How much do you make weekly?",
-    options: [
-      { label: "Less than $650", score: 14, icon: "👴" },
-      { label: "More than $650", score: 0, icon: "👤" },
-    ],
-  },
-  {
-    id: 1,
-    category: "Vulnerability",
-    question: "Do you live alone?",
-    options: [
-      { label: "Yes", score: 14, icon: "👴" },
-      {
-        label: "No, I live with one or more other people",
-        score: 0,
-        icon: "👤",
-      },
-    ],
-  },
-  {
-    id: 1,
-    category: "Vulnerability",
-    question: "Do you need assistance with daily activities?",
-    options: [
-      { label: "Yes, I am assisted daily", score: 14, icon: "👴" },
-      { label: "No", score: 0, icon: "👤" },
-    ],
-  },
-  {
-    id: 2,
-    category: "Vulnerability",
-    question:
-      "Do you have any chronic health conditions? (Heart, Lung, or Kidney disease)",
-    options: [
-      { label: "Yes", score: 14, icon: "🩺" },
-      { label: "No", score: 0, icon: "✅" },
-    ],
-  },
-];
-
-export default function HeatwaveAssessment() {
+import { Prisma } from "@/prisma/generated/prisma/client";
+type QuestionWithOptions = Prisma.QuestionGetPayload<{
+  include: { options: true };
+}>;
+export default function HeatwaveAssessment({
+  questions,
+}: {
+  questions: QuestionWithOptions[];
+}) {
   const [step, setStep] = useState(0);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
-  useEffect(() => {
-    if (isFinished) {
-      const runTest = async () => {
-        console.log("Finished screen detected. Saving test data...");
-        await saveAssessment(mockSubmissions[0]);
-      };
-      runTest();
-    }
-  }, [isFinished]);
-  const totalSteps = QUESTIONS.length;
-  const currentQuestion = QUESTIONS[step];
+  const [userSelections, setUserSelections] = useState<
+    { questionId: string; optionLabel: string; points: number }[]
+  >([]);
+  const totalSteps = questions.length;
+  const currentQuestion = questions[step];
 
-  const handleOptionClick = (points: number) => {
-    const newScore = score + points;
+  const handleOptionClick = async (points: number, optionLabel: string) => {
+    const newSelection = {
+      questionId: currentQuestion.id,
+      optionLabel: optionLabel,
+      points: points,
+    };
+
+    const updatedSelections = [...userSelections, newSelection];
+    const updatedScore = score + points;
+
+    // 2. Update state for the UI
+    setUserSelections(updatedSelections);
+    setScore(updatedScore);
+
     if (step + 1 < totalSteps) {
-      setScore(newScore);
       setStep(step + 1);
     } else {
-      setScore(newScore);
       setIsFinished(true);
+
+      const risk = getRiskLevelForScore(updatedScore);
+      try {
+        await saveAssessment({
+          postcode: "2300",
+          ageGroup: "30-39",
+          gender: "Prefer not to say",
+          totalScore: updatedScore, // Use the local constant
+          riskLevel: risk.label,
+          selections: updatedSelections, // Use the local constant
+        });
+        console.log("Assessment saved successfully");
+      } catch (err) {
+        console.error("Failed to save:", err);
+      }
     }
   };
 
@@ -185,15 +85,15 @@ export default function HeatwaveAssessment() {
     setIsFinished(false);
   };
 
-  const getRiskLevel = () => {
-    if (score >= 60)
+  const getRiskLevelForScore = (currentScore: number) => {
+    if (currentScore >= 60)
       return {
         label: "High Risk",
         color: "text-red-600",
         bg: "bg-red-50",
         icon: <AlertTriangle className="w-8 h-8" />,
       };
-    if (score >= 30)
+    if (currentScore >= 30)
       return {
         label: "Moderate Risk",
         color: "text-orange-600",
@@ -209,7 +109,7 @@ export default function HeatwaveAssessment() {
   };
 
   if (isFinished) {
-    const risk = getRiskLevel();
+    const risk = getRiskLevelForScore(score);
     return (
       <div className="max-w-2xl mx-auto p-8 bg-white rounded-3xl shadow-xl border border-slate-100 animate-in fade-in zoom-in duration-500">
         <div
@@ -289,14 +189,14 @@ export default function HeatwaveAssessment() {
         className="animate-in fade-in slide-in-from-right-8 duration-500"
       >
         <h2 className="text-3xl font-bold text-slate-800 mb-8 leading-tight">
-          {currentQuestion.question}
+          {currentQuestion.text}
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {currentQuestion.options.map((option) => (
+          {currentQuestion.options.map((option: any) => (
             <button
               key={option.label}
-              onClick={() => handleOptionClick(option.score)}
+              onClick={() => handleOptionClick(option.score, option.label)}
               className="group relative flex items-center justify-between p-6 bg-slate-50 border-2 border-slate-100 rounded-2xl hover:border-orange-500 hover:bg-white hover:shadow-lg transition-all duration-200 text-left"
             >
               <div className="flex items-center gap-4">

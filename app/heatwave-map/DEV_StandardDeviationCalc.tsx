@@ -15,7 +15,7 @@ export function DEV_StandardDeviationCalc({ geoData }: { geoData: any }) {
 
     // Helper to safely get numbers from properties
     const n = (props: any, key: string) => Number(props[key] || 0);
-
+    console.log(geoData.features[0].properties); // Log the properties of the first feature for debugging
     // 1:1 Mapping with the CensusWarnings component
     const metrics = [
       {
@@ -55,7 +55,7 @@ export function DEV_StandardDeviationCalc({ geoData }: { geoData: any }) {
       {
         label: "Living Alone",
         calc: (p: any) =>
-          n(p, "housing_Num_Psns_UR_1_Total") / n(p, "housing_Total_Total"),
+          n(p, "housing_P_LonePsn_Tot") / n(p, "general_Tot_P_P"),
       },
       {
         label: "Needing Assistance",
@@ -66,7 +66,10 @@ export function DEV_StandardDeviationCalc({ geoData }: { geoData: any }) {
       {
         label: "Long Term Health Conditions",
         calc: (p: any) =>
-          n(p, "health_P_1m_cond_Tot_Tot") / n(p, "general_Tot_P_P"),
+          (n(p, "health_P_Heart_disease_Tot") +
+            n(p, "health_P_Kidney_disease_Tot") +
+            n(p, "health_P_Lung_cond_Tot")) /
+          n(p, "general_Tot_P_P"),
       },
       {
         label: "Mental Health Conditions",
@@ -103,7 +106,7 @@ export function DEV_StandardDeviationCalc({ geoData }: { geoData: any }) {
       console.table({
         "Mean (NSW Avg)": (mean * 100).toFixed(2) + "%",
         "Std Deviation": (stdDev * 100).toFixed(2) + "%",
-        "Warning (+1σ)": ((mean + stdDev) * 100).toFixed(2) + "%",
+        "Warning (+1.5σ)": ((mean + stdDev * 1.5) * 100).toFixed(2) + "%",
         "Extreme (+2σ)": ((mean + 2 * stdDev) * 100).toFixed(2) + "%",
       });
     });
