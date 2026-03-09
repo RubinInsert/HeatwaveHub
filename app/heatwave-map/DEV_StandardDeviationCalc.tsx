@@ -101,13 +101,20 @@ export function DEV_StandardDeviationCalc({ geoData }: { geoData: any }) {
           0,
         ) / proportions.length,
       );
+      const isPercentage = label !== "NDVI (Vegetation Index)";
 
+      const format = (val: number) => {
+        if (isPercentage) {
+          return (val * 100).toFixed(2) + "%";
+        }
+        return val.toFixed(3); // NDVI is usually shown to 3 decimal places
+      };
       console.log(`--- ${label} ---`);
       console.table({
-        "Mean (NSW Avg)": (mean * 100).toFixed(2) + "%",
-        "Std Deviation": (stdDev * 100).toFixed(2) + "%",
-        "Warning (+1.5σ)": ((mean + stdDev * 1.5) * 100).toFixed(2) + "%",
-        "Extreme (+2σ)": ((mean + 2 * stdDev) * 100).toFixed(2) + "%",
+        "Mean (NSW Avg)": format(mean),
+        "Std Deviation": format(stdDev),
+        "Warning (High/Low)": format(mean + stdDev * 1.5),
+        "Extreme (High/Low)": format(mean + 2 * stdDev),
       });
     });
 

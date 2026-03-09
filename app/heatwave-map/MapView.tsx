@@ -11,7 +11,6 @@ import { AlertTriangleIcon, Icon } from "lucide-react";
 import CensusWarnings from "./CensusWarnings";
 import { DEV_StandardDeviationCalc } from "./DEV_StandardDeviationCalc";
 import VulnerabilityTable from "./DEV_Table";
-import loadData from "./DataParsing";
 const VIC_BOUNDS: [[number, number], [number, number]] = [
   [139.21, -38.31], // Southwest
   [161.13, -26.74], // Northeast
@@ -94,8 +93,9 @@ export default function MapView() {
   const years: Year[] = ["2030", "2050", "2070", "2090"];
   useEffect(() => {
     (async () => {
-      const mergedGeoJSON = await loadData();
-      console.log("Merged GeoJSON");
+      const mergedGeoJSON = await fetch("/data/nsw_lga.json").then((res) =>
+        res.json(),
+      );
       setGeoData(mergedGeoJSON);
     })();
   }, []);

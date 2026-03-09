@@ -80,9 +80,13 @@ export default function CensusWarnings({ hoverContext }: any) {
         VULNERABILITY_THRESHOLDS.MentalHealth_Pop && (
         <Warning warningText="High Proportion of People with Mental Health Issues" />
       )}
-      {Number(hoverContext.properties.ndvi_MEDIAN_NDVI) >
+      {Number(hoverContext.properties.ndvi_MEDIAN_NDVI) <
         VULNERABILITY_THRESHOLDS.NDVI && (
         <Warning warningText="Low Proportion of Vegetation" />
+      )}
+      {console.log(
+        hoverContext.properties.ndvi_MEDIAN_NDVI,
+        VULNERABILITY_THRESHOLDS.NDVI,
       )}
     </ul>
   );
