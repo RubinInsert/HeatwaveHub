@@ -1,4 +1,3 @@
-import AcmeLogo from "@/app/ui/acme-logo";
 import Link from "next/link";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import HeatwaveAssessment from "./HeatwaveAssessment";
@@ -22,9 +21,6 @@ export default async function Page() {
               Back to Hub
             </span>
           </Link>
-          <div className="hidden md:block">
-            <AcmeLogo />
-          </div>
           <div className="text-right">
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
               Personal Assessment

@@ -8,6 +8,8 @@ This file documents the setup and maintanance steps for the Heatwave hub.
 
 ### With Docker
 
+Ensure you uncomment `output: "standalone"` in the `next.config.ts` file
+
 ```
 docker compose up --build
 ```

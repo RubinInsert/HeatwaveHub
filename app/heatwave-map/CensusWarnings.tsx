@@ -84,10 +84,6 @@ export default function CensusWarnings({ hoverContext }: any) {
         VULNERABILITY_THRESHOLDS.NDVI && (
         <Warning warningText="Low Proportion of Vegetation" />
       )}
-      {console.log(
-        hoverContext.properties.ndvi_MEDIAN_NDVI,
-        VULNERABILITY_THRESHOLDS.NDVI,
-      )}
     </ul>
   );
 }
