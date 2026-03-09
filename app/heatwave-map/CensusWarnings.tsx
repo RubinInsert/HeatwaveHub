@@ -75,7 +75,7 @@ export default function CensusWarnings({ hoverContext }: any) {
         <Warning warningText="High Proportion of People with Long Term Health Conditions" />
       )}
       {/* If the LGA has a high proportion of people who suffer from mental health issues*/}
-      {Number(hoverContext.properties.mental_P_Mental_health_cond_Tot) /
+      {Number(hoverContext.properties.health_P_Mental_health_cond_Tot) /
         Number(hoverContext.properties.general_Tot_P_P) >
         VULNERABILITY_THRESHOLDS.MentalHealth_Pop && (
         <Warning warningText="High Proportion of People with Mental Health Issues" />
