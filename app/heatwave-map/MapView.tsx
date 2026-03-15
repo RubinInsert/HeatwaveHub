@@ -93,7 +93,7 @@ export default function MapView() {
   const years: Year[] = ["2030", "2050", "2070", "2090"];
   useEffect(() => {
     (async () => {
-      const mergedGeoJSON = await fetch("/data/nsw_lga.json").then((res) =>
+      const mergedGeoJSON = await fetch("/data/nsw_lga.geojson").then((res) =>
         res.json(),
       );
       setGeoData(mergedGeoJSON);
