@@ -9,8 +9,6 @@ import Papa from "papaparse"; // 1. Import PapaParse
 import MapContextSwitcher from "./MapContextSwitcher";
 import { AlertTriangleIcon, Icon } from "lucide-react";
 import CensusWarnings from "./CensusWarnings";
-import { DEV_StandardDeviationCalc } from "./DEV_StandardDeviationCalc";
-import VulnerabilityTable from "./DEV_Table";
 const VIC_BOUNDS: [[number, number], [number, number]] = [
   [139.21, -38.31], // Southwest
   [161.13, -26.74], // Northeast
@@ -185,11 +183,6 @@ export default function MapView() {
           )}
         </Map>
       </div>
-      {
-        geoData && (
-          <DEV_StandardDeviationCalc geoData={geoData} />
-        ) /* FOR DEVELOPMENT PURPOSES TO CALCULATE STANDARD DEVIATION */
-      }
     </div>
   );
 }
