@@ -64,9 +64,12 @@ export default function Page() {
             this tool provides an evidence-based foundation for Local Government
             Areas, Emergency Services, Government, and Health Authorities.
           </p>
-          <span>
-            View the map in full screen
-          </span>
+          <p className="mt-4 font-bold text-orange-600 text-lg">
+            <a href="heatwave-map/fullscreen">
+              View the map in full screen
+            </a>
+            <ArrowRightIcon className="inline w-4 h-4 ml-1" />
+          </p>
         </div>
       </div>
       <hr />
