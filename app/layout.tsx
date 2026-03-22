@@ -9,8 +9,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <body className={`${inter.className} antialiased p-0 m-0`}>
-        <header className="w-full h-auto bg-gray-300 border-b-4 border-red-400 flex items-center justify-center md:justify-between gap-4 px-6 flex-wrap py-3">
+      <body className={`${inter.className} antialiased p-0 m-0 h-dvh flex flex-col`}>
+        <header className="shrink-0 w-full h-auto bg-gray-300 border-b-4 border-red-400 flex items-center justify-center md:justify-between gap-4 px-6 flex-wrap py-3">
           <Image
             src="/heatwave-hub-logo.png"
             alt="Logo"

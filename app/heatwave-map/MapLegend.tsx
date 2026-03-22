@@ -1,4 +1,5 @@
 import type { Scenario } from "./MapContextSwitcher";
+import { useState, useEffect } from "react";
 export type LegendType = "exposure" | "vulnerability" | "risk";
 export const LEGEND_CONFIG: Record<string, { label: string; color: string }[]> =
   {
@@ -33,6 +34,12 @@ export const LEGEND_CONFIG: Record<string, { label: string; color: string }[]> =
     ],
   };
 export default function DynamicLegend({ scenario }: { scenario: Scenario }) {
+  const [isExpanded, setIsExpanded] = useState(false); // Default to collapsed
+
+  useEffect(() => {
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    setIsExpanded(isDesktop); // Start expanded on desktop, collapsed on mobile
+  }, []);
   // Group SSP2 and SSP3 under "risk" scale
   const activeScale =
     scenario === "exposure"
@@ -42,24 +49,40 @@ export default function DynamicLegend({ scenario }: { scenario: Scenario }) {
         : LEGEND_CONFIG.risk;
 
   return (
-    <div className="absolute top-6 left-6 z-10 bg-white/80 backdrop-blur-md p-3 rounded-lg shadow-md border border-white/50 w-48">
-      <h3 className="text-xs font-black uppercase text-slate-500 tracking-wider">
-        Legend: {scenario}
-      </h3>
-      <div className="flex flex-col gap-2 mt-3">
-        {activeScale.map((item, idx) => (
-          <div
-            key={idx}
-            className="flex items-center gap-2 text-slate-600 uppercase font-bold text-[10px]"
-          >
-            <div
-              className={`h-2 w-8 rounded-full`}
-              style={{ backgroundColor: item.color }} // Applying colour dynamically cannot be done via tailwind classes, so we use inline styles here
-            />
-            {item.label}
+    <div className="absolute top-3 left-3 z-10">
+      {!isExpanded && (
+        <button
+          onClick={() => setIsExpanded(true)}
+          className="bg-white/90 backdrop-blur-md px-3 py-2 rounded-lg shadow-md border border-white/50 text-xs font-bold text-slate-700"
+        >
+          Show Legend
+        </button>
+      )}
+
+      {isExpanded && (
+        <div className="bg-white/80 backdrop-blur-md p-3 rounded-lg shadow-md border border-white/50 w-44 sm:w-48 max-h-[45vh] overflow-y-auto">
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="text-xs font-black uppercase text-slate-500 tracking-wider">
+              Legend: {scenario}
+            </h3>
+            <button
+              onClick={() => setIsExpanded(false)}
+              className="text-[11px] text-slate-500 hover:text-slate-700"
+            >
+              Hide
+            </button>
           </div>
-        ))}
-      </div>
+
+          <div className="flex flex-col gap-2 mt-3">
+            {activeScale.map((item, idx) => (
+              <div key={idx} className="flex items-center gap-2 text-slate-600 text-[10px] font-bold">
+                <div className="h-2 w-8 shrink-0 rounded-full" style={{ backgroundColor: item.color }} />
+                <span className="leading-tight">{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

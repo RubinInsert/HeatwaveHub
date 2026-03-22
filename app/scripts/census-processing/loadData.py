@@ -1,12 +1,13 @@
 import sdmx
 import pandas as pd
-
+import time
 # CONFIG
 YEAR_PREFIX, GEO_LABEL, TIME_VAL = '21', 'LGA2021', '2021'
 abs_client = sdmx.Client('ABS_XML')
 
 # 1. DEFINE YOUR METRICS (Label: [Table, Dimension, Search Phrase])
-# Add every single metric you need here. 
+# Add every single metric you need here.
+# These can be found by inspecting the https://dataexplorer.abs.gov.au/  resource
 METRIC_CONFIG = {
     'total_population':        ['G01', 'PCHAR', 'P_1'],
     'indigenous':        ['G01', 'PCHAR', 'A_T'],
@@ -38,8 +39,10 @@ for res_id in tables_to_pull:
     ids_for_table = [v[2] for k, v in METRIC_CONFIG.items() if v[0] == res_id]
     dim_name = next(v[1] for v in METRIC_CONFIG.values() if v[0] == res_id)
     
+    print(f"Fetching {res_id} with {dim_name} in {ids_for_table}...")
     msg = abs_client.data(resource_id=f'C{YEAR_PREFIX}_{res_id}_LGA', 
                           key={'STATE': '1', dim_name: ids_for_table})
+    time.sleep(1)
     dfs[res_id] = sdmx.to_pandas(msg)
 
 # 3. DYNAMIC .XS() MAPPING

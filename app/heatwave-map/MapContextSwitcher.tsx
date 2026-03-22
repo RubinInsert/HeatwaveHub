@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export type Scenario = "vulnerability" | "exposure" | "SSP2" | "SSP3";
 export type Year = "2030" | "2050" | "2070" | "2090";
@@ -19,7 +19,12 @@ export default function MapContextSwitcher({
   setYear,
   years,
 }: SwitcherProps) {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false); // Default to collapsed
+
+useEffect(() => {
+const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+setIsExpanded(isDesktop); // Start expanded on desktop, collapsed on mobile
+}, []);
 
   return (
     <div

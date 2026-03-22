@@ -89,10 +89,11 @@ export default function MapView() {
     })();
   }, []);
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex h-full flex-col gap-4">
       {/* 2. The Switcher UI */}
-      <div className="h-[600px] w-full">
+      <div className="h-full w-full">
         <Map
+        style={{ width: "100%", height: "100%" }}
           initialViewState={{
             longitude: 144.9,
             latitude: -37.8,

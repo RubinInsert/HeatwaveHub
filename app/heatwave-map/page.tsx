@@ -50,7 +50,7 @@ export default function Page() {
         </div>
       </div>
       <div className="flex md:flex-row flex-col gap-8 mb-10">
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 bg-white p-2 md:w-1/2">
+        <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 bg-white p-2 md:w-1/2 h-[500px]">
           {" "}
           {/* Map Container */}
           <MapClient />
@@ -64,6 +64,9 @@ export default function Page() {
             this tool provides an evidence-based foundation for Local Government
             Areas, Emergency Services, Government, and Health Authorities.
           </p>
+          <span>
+            View the map in full screen
+          </span>
         </div>
       </div>
       <hr />
