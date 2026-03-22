@@ -71,16 +71,18 @@ for label, (res_id, dim_id, target_id) in METRIC_CONFIG.items():
 final_table = pd.DataFrame(extracted)
 final_table.index.name = 'LGA_CODE'
 
-import geopandas as gpd
-# 5. JOIN WITH GEOJSON
-gdf = gpd.read_file('nsw_lga.json')
-gdf['LGA_CODE25'] = gdf['LGA_CODE25'].astype(str)
-final_table.index = final_table.index.astype(str)
+# import geopandas as gpd
+# # 5. JOIN WITH GEOJSON
+# gdf = gpd.read_file('nsw_lga.json')
+# gdf = gdf.rename(columns={'LGA_CODE25': 'LGA_CODE'})
+# gdf = gdf.rename(columns={'LGA_NAME25': 'LGA_NAME'})
+# gdf['LGA_CODE'] = gdf['LGA_CODE'].astype(str)
+# final_table.index = final_table.index.astype(str)
 
-merged_gdf = gdf.merge(final_table, left_on='LGA_CODE25', right_index=True, how='left')
+# merged_gdf = gdf.merge(final_table, left_on='LGA_CODE', right_index=True, how='left')
 
-# Fill only the data columns with 0 to avoid the Geometry TypeError
-merged_gdf[list(METRIC_CONFIG.keys())] = merged_gdf[list(METRIC_CONFIG.keys())].fillna(0)
+# # Fill only the data columns with 0 to avoid the Geometry TypeError
+# merged_gdf[list(METRIC_CONFIG.keys())] = merged_gdf[list(METRIC_CONFIG.keys())].fillna(0)
 
 # 1. Load CSVs
 heatwave_df = pd.read_csv('heatwaveData.csv')
@@ -103,15 +105,17 @@ master_data = final_table.merge(
     how='left'
 )
 
+import geopandas as gpd
 # 5. Join with the 2025 GeoJSON
 gdf = gpd.read_file('nsw_lga.json')
-gdf['LGA_CODE25'] = gdf['LGA_CODE25'].astype(str)
+gdf = gdf.rename(columns={'LGA_CODE25': 'LGA_CODE', 'LGA_NAME25': 'LGA_NAME'})
+gdf['LGA_CODE'] = gdf['LGA_CODE'].astype(str)
 
 # We map the 2021 data onto the 2025 geometries
 # If the codes are different (e.g., 21550 vs 21551), this will result in NaNs
 merged_gdf = gdf.merge(
     master_data, 
-    left_on='LGA_CODE25', 
+    left_on='LGA_CODE', 
     right_on='LGA_CODE21', 
     how='left'
 )
@@ -120,6 +124,38 @@ merged_gdf = gdf.merge(
 # Identify numeric columns to fill with 0, ignoring the 'geometry'
 numeric_cols = merged_gdf.select_dtypes(include=['number']).columns
 merged_gdf[numeric_cols] = merged_gdf[numeric_cols].fillna(0)
+
+# 7. Calvulating the Standard Deviations, and creating a True/False column for each indicator whether the individual is over the standard deviation.
+
+
+# Define your groups
+vulnerability_map = {
+    'young': ['age_0_4'],
+    'elder': ['age_65_74', 'age_75_84', 'age_86ov'],
+    'indigenous': ['indigenous'],
+    'low_literacy': ['low_literacy'],
+    'low_income': ['income_nil', 'income_1_149', 'income_150_299', 'income_300_399', 'income_400_499', 'income_500_649'],
+    'living_alone': ['lone_person'],
+    'needs_assistance': ['needs_assistance'],
+    'health_condition': ['heart_disease', 'kidney_disease', 'lung_condition'],
+    'mental_health': ['mental_health_condition']
+}
+
+for key, columns in vulnerability_map.items():
+    # 1. Calculate Ratio
+    merged_gdf[f'{key}_ratio'] = merged_gdf[columns].sum(axis=1) / merged_gdf['total_population']
+    
+    # 2. Calculate Threshold (Mean + 1.5 Std)
+    thresh = merged_gdf[f'{key}_ratio'].mean() + (merged_gdf[f'{key}_ratio'].std() * 1.5)
+    
+    # 3. Store and Round
+    merged_gdf[f'{key}_threshold'] = thresh
+    merged_gdf[f'{key}_ratio'] = merged_gdf[f'{key}_ratio'].round(4)
+    merged_gdf[f'{key}_threshold'] = merged_gdf[f'{key}_threshold'].round(4)
+
+# Handle NDVI separately since it's a subtraction and not a ratio of total_pop
+ndvi_thresh = merged_gdf['MEDIAN_NDVI'].mean() - (merged_gdf['MEDIAN_NDVI'].std() * 1.5)
+merged_gdf['ndvi_threshold'] = round(ndvi_thresh, 4)
 
 # Save the final file
 merged_gdf.to_file("nsw_lga_2025_integrated.geojson", driver='GeoJSON')

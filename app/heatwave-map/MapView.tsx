@@ -20,15 +20,6 @@ const VIC_BOUNDS: [[number, number], [number, number]] = [
 
 type Scenario = "vulnerability" | "exposure" | "SSP2" | "SSP3";
 type Year = "2030" | "2050" | "2070" | "2090";
-interface CensusTable {
-  [metricName: string]: string | number;
-}
-
-// Define the structure of an LGA entry which contains multiple tables
-interface LgaCensusData {
-  LGA_CODE_2021?: string;
-  [tableId: string]: CensusTable | string | undefined;
-}
 
 export default function MapView() {
   const [scenario, setScenario] = useState<Scenario>("vulnerability");
@@ -149,7 +140,7 @@ export default function MapView() {
                 id="lga-labels"
                 type="symbol"
                 layout={{
-                  "text-field": ["get", "LGA_NAME25"],
+                  "text-field": ["get", "LGA_NAME"],
                   "text-size": [
                     "interpolate",
                     ["linear"],
@@ -187,7 +178,7 @@ export default function MapView() {
                 {/* Displays warnings based on census data. E.g. "Vulnerability Warning: High Proportion of Low Income people" */}
                 <CensusWarnings hoverContext={hoverInfo} />{" "}
                 <p className="text-xs text-gray-500 mt-2">
-                  LGA Code: {hoverInfo.properties.LGA_CODE25}
+                  LGA Code: {hoverInfo.properties.LGA_CODE}
                 </p>
               </div>
             </Popup>

@@ -17,71 +17,48 @@ export default function CensusWarnings({ hoverContext }: any) {
   return (
     <ul className="text-xs text-red-600 flex flex-col gap-2">
       {/* If the LGA has a young population with a proportion of more than 18% of the general population */}
-      {Number(hoverContext.properties.age_0_4) /
-        Number(hoverContext.properties.total_population) >
-        VULNERABILITY_THRESHOLDS.Young_Pop && (
+      {Number(hoverContext.properties.young_ratio) >
+        Number(hoverContext.properties.young_threshold) && (
         <Warning warningText="High Proportion of Young Children" />
       )}
       {/* If the LGA has a high proportion of elderly with more than 15% of the general population being over 65 */}
-      {(Number(hoverContext.properties.age_65_74) +
-        Number(hoverContext.properties.age_75_84) +
-        Number(hoverContext.properties.age_86ov)) /
-        Number(hoverContext.properties.total_population) >
-        VULNERABILITY_THRESHOLDS.Elder_Pop && (
+      {Number(hoverContext.properties.elder_ratio) > 
+        Number(hoverContext.properties.elder_threshold) && (
         <Warning warningText="High Proportion of Elderly" />
       )}
       {/* If the LGA has a high proportion of Indigenous population with more than 3% of the general population identifying as indigenous */}
-      {Number(hoverContext.properties.indigenous) /
-        Number(hoverContext.properties.total_population) >
-        VULNERABILITY_THRESHOLDS.Indigenous_Pop && (
+      {Number(hoverContext.properties.indigenous_ratio) >
+        Number(hoverContext.properties.indigenous_threshold) && (
         <Warning warningText="High Proportion of Indigenous Population" />
       )}
       {/* If the LGA has a high proportion of people with low english literacy
                     T_UOLSE_NWNAA_T - TOTAL_Uses_other_language_and_speaks_English_Not_well_or_not_at_all_Total */}
-      {Number(hoverContext.properties.low_literacy) /
-        Number(hoverContext.properties.total_population) >
-        VULNERABILITY_THRESHOLDS.LowLit_Pop && (
+      {Number(hoverContext.properties.low_literacy_ratio) >
+        Number(hoverContext.properties.low_literacy_threshold) && (
         <Warning warningText="High Proportion of Low English Literacy" />
       )}
       {/* If the LGA has a high proportion of people with low income (<$650/week)*/}
-      {(Number(hoverContext.properties.income_nil) +
-        Number(hoverContext.properties.income_1_149) +
-        Number(hoverContext.properties.income_150_299) +
-        Number(hoverContext.properties.income_300_399) +
-        Number(hoverContext.properties.income_400_499) +
-        Number(hoverContext.properties.income_500_650)) /
-        Number(hoverContext.properties.total_population) >
-        VULNERABILITY_THRESHOLDS.LowIncome_Pop && (
+      {Number(hoverContext.properties.low_income_ratio) > Number(hoverContext.properties.low_income_threshold) && (
         <Warning warningText="High Proportion of People with Low Income" />
       )}
       {/* If the LGA has a high proportion of people living alone with more than 15% of the general population living alone */}
-      {Number(hoverContext.properties.lone_person) /
-        Number(hoverContext.properties.total_population) >
-        VULNERABILITY_THRESHOLDS.LivingAlone_Pop && (
+      {Number(hoverContext.properties.living_alone_ratio) > Number(hoverContext.properties.living_alone_threshold) && (
         <Warning warningText="High Proportion of People Living Alone" />
       )}
       {/* If the LGA has a high proportion of people who need assistance */}
-      {Number(hoverContext.properties.needs_assistance) /
-        Number(hoverContext.properties.total_population) >
-        VULNERABILITY_THRESHOLDS.NeedingAssistance_Pop && (
+      {Number(hoverContext.properties.needs_assistance_ratio) > Number(hoverContext.properties.needs_assistance_threshold)&& (
         <Warning warningText="High Proportion of People Needing Assistance" />
       )}
       {/* If the LGA has a high proportion of people with long term cardiovascular, respiratory, or mental health conditions */}
-      {(Number(hoverContext.properties.heart_disease) +
-        Number(hoverContext.properties.kidney_disease) +
-        Number(hoverContext.properties.lung_condition)) /
-        Number(hoverContext.properties.total_population) >
-        VULNERABILITY_THRESHOLDS.HealthConditions_Pop && (
+      {Number(hoverContext.properties.health_condition_ratio) > Number(hoverContext.properties.health_condition_threshold) && (
         <Warning warningText="High Proportion of People with Long Term Health Conditions" />
       )}
       {/* If the LGA has a high proportion of people who suffer from mental health issues*/}
-      {Number(hoverContext.properties.mental_health_condition) /
-        Number(hoverContext.properties.total_population) >
-        VULNERABILITY_THRESHOLDS.MentalHealth_Pop && (
+      {Number(hoverContext.properties.mental_health_ratio) > Number(hoverContext.properties.mental_health_threshold) && (
         <Warning warningText="High Proportion of People with Mental Health Issues" />
       )}
-      {Number(hoverContext.properties.ndvi_MEDIAN_NDVI) <
-        VULNERABILITY_THRESHOLDS.NDVI && (
+      {Number(hoverContext.properties.MEDIAN_NDVI) <
+        hoverContext.properties.ndvi_threshold && (
         <Warning warningText="Low Proportion of Vegetation" />
       )}
     </ul>
