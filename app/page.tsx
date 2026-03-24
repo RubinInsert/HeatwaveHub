@@ -87,7 +87,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mt-12 md:ml-32 md:mr-32 border-t-8 border-gray-200 hover:border-orange-400 transition-colors duration-200 shadow-lg bg-white rounded-2xl overflow-hidden">
+      <section className="mt-12 md:ml-32 md:mr-32 border-t-8 border-gray-200 hover:border-orange-400 transition-colors duration-200 shadow-lg bg-white rounded-2xl">
         <div className="p-8 md:p-12 ">
           {/* Header Section */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 border-b border-gray-100 pb-8">
