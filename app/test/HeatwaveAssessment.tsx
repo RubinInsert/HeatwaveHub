@@ -37,12 +37,98 @@ export default function HeatwaveAssessment({
   const [step, setStep] = useState(0);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  
+  // Track multi-select values or text inputs locally before "Next"
+  const [tempInput, setTempInput] = useState<string[]>([]);
   const [userSelections, setUserSelections] = useState<
     { questionId: string; optionLabel: string; points: number }[]
   >([]);
   const totalSteps = questions.length;
   const currentQuestion = questions[step];
+  const handleNext = (finalValue?: string, points: number = 0) => {
+    const valueToSave = finalValue || tempInput.join(", ");
+    
+    const newSelection = {
+      questionId: currentQuestion.id,
+      optionLabel: valueToSave,
+      points: points,
+    };
 
+    const updatedSelections = [...userSelections, newSelection];
+    setUserSelections(updatedSelections);
+    setScore(prev => prev + points);
+    setTempInput([]); // Reset for next question
+
+    if (step + 1 < questions.length) {
+      setStep(step + 1);
+    } else {
+      setIsFinished(true);
+      // ... trigger your saveAssessment logic here
+    }
+  };
+const renderInput = () => {
+    switch (currentQuestion.type) {
+      case "TEXT":
+      case "NUMBER":
+        return (
+          <div className="space-y-4">
+            <input 
+              type={currentQuestion.type === "NUMBER" ? "number" : "text"}
+              className="w-full p-4 border-2 border-slate-200 rounded-xl focus:border-orange-500 outline-none text-xl"
+              placeholder="Enter details..."
+              onChange={(e) => setTempInput([e.target.value])}
+            />
+            <button 
+              onClick={() => handleNext(tempInput[0])}
+              className="w-full py-4 bg-orange-600 text-white rounded-xl font-bold"
+            >
+              Continue
+            </button>
+          </div>
+        );
+
+      case "CHECKBOX":
+        return (
+          <div className="grid grid-cols-1 gap-3">
+            {currentQuestion.options.map((opt: any) => (
+              <label key={opt.id} className="flex items-center gap-3 p-4 bg-slate-50 rounded-xl border-2 border-transparent has-[:checked]:border-orange-500 cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  className="w-5 h-5 accent-orange-600"
+                  onChange={(e) => {
+                    if(e.target.checked) setTempInput([...tempInput, opt.label]);
+                    else setTempInput(tempInput.filter(t => t !== opt.label));
+                  }}
+                />
+                <span className="text-3xl">{opt.icon}</span>
+                <span className="text-lg font-medium">{opt.label}</span>
+              </label>
+            ))}
+            <button 
+              onClick={() => handleNext()}
+              className="mt-4 w-full py-4 bg-orange-600 text-white rounded-xl font-bold"
+            >
+              Next Step
+            </button>
+          </div>
+        );
+
+      default: // RADIO (Your original logic)
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {currentQuestion.options.map((option: any) => (
+              <button
+                key={option.label}
+                onClick={() => handleNext(option.label, option.score)}
+                className="flex items-center gap-4 p-6 bg-slate-50 border-2 border-slate-100 rounded-2xl hover:border-orange-500 hover:bg-white transition-all text-left"
+              ><span className="text-3xl">{option.icon}</span>
+                <span className="text-xl font-bold">{option.label}</span>
+              </button>
+            ))}
+          </div>
+        );
+    }
+  };
   const handleOptionClick = async (points: number, optionLabel: string) => {
     const newSelection = {
       questionId: currentQuestion.id,
@@ -192,23 +278,7 @@ export default function HeatwaveAssessment({
           {currentQuestion.text}
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {currentQuestion.options.map((option: any) => (
-            <button
-              key={option.label}
-              onClick={() => handleOptionClick(option.score, option.label)}
-              className="group relative flex items-center justify-between p-6 bg-slate-50 border-2 border-slate-100 rounded-2xl hover:border-orange-500 hover:bg-white hover:shadow-lg transition-all duration-200 text-left"
-            >
-              <div className="flex items-center gap-4">
-                <span className="text-4xl">{option.icon}</span>
-                <span className="text-xl font-bold text-slate-700 group-hover:text-slate-900">
-                  {option.label}
-                </span>
-              </div>
-              <ChevronRight className="w-6 h-6 text-slate-300 group-hover:text-orange-500 transform group-hover:translate-x-1 transition-all" />
-            </button>
-          ))}
-        </div>
+        {renderInput()}
       </div>
 
       <p className="mt-12 text-sm text-slate-400 italic text-center">

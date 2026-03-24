@@ -29,14 +29,15 @@ model Assessment {
 }
 
 model Question {
-  id           String   @id @default(cuid())
-  text         String   // e.g., "Are you over 65?"
-  slug         String   @unique // e.g., "is-over-65"
-  category     String   // e.g., "Risk Profile"
-  isActive     Boolean  @default(true) // Allows you to "remove" questions without deleting data
-  weight       Int      @default(1)    // Use this for calculating scores
-  options      Option[]  // Connects multiple options (buttons) to one question
-  answers      Answer[]
+  id        String   @id @default(cuid())
+  text      String   
+  slug      String   @unique 
+  category  String   
+  type      String   @default("RADIO") // NEW: "RADIO", "CHECKBOX", "TEXT", "NUMBER"
+  isActive  Boolean  @default(true)
+  weight    Int      @default(1)
+  options   Option[]
+  answers   Answer[]
 }
 model Option {
   id           String   @id @default(cuid())
