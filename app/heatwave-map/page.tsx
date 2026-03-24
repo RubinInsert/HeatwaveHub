@@ -4,10 +4,12 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import MapClient from "./MapClient";
 import ExpandableCard from "./ExpandableCard";
+import PageNavigation from "../components/PageNavigation";
 // This disables Server-Side Rendering for the map component
 export default function Page() {
   return (
     <main className="flex min-h-screen flex-col p-6">
+      <PageNavigation href="/" label="Heatwave Risk Map" />
       <div className="flex flex-col md:flex-row justify-between items-start gap-8 mb-10 border-b pb-8">
         <div className="max-w-3xl">
           <h1 className="text-4xl font-extrabold tracking-tight text-slate-900">

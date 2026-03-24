@@ -1,6 +1,7 @@
 import "@/app/ui/global.css";
 import { inter } from "@/app/ui/fonts";
 import Image from "next/image";
+import PageNavigation from "./components/PageNavigation";
 export default function RootLayout({
   children,
 }: {
@@ -38,7 +39,6 @@ export default function RootLayout({
             </ul>
           </nav>
         </header>
-
         {children}
       </body>
     </html>

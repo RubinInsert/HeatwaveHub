@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import HeatwaveAssessment from "./HeatwaveAssessment";
 import { prisma } from "app/lib/prisma";
+import PageNavigation from "../components/PageNavigation";
 export default async function Page() {
   const questions = await prisma.question.findMany({
     where: { isActive: true },
@@ -12,23 +13,7 @@ export default async function Page() {
   return (
     <main className="flex min-h-screen flex-col bg-slate-50">
       {/* 1. Specialized Assessment Header */}
-      <header className="w-full bg-white border-b border-slate-200 p-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="p-2 bg-slate-100 rounded-lg group-hover:bg-orange-100 transition-colors">
-              <ChevronLeftIcon className="w-5 h-5 text-slate-600 group-hover:text-orange-600" />
-            </div>
-            <span className="font-medium text-slate-600 group-hover:text-slate-900 transition-colors">
-              Back to Hub
-            </span>
-          </Link>
-          <div className="text-right">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-              Personal Assessment
-            </p>
-          </div>
-        </div>
-      </header>
+      <PageNavigation href="/" label="Heatwave Readiness Assessment" />
 
       {/* 2. Hero Context Section */}
       <section className="py-12 px-6">

@@ -78,7 +78,7 @@ export default function Page() {
             label="View Heatwave Risk Map"
           />
           <NavCard
-            href="/"
+            href="/about"
             bgColor="bg-purple-400"
             iconSrc="/icons/question-icon.svg"
             altText="Question Icon"

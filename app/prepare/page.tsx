@@ -6,6 +6,7 @@ import {
   BuildingOffice2Icon,
   MegaphoneIcon,
 } from "@heroicons/react/24/outline";
+import PageNavigation from "../components/PageNavigation";
 
 export default function PreparePage() {
   // LGA Data stays here as it's static for now
@@ -32,18 +33,9 @@ export default function PreparePage() {
 
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col">
+      
       {/* Navigation */}
-      <div className="bg-white border-b border-gray-200 p-6 sticky top-0 z-20">
-        <div className="max-w-6xl mx-auto flex items-center gap-4">
-          <Link
-            href="/"
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-          >
-            <ArrowLeftIcon className="w-6 h-6 text-gray-700" />
-          </Link>
-          <h1 className="text-2xl font-black text-gray-900">Preparation Hub</h1>
-        </div>
-      </div>
+      <PageNavigation href="/" label="Heatwave Preparedness" />
 
       {/* COMPONENT: Individual Tips Carousel */}
       <SlideTips />
