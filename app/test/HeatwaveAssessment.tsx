@@ -43,9 +43,22 @@ export default function HeatwaveAssessment({
   const [userSelections, setUserSelections] = useState<
     { questionId: string; optionLabel: string; points: number }[]
   >([]);
+  const [isSaving, setIsSaving] = useState(false);
   const totalSteps = questions.length;
   const currentQuestion = questions[step];
-  const handleNext = (finalValue?: string, points: number = 0) => {
+  const getAnswerByQuestionSlug = (
+    selections: { questionId: string; optionLabel: string; points: number }[],
+    slug: string,
+  ) => {
+    const question = questions.find((q) => q.slug === slug);
+    if (!question) return undefined;
+    return selections.find((selection) => selection.questionId === question.id)
+      ?.optionLabel;
+  };
+
+  const handleNext = async (finalValue?: string, points: number = 0) => {
+    if (isSaving) return;
+
     const valueToSave = finalValue || tempInput.join(", ");
     
     const newSelection = {
@@ -55,15 +68,36 @@ export default function HeatwaveAssessment({
     };
 
     const updatedSelections = [...userSelections, newSelection];
+    const updatedScore = score + points;
+
     setUserSelections(updatedSelections);
-    setScore(prev => prev + points);
+    setScore(updatedScore);
     setTempInput([]); // Reset for next question
 
     if (step + 1 < questions.length) {
       setStep(step + 1);
     } else {
+      setIsSaving(true);
       setIsFinished(true);
-      // ... trigger your saveAssessment logic here
+
+      const risk = getRiskLevelForScore(updatedScore);
+
+      try {
+        await saveAssessment({
+          postcode: getAnswerByQuestionSlug(updatedSelections, "postcode") ?? "Unknown",
+          ageGroup: getAnswerByQuestionSlug(updatedSelections, "age-group") ?? "Unknown",
+          gender:
+            getAnswerByQuestionSlug(updatedSelections, "gender") ??
+            "Prefer not to say",
+          totalScore: updatedScore,
+          riskLevel: risk.label,
+          selections: updatedSelections,
+        });
+      } catch (err) {
+        console.error("Failed to save assessment:", err);
+      } finally {
+        setIsSaving(false);
+      }
     }
   };
 const renderInput = () => {
@@ -129,46 +163,11 @@ const renderInput = () => {
         );
     }
   };
-  const handleOptionClick = async (points: number, optionLabel: string) => {
-    const newSelection = {
-      questionId: currentQuestion.id,
-      optionLabel: optionLabel,
-      points: points,
-    };
-
-    const updatedSelections = [...userSelections, newSelection];
-    const updatedScore = score + points;
-
-    // 2. Update state for the UI
-    setUserSelections(updatedSelections);
-    setScore(updatedScore);
-
-    if (step + 1 < totalSteps) {
-      setStep(step + 1);
-    } else {
-      setIsFinished(true);
-
-      const risk = getRiskLevelForScore(updatedScore);
-      try {
-        await saveAssessment({
-          postcode: "2300",
-          ageGroup: "30-39",
-          gender: "Prefer not to say",
-          totalScore: updatedScore, // Use the local constant
-          riskLevel: risk.label,
-          selections: updatedSelections, // Use the local constant
-        });
-        console.log("Assessment saved successfully");
-      } catch (err) {
-        console.error("Failed to save:", err);
-      }
-    }
-  };
-
   const resetAssessment = () => {
     setStep(0);
     setScore(0);
     setIsFinished(false);
+    setIsSaving(false);
   };
 
   const getRiskLevelForScore = (currentScore: number) => {
@@ -282,8 +281,8 @@ const renderInput = () => {
       </div>
 
       <p className="mt-12 text-sm text-slate-400 italic text-center">
-        Your data is not stored. This assessment is for educational purposes
-        only.
+        Responses may be stored securely to support heatwave research and
+        improve this assessment.
       </p>
     </section>
   );
