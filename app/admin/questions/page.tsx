@@ -33,7 +33,7 @@ export default async function AdminQuestionsPage() {
     },
     orderBy: [{ weight: "asc" }, { category: "asc" }, { text: "asc" }],
   });
-
+  return "This page is disabled.";
   return (
     <main className="min-h-screen bg-slate-50">
       <PageNavigation href="/" label="Admin: Questionnaire Builder" />

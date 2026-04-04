@@ -4,11 +4,24 @@ import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import HeatwaveAssessment from "./HeatwaveAssessment";
 import { prisma } from "app/lib/prisma";
 import PageNavigation from "../components/PageNavigation";
+import { UnplugIcon } from "lucide-react";
+import { redirect, RedirectType } from "next/navigation";
+import { Prisma } from "@/prisma/generated/prisma/client";
+type QuestionWithOptions = Prisma.QuestionGetPayload<{
+  include: { options: true };
+}>;
+let questions : QuestionWithOptions[];
+let hasReqFailed = false;
 export default async function Page() {
-  const questions = await prisma.question.findMany({
-    where: { isActive: true },
-    include: { options: true },
-  });
+  try {
+    questions = await prisma.question.findMany({
+      where: { isActive: true },
+      include: { options: true },
+    });
+  } catch (err) {
+    hasReqFailed = true;
+    
+  }
   console.log("Active Questions:", questions);
   return (
     <main className="flex min-h-screen flex-col bg-slate-50">
@@ -27,10 +40,21 @@ export default async function Page() {
             minutes.
           </p>
         </div>
-
         {/* 3. The Assessment Component */}
-        <HeatwaveAssessment questions={questions} />
-
+        {!hasReqFailed && questions &&
+          (
+            <HeatwaveAssessment questions={questions} />
+          )
+        } 
+        {hasReqFailed &&
+          (
+            <a href="" className="flex flex-col gap-3 items-center max-w-2xl mx-auto p-8 bg-red-600 border border-8 border-red-900 text-white rounded-3xl shadow-xl animate-in fade-in zoom-in duration-500 hover:scale-105">
+              <UnplugIcon width={128} height={128}></UnplugIcon>
+              <h1 className="text-2xl">The questions could not be found!</h1>
+              <p>Try clicking me to refreshing the page.</p>
+            </a>
+          )
+        }
         {/* 4. Support/Privacy Footer */}
         <div className="max-w-2xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-slate-200 pt-8">
           <div>
