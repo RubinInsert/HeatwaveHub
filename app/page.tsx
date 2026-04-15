@@ -57,11 +57,11 @@ export default function Page() {
             label="Prepare"
           />
           <NavCard
-            href="/"
+            href="https://www.climatechange.environment.nsw.gov.au/resources-and-research/climate-risk-ready-nsw-guide"
             bgColor="bg-green-400"
-            iconSrc="/icons/fan-icon.svg"
+            iconSrc="/icons/thermostat-up-icon.svg"
             altText="Fan Icon"
-            label="Find A Cooling Centre Near You"
+            label="LGA Climate Change Maturity Assessment"
           />
           <NavCard
             href="/test"

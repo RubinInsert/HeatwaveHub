@@ -43,7 +43,7 @@ export default function AboutPage() {
             Building Resilience to Heatwaves in Regional NSW
           </h2>
           <p className="text-lg text-gray-700 max-w-3xl">
-            A University of Newcastle-led research project funded by the Australian Government's Disaster Ready Fund, working to improve preparedness for escalating heatwave threats in New South Wales.
+            A University of Newcastle-led research project funded by the Australian Government's Disaster Ready Fund, working to improve preparedness for the escalating heatwave threats in New South Wales.
           </p>
         </div>
       </section>
@@ -55,13 +55,13 @@ export default function AboutPage() {
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Project Overview</h3>
             <div className="space-y-4 text-gray-700">
               <p>
-                This cross-disciplinary research project aims to improve preparedness for the escalating threat of heatwaves in regional NSW. Awarded over <strong>$1.3 million in funding</strong>, the 3-year project will deliver evidence-based strategies and tools to help communities, local government, and researchers understand and respond to heatwave risks.
+                Heatwaves are Australia’s deadliest natural hazard, and their frequency, duration, and intensity are increasing under climate change. The Heatwave Hub, funded by the Disaster Ready Fund aims to improve understanding of where and why communities are most at risk from extreme heat and to support targeted adaptation and resilience planning across New South Wales (NSW).
               </p>
               <p>
-                Preliminary research reveals that communities in regional NSW and western greater Sydney face the highest heatwave risk. However, several eastern seaboard Local Government Areas (LGAs)—including Lake Macquarie and the Central Coast—have experienced increased heatwave risk over the last two decades, often combined with aging populations that face heightened vulnerability.
+                Using advanced geospatial analysis and modeling, the project will identify vulnerable populations, assess current and future heat risks, and pinpoint best practices for heatwave adaptation. Collaboration with Local Government Areas (LGAs) ensures that councils can integrate heatwave resilience into urban planning and service delivery.
               </p>
               <p>
-                Extreme heatwaves pose risks to anyone who doesn't take cooling and hydration precautions. Research shows that <strong>elderly residents living at home</strong> are among the most vulnerable populations in our communities.
+                Through interviews, focus groups, and co-design workshops, stakeholders will collaboratively identify gaps, share experiences, and develop locally relevant strategies. By combining data-driven insights with participatory approaches, the Heatwave Hub empowers communities, strengthens planning and service delivery, and helps reduce the health and social impacts of increasingly frequent and intense heatwaves.
               </p>
             </div>
           </div>

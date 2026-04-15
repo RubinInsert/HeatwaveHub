@@ -10,8 +10,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Heatwave Hub - Centralised Heatwave Information for Community Resilience</title>
       <body className={`${inter.className} antialiased p-0 m-0 h-dvh flex flex-col`}>
         <header className="shrink-0 w-full h-auto bg-gray-300 border-b-4 border-red-400 flex items-center justify-center md:justify-between gap-4 px-6 flex-wrap py-3">
+          <a href="/" className="text-center md:text-left">
           <Image
             src="/heatwave-hub-logo.png"
             alt="Logo"
@@ -19,12 +21,13 @@ export default function RootLayout({
             height={827 / 10}
             unoptimized={false}
           />
-          <div className="text-center md:text-left">
+          </a>
+          <a href="/" className="text-center md:text-left">
             <h1 className="text-2xl font-black text-blue-900">HEATWAVE HUB</h1>
             <h2 className="text-xl font-normal text-blue-900">
               Community Resilience Initiative
             </h2>
-          </div>
+          </a>
           <nav className="md:justify-self-end md:ml-auto">
             <ul className="flex gap-4 items-center justify-center text-center">
               <li>
@@ -32,8 +35,8 @@ export default function RootLayout({
               </li>
               <span className="inline text-gray-400">|</span>
               <li>
-                <a className="block h-full w-full" href="/dashboard">
-                  Search Your Local Government Area
+                <a className="block h-full w-full" href="/heatwave-map">
+                  Find Your LGA's Heatwave Risk
                 </a>
               </li>
             </ul>

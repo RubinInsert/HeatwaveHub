@@ -172,7 +172,7 @@ export default function MapView() {
             >
               <div className="p-2 text-black">
                 <h3 className="font-bold border-b mb-1">
-                  {hoverInfo.properties.LGA_NAME25 || "LGA Details"}
+                  {hoverInfo.properties.LGA_NAME || "LGA Details"}
                 </h3>
                 {/* Displays warnings based on census data. E.g. "Vulnerability Warning: High Proportion of Low Income people" */}
                 <CensusWarnings hoverContext={hoverInfo} />{" "}
