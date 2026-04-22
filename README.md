@@ -1,6 +1,6 @@
 # Heatwave Hub
 
-The Heatwave Hub is a centralized website which provides important information regarding heatwaves to LGAs and individuals. The website includes a personalized questionaire for a personal score, a mapping tool to analyze past, present, and projected vulnerability of NSW LGAs.
+The Heatwave Hub is a centralised website which provides important information regarding heatwaves to LGAs and individuals. The website includes a personalized questionaire for a personal score, a mapping tool to analyze past, present, and projected vulnerability of NSW LGAs.
 
 This file documents the setup and maintanance steps for the Heatwave hub.
 

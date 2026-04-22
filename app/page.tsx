@@ -37,7 +37,7 @@ export default function Page() {
           <div className="flex h-full items-center p-12 bg-black/40 text-white relative z-10 backdrop-blur-sm hover:backdrop-blur duration-300">
             <div className="max-w-2xl">
               <h1 className="text-xl md:text-5xl font-black mb-4 drop-shadow-lg">
-                Centralized Heatwave Info
+                Centralised Heatwave Info
               </h1>
               <p className="text-l md:text-xl opacity-90">
                 Your go-to resource for building community resilience against
