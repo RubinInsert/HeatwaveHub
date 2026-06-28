@@ -15,6 +15,7 @@ Where you absent from work – how many days
 import React, { useState, useEffect } from "react";
 import { Question } from "@/prisma/generated/prisma/client";
 import { saveAssessment } from "app/actions/submit-assessment";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import {
   ShieldCheck,
   AlertTriangle,
@@ -83,6 +84,9 @@ export default function HeatwaveAssessment({
       const risk = getRiskLevelForScore(updatedScore);
 
       try {
+        const fp = await FingerprintJS.load();
+        const result = await fp.get(); // Get the unique visitor identifier
+        const visitorId = result.visitorId;
         await saveAssessment({
           postcode: getAnswerByQuestionSlug(updatedSelections, "postcode") ?? "Unknown",
           ageGroup: getAnswerByQuestionSlug(updatedSelections, "age-group") ?? "Unknown",
@@ -92,6 +96,7 @@ export default function HeatwaveAssessment({
           totalScore: updatedScore,
           riskLevel: risk.label,
           selections: updatedSelections,
+          fingerprint: visitorId, // Include the fingerprint in the data sent to the server
         });
       } catch (err) {
         console.error("Failed to save assessment:", err);

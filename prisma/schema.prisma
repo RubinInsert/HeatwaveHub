@@ -16,6 +16,7 @@ datasource db {
 
 model Assessment {
   id              String   @id @default(cuid())
+  fingerprint     String   @unique
   createdAt       DateTime @default(now())
   postcode        String
   ageGroup        String

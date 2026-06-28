@@ -10,8 +10,8 @@ const redis = new Redis({
 // Create the ratelimiter instance
 export const ratelimit = new Ratelimit({
   redis: redis,
-  // 1 request per 24 hours (86400 seconds)
-  limiter: Ratelimit.slidingWindow(1, "86400 s"),
+  // 10 request per hour
+  limiter: Ratelimit.slidingWindow(10, "1 h"),
   analytics: true,
   prefix: "@upstash/ratelimit",
 });

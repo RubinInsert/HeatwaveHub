@@ -3,7 +3,9 @@
 import { prisma } from "app/lib/prisma";
 import { ratelimit } from "../lib/ratelimit";
 import { headers } from "next/headers";
+import { createHash } from "crypto";
 export async function saveAssessment(data: any) {
+  
   if (!process.env.DATABASE_URL) {
     console.log("No Database URL found. Skipping save (Demo Mode).");
     return { success: true, id: "demo-mode" };
@@ -14,7 +16,7 @@ export async function saveAssessment(data: any) {
   if (ip === "unknown") {
     console.warn("Could not determine IP address for rate limiting.");
   }
-  const { success, limit, reset, remaining } = await ratelimit.limit(
+  const { success, limit, reset, remaining } = await ratelimit.limit( // Rate limit based exclusively on IP address to prevent bot submission abuse.
     `survey_submit_${ip}`,
   );
   console.log(`IP: ${ip} | Remaining: ${remaining} | Success: ${success}`);
@@ -25,8 +27,11 @@ export async function saveAssessment(data: any) {
     };
   }
   try {
+    const userIdentification = `${data.fingerprint}_${data.postcode}_${data.ageGroup}`; // For database submission, combine fingerprint, postcode, and age group to create a unique identifier for the user. This helps in preventing duplicate submissions from the same user.
+    const hashedFingerprint = createHash("sha256").update(userIdentification).digest("hex"); // Hash the combined identifier for privacy and security.
     const submission = await prisma.assessment.create({
       data: {
+        fingerprint: hashedFingerprint,
         postcode: data.postcode,
         ageGroup: data.ageGroup,
         gender: data.gender, // Matches schema
