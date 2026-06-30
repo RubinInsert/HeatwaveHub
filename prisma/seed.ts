@@ -94,7 +94,7 @@ async function main() {
     },
     {
       text: "Do you identify as Indigenous or Torrens Straight Islander?",
-      slug: "medical-care",
+      slug: "itsi-identification",
       category: "Heat Exposure",
       type: "RADIO",
       options: [
@@ -123,7 +123,7 @@ async function main() {
     },
     {
       text: "Does your household include dependents",
-      slug: "age-group",
+      slug: "dependents",
       category: "Demographics",
       type: "RADIO",
       options: [
@@ -135,7 +135,7 @@ async function main() {
     },
     {
       text: "How well do you understand heat warnings and emergency information in English?",
-      slug: "age-group",
+      slug: "english-comprehension",
       category: "Demographics",
       type: "RADIO",
       options: [
@@ -242,44 +242,196 @@ async function main() {
       ],
     },
     {
-      text: "How did you manage your symptoms?",
-      slug: "management-actions",
-      category: "Management",
-      type: "CHECKBOX",
-      options: [
-        { label: "Stopped or reduced activity", icon: "🛑", score: 0 },
-        { label: "Removed clothing", icon: "👕", score: 0 },
-        { label: "Drank more fluids", icon: "🥤", score: 0 },
-        { label: "Stayed inside / sought shade", icon: "🌳", score: 0 },
-        { label: "Had a shower or bath", icon: "🚿", score: 0 },
-        { label: "Went for a swim", icon: "🏊", score: 0 },
-        { label: "Sprayed/splashed with water", icon: "💦", score: 0 },
-        { label: "Turned on fan", icon: "🌬️", score: 0 },
-        { label: "Turned on air conditioning", icon: "❄️", score: 0 },
-        { label: "Found a cooler location", icon: "🏢", score: 0 },
-        { label: "Other", icon: "✨", score: 0 },
-      ],
-    },
-    {
-      text: "Where did you seek help to manage symptoms?",
-      slug: "management-source",
-      category: "Management",
+      text: "What is the main way you cool your home?",
+      slug: "cooling-method",
+      category: "Home Cooling",
       type: "RADIO",
       options: [
-        { label: "Pharmacy", icon: "💊", score: 0 },
-        { label: "Medical Centre", icon: "🏥", score: 0 },
-        { label: "Hospital", icon: "🚑", score: 0 },
-        { label: "Other", icon: "❓", score: 0 },
-        { label: "Did not seek medical help", icon: "🏠", score: 0 },
+        { label: "Air conditioning (at least one cooled room to retreat to)", icon: "🛑", score: 0 },
+        { label: "Evaporative cooling", icon: "👕", score: 0 },
+        { label: "Portable air conditioner or fan only", icon: "🥤", score: 0 },
+        { label: "No cooling", icon: "🌳", score: 0 }
       ],
     },
     {
-      text: "Were you absent from work due to these symptoms? (Enter number of days)",
-      slug: "work-absence",
-      category: "Work",
-      type: "NUMBER",
-      options: [], 
+      text: "Does your cooling keep your home comfortable on very hot days?",
+      slug: "cooling-effectiveness",
+      category: "Home Cooling",
+      type: "RADIO",
+      options: [
+        { label: "Yes, it works well", icon: "🛑", score: 0 },
+        { label: "It works somewhat", icon: "👕", score: 0 },
+        { label: "No, it doesnt work well", icon: "🥤", score: 0 },
+        { label: "I don't have cooling (NA)", icon: "🌳", score: 0 }
+      ],
     },
+    {
+      text: "Can you afford to run your cooling whenever you need it during a heatwave?",
+      slug: "cooling-affordability",
+      category: "Home Cooling",
+      type: "RADIO",
+      options: [
+        { label: "Yes, always", icon: "🛑", score: 0 },
+        { label: "Yes, most of the time", icon: "👕", score: 0 },
+        { label: "Only sometimes", icon: "🥤", score: 0 },
+        { label: "No, never", icon: "🥤", score: 0 },
+        { label: "I don't have cooling (NA)", icon: "🌳", score: 0 }
+      ],
+    },
+    {
+    text: "About when was your home built?",
+    slug: "home-built-year",
+    category: "Housing Thermal Performance",
+    type: "RADIO",
+    options: [
+      { label: "2003 or later", icon: "🏠", score: 0 },
+      { label: "Don't know", icon: "❓", score: 0 },
+      { label: "Before 2003", icon: "🧱", score: 0 }
+    ],
+    },
+    {
+      text: "What type of home do you live in?",
+      slug: "home-type",
+      category: "Housing Thermal Performance",
+      type: "RADIO",
+      options: [
+        { label: "Detached house", icon: "🏠", score: 0 },
+        { label: "Semi-detached house, townhouse, or duplex (joined to one other home)", icon: "🏡", score: 0 },
+        { label: "Apartment or unit", icon: "🏢", score: 0 },
+        { label: "Other (for example: mobile home, granny flat, caravan)", icon: "🚐", score: 0 }
+      ],
+    },
+    {
+      text: "What are the outside walls of your home mainly made of?",
+      slug: "wall-material",
+      category: "Housing Thermal Performance",
+      type: "RADIO",
+      options: [
+        { label: "Brick", icon: "🧱", score: 0 },
+        { label: "Weatherboard", icon: "🪵", score: 0 },
+        { label: "Cement sheets", icon: "📐", score: 0 },
+        { label: "Mixed", icon: "🔄", score: 0 },
+        { label: "Other", icon: "✨", score: 0 },
+        { label: "Don't know", icon: "❓", score: 0 }
+      ],
+    },
+    {
+      text: "What type of roof do you have?",
+      slug: "roof-type",
+      category: "Housing Thermal Performance",
+      type: "RADIO",
+      options: [
+        { label: "Light coloured", icon: "⚪", score: 0 },
+        { label: "Tiled", icon: "🧱", score: 0 },
+        { label: "Colourbond", icon: "🟩", score: 0 },
+        { label: "Dark coloured", icon: "⚫", score: 0 }
+      ],
+    },
+    {
+      text: "What insulation does your home have? (Tick all that apply)",
+      slug: "home-insulation",
+      category: "Housing Thermal Performance",
+      type: "CHECKBOX",
+      options: [
+        { label: "Window protection (e.g. double glazing or tinting)", icon: "🪟", score: 0 },
+        { label: "Wall insulation", icon: "🧱", score: 0 },
+        { label: "Roof insulation", icon: "🪵", score: 0 },
+        { label: "None", icon: "❌", score: 0 },
+        { label: "Unsure", icon: "❓", score: 0 }
+      ],
+    },
+    {
+      text: "Does your home have external shading?",
+      slug: "external-shading",
+      category: "Housing Thermal Performance",
+      type: "RADIO",
+      options: [
+        { label: "External blinds, awnings, or shutters", icon: "🏁", score: 0 },
+        { label: "No built-in shading, but trees provide shade", icon: "🌳", score: 0 },
+        { label: "No external shading at all", icon: "☀️", score: 0 }
+      ],
+    },
+    {
+      text: "Can you modify your home to keep it cooler?",
+      slug: "home-modification",
+      category: "Housing Thermal Performance",
+      type: "RADIO",
+      options: [
+        { label: "Yes, any changes", icon: "🛠️", score: 0 },
+        { label: "Some small changes", icon: "🔨", score: 0 },
+        { label: "No", icon: "❌", score: 0 }
+      ],
+    },
+    {
+      text: "Can you change your daily routine to avoid being outside hottest part of the day?",
+      slug: "routine-flexibility",
+      category: "Personal Adaptation",
+      type: "RADIO",
+      options: [
+        { label: "Yes, usually", icon: "✅", score: 0 },
+        { label: "Sometimes", icon: "⏳", score: 0 },
+        { label: "No, I can’t change my routine", icon: "❌", score: 0 }
+      ],
+    },
+    {
+      text: "If you work or study, can you change your hours or take extra breaks on very hot days?",
+      slug: "work-study-flexibility",
+      category: "Personal Adaptation",
+      type: "RADIO",
+      options: [
+        { label: "Yes", icon: "✅", score: 0 },
+        { label: "No", icon: "❌", score: 0 },
+        { label: "NA", icon: "⚪", score: 0 }
+      ],
+    },
+    {
+      text: "Do you know of a place you could realistically go to cool down outside of home during a heatwave if you needed to?",
+      slug: "cool-retreat-knowledge",
+      category: "Cooling Infrastructure, Transport & Connectivity",
+      type: "RADIO",
+      options: [
+        { label: "Yes, and I could access at least one of them", icon: "🏃", score: 0 },
+        { label: "Yes, but I would have difficulty accessing them (e.g. transport, cost, hours, other barriers)", icon: "⚠️", score: 0 },
+        { label: "I don’t have any cool places", icon: "❌", score: 0 }
+      ],
+    },
+    {
+      text: "In your local area, do you have access to any of the following? (Tick all that apply)",
+      slug: "local-amenities",
+      category: "Cooling Infrastructure, Transport & Connectivity",
+      type: "CHECKBOX",
+      options: [
+        { label: "A park, garden, or green space with shade trees", icon: "🌳", score: 0 },
+        { label: "A beach, river, lake, or other water body", icon: "🏖️", score: 0 },
+        { label: "A public pool or splash park", icon: "🏊", score: 0 },
+        { label: "None of these", icon: "❌", score: 0 }
+      ],
+    },
+    {
+      text: "If you needed to get to a cool place or access essential services during a heatwave, how would you get there?",
+      slug: "heatwave-transport",
+      category: "Cooling Infrastructure, Transport & Connectivity",
+      type: "RADIO",
+      options: [
+        { label: "I have my own car", icon: "🚗", score: 0 },
+        { label: "I could arrange private transport", icon: "🤝", score: 0 },
+        { label: "I could use public transport", icon: "🚌", score: 0 },
+        { label: "I walk / ride a bike", icon: "🚲", score: 0 },
+        { label: "I would have difficulty getting there", icon: "⚠️", score: 0 }
+      ],
+    },
+    {
+      text: "Do you have reliable access to the internet or phone data when you need information or services?",
+      slug: "data-connectivity",
+      category: "Cooling Infrastructure, Transport & Connectivity",
+      type: "RADIO",
+      options: [
+        { label: "Yes, always", icon: "📶", score: 0 },
+        { label: "Sometimes", icon: "⏳", score: 0 },
+        { label: "Rarely", icon: "📉", score: 0 },
+        { label: "No access", icon: "❌", score: 0 }
+      ],
+    }
   ];
 
   // 3. Insert into Database
