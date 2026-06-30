@@ -250,12 +250,13 @@ async function main() {
         { label: "Air conditioning (at least one cooled room to retreat to)", icon: "🛑", score: 0 },
         { label: "Evaporative cooling", icon: "👕", score: 0 },
         { label: "Portable air conditioner or fan only", icon: "🥤", score: 0 },
-        { label: "No cooling", icon: "🌳", score: 0 }
+        { label: "No cooling", icon: "🌳", score: 0, followup: ["cooling-effectiveness", "cooling-affordability"]}
       ],
     },
     {
       text: "Does your cooling keep your home comfortable on very hot days?",
       slug: "cooling-effectiveness",
+      isFollowup: true,
       category: "Home Cooling",
       type: "RADIO",
       options: [
@@ -268,6 +269,7 @@ async function main() {
     {
       text: "Can you afford to run your cooling whenever you need it during a heatwave?",
       slug: "cooling-affordability",
+      isFollowup: true,
       category: "Home Cooling",
       type: "RADIO",
       options: [
@@ -436,14 +438,23 @@ async function main() {
 
   // 3. Insert into Database
   for (const q of questionsData) {
+    // Map over the options to guarantee every single one has a 'followup' array
+    const sanitizedOptions = q.options.map((opt) => ({
+      label: opt.label,
+      icon: opt.icon,
+      score: opt.score,
+      // If 'followup' exists in the seed object, use it; otherwise, provide an empty array
+      followup: "followup" in opt && Array.isArray(opt.followup) ? opt.followup : [],
+    }));
     await prisma.question.create({
       data: {
         text: q.text,
         slug: q.slug,
+        isFollowup: 'isFollowup' in q ? (q.isFollowup as boolean) : false,
         category: q.category,
         type: q.type,
         options: {
-          create: q.options,
+          create: sanitizedOptions,
         },
       },
     });

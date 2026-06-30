@@ -35,6 +35,7 @@ model Question {
   slug      String   @unique 
   category  String   
   type      String   @default("RADIO") // NEW: "RADIO", "CHECKBOX", "TEXT", "NUMBER"
+  isFollowup Boolean  @default(false)
   isActive  Boolean  @default(true)
   weight    Int      @default(1)
   options   Option[]
@@ -46,6 +47,7 @@ model Option {
   icon         String   // e.g., "🏠" or "ShieldCheck"
   score        Int      // The points this specific button is worth
   questionId   String
+  followup     String[] // Array of slugs for follow-up questions
   question     Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }
 model Answer {
