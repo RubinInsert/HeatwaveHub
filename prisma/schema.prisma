@@ -31,6 +31,7 @@ model Assessment {
 
 model Question {
   id        String   @id @default(cuid())
+  order     Int
   text      String   
   slug      String   @unique 
   category  String   
@@ -49,13 +50,19 @@ model Option {
   questionId   String
   followup     String[] // Array of slugs for follow-up questions
   question     Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  answers    Answer[]
 }
 model Answer {
-  id            String     @id @default(cuid())
-  assessmentId  String
-  questionId    String
-  value         String     // Store response as a string or JSON to handle booleans/text
+  id           String     @id @default(cuid())
+  assessmentId String
+  questionId   String
   
-  assessment    Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
-  question      Question   @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  // Handles plain text, numbers, or serialized selections natively
+  value        Json       
+  
+  // Connects the answer directly to the structured options picked (if applicable)
+  selectedOptions Option[] 
+
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  question     Question   @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }

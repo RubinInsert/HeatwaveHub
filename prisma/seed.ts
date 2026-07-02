@@ -27,9 +27,10 @@ async function main() {
   await prisma.question.deleteMany();
 
   // 2. Questions Array
-  const questionsData = [
+const questionsData = [
     {
       text: "A bit about you – what is your gender?",
+      order: 0,
       slug: "gender",
       category: "Demographics",
       type: "RADIO",
@@ -42,6 +43,7 @@ async function main() {
     {
       text: "Where do you get heat warnings and emergency information? (Tick all that apply)",
       slug: "heat-information-sources",
+      order: 1,
       category: "Risk Profile",
       type: "CHECKBOX",
       options: [
@@ -62,6 +64,7 @@ async function main() {
     {
       text: "On very hot days, how many hours do you spend outdoors for work, study, or other things you must do?",
       slug: "risk-factors",
+      order: 2,
       category: "Heat Exposure",
       type: "RADIO",
       options: [
@@ -74,6 +77,7 @@ async function main() {
     {
       text: "Have you ever sought medical care to the effects of heat?",
       slug: "medical-care",
+      order: 3,
       category: "Heat Exposure",
       type: "RADIO",
       options: [
@@ -84,6 +88,7 @@ async function main() {
     {
       text: "Do you do any of the following types of work? (Tick all that apply)",
       slug: "work-types",
+      order: 4,
       category: "Heat Exposure",
       type: "CHECKBOX",
       options: [
@@ -95,6 +100,7 @@ async function main() {
     {
       text: "Do you identify as Indigenous or Torrens Straight Islander?",
       slug: "itsi-identification",
+      order: 5,
       category: "Heat Exposure",
       type: "RADIO",
       options: [
@@ -105,6 +111,7 @@ async function main() {
     {
       text: "What is your postcode?",
       slug: "postcode",
+      order: 6,
       category: "Location",
       type: "NUMBER",
       options: [], // Text inputs don't need predefined options
@@ -112,6 +119,7 @@ async function main() {
     {
       text: "What age group are you in?",
       slug: "age-group",
+      order: 7,
       category: "Demographics",
       type: "RADIO",
       options: [
@@ -124,6 +132,7 @@ async function main() {
     {
       text: "Does your household include dependents",
       slug: "dependents",
+      order: 8,
       category: "Demographics",
       type: "RADIO",
       options: [
@@ -136,6 +145,7 @@ async function main() {
     {
       text: "How well do you understand heat warnings and emergency information in English?",
       slug: "english-comprehension",
+      order: 9,
       category: "Demographics",
       type: "RADIO",
       options: [
@@ -148,6 +158,7 @@ async function main() {
     {
       text: "In general, how would you rate your health?",
       slug: "general-health",
+      order: 10,
       category: "Health Profile",
       type: "RADIO",
       options: [
@@ -160,6 +171,7 @@ async function main() {
     {
       text: "Do you have any of the following long-term health conditions? (Tick all that apply)",
       slug: "long-term-conditions",
+      order: 11,
       category: "Health Profile",
       type: "RADIO",
       options: [
@@ -175,6 +187,7 @@ async function main() {
     {
       text: "Do you take any medicines that make it harder for your body to handle heat?",
       slug: "heat-sensitive-medicines",
+      order: 12,
       category: "Health Profile",
       type: "RADIO",
       options: [
@@ -185,6 +198,7 @@ async function main() {
     {
       text: "Are you pregnant or currently breastfeeding?",
       slug: "pregnant-breastfeeding",
+      order: 13,
       category: "Health Profile",
       type: "RADIO",
       options: [
@@ -195,6 +209,7 @@ async function main() {
     {
       text: "Do you need help from another person to manage daily activities?",
       slug: "daily-assistance",
+      order: 14,
       category: "Health Profile",
       type: "RADIO",
       options: [
@@ -206,6 +221,7 @@ async function main() {
     {
       text: "Which best describes your household situation?",
       slug: "household-situation",
+      order: 15,
       category: "Social Connectedness",
       type: "RADIO",
       options: [
@@ -217,6 +233,7 @@ async function main() {
     {
       text: "Is there someone who would check on you during a heatwave?",
       slug: "social-support",
+      order: 16,
       category: "Social Connectedness",
       type: "RADIO",
       options: [
@@ -228,6 +245,7 @@ async function main() {
     {
       text: "Who would be most likely to check up on you during a heatwave?",
       slug: "social-support-person",
+      order: 17,
       category: "Social Connectedness",
       type: "RADIO",
       options: [
@@ -244,6 +262,7 @@ async function main() {
     {
       text: "What is the main way you cool your home?",
       slug: "cooling-method",
+      order: 18,
       category: "Home Cooling",
       type: "RADIO",
       options: [
@@ -257,6 +276,7 @@ async function main() {
       text: "Does your cooling keep your home comfortable on very hot days?",
       slug: "cooling-effectiveness",
       isFollowup: true,
+      order: 19,
       category: "Home Cooling",
       type: "RADIO",
       options: [
@@ -270,6 +290,7 @@ async function main() {
       text: "Can you afford to run your cooling whenever you need it during a heatwave?",
       slug: "cooling-affordability",
       isFollowup: true,
+      order: 20,
       category: "Home Cooling",
       type: "RADIO",
       options: [
@@ -281,19 +302,21 @@ async function main() {
       ],
     },
     {
-    text: "About when was your home built?",
-    slug: "home-built-year",
-    category: "Housing Thermal Performance",
-    type: "RADIO",
-    options: [
-      { label: "2003 or later", icon: "🏠", score: 0 },
-      { label: "Don't know", icon: "❓", score: 0 },
-      { label: "Before 2003", icon: "🧱", score: 0 }
-    ],
+      text: "About when was your home built?",
+      slug: "home-built-year",
+      order: 21,
+      category: "Housing Thermal Performance",
+      type: "RADIO",
+      options: [
+        { label: "2003 or later", icon: "🏠", score: 0 },
+        { label: "Don't know", icon: "❓", score: 0 },
+        { label: "Before 2003", icon: "🧱", score: 0 }
+      ],
     },
     {
       text: "What type of home do you live in?",
       slug: "home-type",
+      order: 22,
       category: "Housing Thermal Performance",
       type: "RADIO",
       options: [
@@ -306,6 +329,7 @@ async function main() {
     {
       text: "What are the outside walls of your home mainly made of?",
       slug: "wall-material",
+      order: 23,
       category: "Housing Thermal Performance",
       type: "RADIO",
       options: [
@@ -320,6 +344,7 @@ async function main() {
     {
       text: "What type of roof do you have?",
       slug: "roof-type",
+      order: 24,
       category: "Housing Thermal Performance",
       type: "RADIO",
       options: [
@@ -332,6 +357,7 @@ async function main() {
     {
       text: "What insulation does your home have? (Tick all that apply)",
       slug: "home-insulation",
+      order: 25,
       category: "Housing Thermal Performance",
       type: "CHECKBOX",
       options: [
@@ -345,6 +371,7 @@ async function main() {
     {
       text: "Does your home have external shading?",
       slug: "external-shading",
+      order: 26,
       category: "Housing Thermal Performance",
       type: "RADIO",
       options: [
@@ -356,6 +383,7 @@ async function main() {
     {
       text: "Can you modify your home to keep it cooler?",
       slug: "home-modification",
+      order: 27,
       category: "Housing Thermal Performance",
       type: "RADIO",
       options: [
@@ -367,6 +395,7 @@ async function main() {
     {
       text: "Can you change your daily routine to avoid being outside hottest part of the day?",
       slug: "routine-flexibility",
+      order: 28,
       category: "Personal Adaptation",
       type: "RADIO",
       options: [
@@ -378,6 +407,7 @@ async function main() {
     {
       text: "If you work or study, can you change your hours or take extra breaks on very hot days?",
       slug: "work-study-flexibility",
+      order: 29,
       category: "Personal Adaptation",
       type: "RADIO",
       options: [
@@ -389,6 +419,7 @@ async function main() {
     {
       text: "Do you know of a place you could realistically go to cool down outside of home during a heatwave if you needed to?",
       slug: "cool-retreat-knowledge",
+      order: 30,
       category: "Cooling Infrastructure, Transport & Connectivity",
       type: "RADIO",
       options: [
@@ -400,6 +431,7 @@ async function main() {
     {
       text: "In your local area, do you have access to any of the following? (Tick all that apply)",
       slug: "local-amenities",
+      order: 31,
       category: "Cooling Infrastructure, Transport & Connectivity",
       type: "CHECKBOX",
       options: [
@@ -412,6 +444,7 @@ async function main() {
     {
       text: "If you needed to get to a cool place or access essential services during a heatwave, how would you get there?",
       slug: "heatwave-transport",
+      order: 32,
       category: "Cooling Infrastructure, Transport & Connectivity",
       type: "RADIO",
       options: [
@@ -425,6 +458,7 @@ async function main() {
     {
       text: "Do you have reliable access to the internet or phone data when you need information or services?",
       slug: "data-connectivity",
+      order: 33,
       category: "Cooling Infrastructure, Transport & Connectivity",
       type: "RADIO",
       options: [
@@ -435,7 +469,6 @@ async function main() {
       ],
     }
   ];
-
   // 3. Insert into Database
   for (const q of questionsData) {
     // Map over the options to guarantee every single one has a 'followup' array
@@ -453,6 +486,7 @@ async function main() {
         isFollowup: 'isFollowup' in q ? (q.isFollowup as boolean) : false,
         category: q.category,
         type: q.type,
+        order: q.order,
         options: {
           create: sanitizedOptions,
         },

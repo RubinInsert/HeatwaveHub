@@ -17,6 +17,7 @@ export default async function Page() {
     questions = await prisma.question.findMany({
       where: { isActive: true },
       include: { options: true },
+      orderBy: { order: "asc" },
     });
   } catch (err) {
     hasReqFailed = true;
