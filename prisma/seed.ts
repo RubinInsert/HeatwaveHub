@@ -266,10 +266,10 @@ const questionsData = [
       category: "Home Cooling",
       type: "RADIO",
       options: [
-        { label: "Air conditioning (at least one cooled room to retreat to)", icon: "🛑", score: 0 },
-        { label: "Evaporative cooling", icon: "👕", score: 0 },
-        { label: "Portable air conditioner or fan only", icon: "🥤", score: 0 },
-        { label: "No cooling", icon: "🌳", score: 0, followup: ["cooling-effectiveness", "cooling-affordability"]}
+        { label: "Air conditioning (at least one cooled room to retreat to)", icon: "🛑", score: 0, followup: ["cooling-effectiveness", "cooling-affordability"] },
+        { label: "Evaporative cooling", icon: "👕", score: 0, followup: ["cooling-effectiveness", "cooling-affordability"] },
+        { label: "Portable air conditioner or fan only", icon: "🥤", score: 0, followup: ["cooling-effectiveness", "cooling-affordability"] },
+        { label: "No cooling", icon: "🌳", score: 0}
       ],
     },
     {
