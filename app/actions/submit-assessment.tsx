@@ -10,9 +10,13 @@ type SaveAssessmentData = {
   ageGroup: string;
   gender: string;
   totalScore: number;
-  riskLevel?: string;
+  riskLevel?: string;          // optional — currently commented out in your call
+  selections: {
+    questionId: string; // Now uses the question slug (e.g. "risk-factors")
+    optionLabel: string;
+    points: number;
+  }[];
   fingerprint: string;
-  answers: Record<string, string | string[]>;
 };
 export async function saveAssessment(data: SaveAssessmentData) {
   
@@ -40,7 +44,6 @@ export async function saveAssessment(data: SaveAssessmentData) {
     const userIdentification = `${data.fingerprint}_${data.postcode}_${data.ageGroup}`; // For database submission, combine fingerprint, postcode, and age group to create a unique identifier for the user. This helps in preventing duplicate submissions from the same user.
     const hashedFingerprint = createHash("sha256").update(userIdentification).digest("hex"); // Hash the combined identifier for privacy and security.
     const riskScore = calculateRiskLevel(data); // Calculate the risk level based on the total score or other criteria.
-    return { success: true, id: 0 };
     const submission = await prisma.assessment.create({
       data: {
         fingerprint: hashedFingerprint,
@@ -71,6 +74,6 @@ export async function saveAssessment(data: SaveAssessmentData) {
 
 function calculateRiskLevel(data: SaveAssessmentData): string {
   // Example
-  console.log(data.answers);
+  
   return "X score"
 }

@@ -44,7 +44,6 @@ model Question {
 }
 model Option {
   id           String   @id @default(cuid())
-  slug         String
   label        String   // e.g., "Yes"
   icon         String   // e.g., "🏠" or "ShieldCheck"
   score        Int      // The points this specific button is worth
