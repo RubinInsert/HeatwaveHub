@@ -175,6 +175,25 @@ export default function HeatwaveAssessment({
         const result = await fp.get();
         const visitorId = result.visitorId;
 
+        // Transform AnswerState[] to the expected selections format
+        const selections = updatedAnswers.map((ans) => {
+          // Extract the optionLabel from selectedOptions or from the value
+          let optionLabel = "";
+          if (ans.selectedOptions.length > 0) {
+            optionLabel = ans.selectedOptions.map((o) => o.label).join(", ");
+          } else if (typeof ans.value === "string") {
+            optionLabel = ans.value;
+          } else if (Array.isArray(ans.value)) {
+            optionLabel = ans.value.join(", ");
+          }
+          
+          return {
+            questionId: ans.questionId,
+            optionLabel,
+            points: ans.points,
+          };
+        });
+
         await saveAssessment({
           postcode: getAnswerValueBySlug(updatedAnswers, "postcode"),
           ageGroup: getAnswerValueBySlug(updatedAnswers, "age-group"),
@@ -182,8 +201,7 @@ export default function HeatwaveAssessment({
           totalScore: updatedScore,
           riskLevel: risk.label,
           fingerprint: visitorId,
-          // Re-mapped structural answers perfectly nested for your save actions
-          selections: updatedAnswers, 
+          selections,
         });
       } catch (err) {
         console.error("Failed to securely save submission summary:", err);
