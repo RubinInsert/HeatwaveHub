@@ -23,13 +23,7 @@ type SelectedOptionSummary = {
   score: number;
 };
 
-type AnswerState = {
-  questionId: string;
-  questionSlug: string;
-  value: any; // Mapped directly to Json in Prisma
-  selectedOptions: SelectedOptionSummary[];
-  points: number;
-};
+type AnswersMap = Record<string, string | string[]>
 
 export default function HeatwaveAssessment({
   questions,
@@ -43,7 +37,7 @@ export default function HeatwaveAssessment({
   const [processedCount, setProcessedCount] = useState(0);
 
   // ASSESSMENT STATES
-  const [userAnswers, setUserAnswers] = useState<AnswerState[]>([]);
+  const [answersMap, setAnswersMap] = useState<AnswersMap>({});
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -64,97 +58,62 @@ export default function HeatwaveAssessment({
     }
   }, [questions]);
 
-  // HELPER FOR POST-SUBMIT EXTRACTIONS
-  const getAnswerValueBySlug = (answers: AnswerState[], slug: string): string => {
-    const matched = answers.find((ans) => ans.questionSlug === slug);
-    if (!matched) return "Unknown";
-    if (typeof matched.value === "object" && Array.isArray(matched.value)) {
-      return matched.value.join(", ");
-    }
-    return String(matched.value);
-  };
-
   const handleNext = async (
     type: "RADIO" | "CHECKBOX" | "TEXT" | "NUMBER",
     payload?: { option?: any; selectedList?: any[]; primitiveValue?: string | number }
   ) => {
     if (isSaving || !currentQuestion) return;
 
-    let finalValue: any = null;
-    let selectedOptionsToSave: SelectedOptionSummary[] = [];
+    // ✅ Change type to only string | string[]
+    let finalValue: string | string[] = "";
     let questionPoints = 0;
     let followUpSlugsToInject: string[] = [];
 
-    // 1. CONDITIONAL EVALUATION BASED ON CURRENT INPUT TYPE
+    // 1. CONDITIONAL EVALUATION
     if (type === "RADIO" && payload?.option) {
       const opt = payload.option;
-      finalValue = opt.label;
-      selectedOptionsToSave = [{ id: opt.id, label: opt.label, score: opt.score }];
+      finalValue = opt.slug;
       questionPoints = opt.score * currentQuestion.weight;
-      if (opt.followup && opt.followup.length > 0) {
-        followUpSlugsToInject = opt.followup;
-      }
+      if (opt.followup?.length) followUpSlugsToInject = opt.followup;
     } 
     else if (type === "CHECKBOX") {
-      if (checkedOptions.length === 0) return; // Prevent empty progressions on required options
-      finalValue = checkedOptions.map((o) => o.label);
-      selectedOptionsToSave = checkedOptions.map((o) => ({
-        id: o.id,
-        label: o.label,
-        score: o.score,
-      }));
+      if (checkedOptions.length === 0) return;
+      finalValue = checkedOptions.map((o) => o.slug);
       questionPoints = checkedOptions.reduce((acc, curr) => acc + curr.score, 0) * currentQuestion.weight;
-      
-      // Collect collective follow-up dependencies across multiple checks
       checkedOptions.forEach((opt) => {
         if (opt.followup) followUpSlugsToInject.push(...opt.followup);
       });
     } 
     else if (type === "TEXT" || type === "NUMBER") {
       const entry = payload?.primitiveValue ?? textInput;
-      if (!entry.trim()) return;
-      finalValue = type === "NUMBER" ? Number(entry) : entry;
-      // Plain textual responses don't yield predefined relation point mappings
-      selectedOptionsToSave = [];
-      questionPoints = 0; 
+      if (!entry.toString().trim()) return;
+      finalValue = String(entry); // ✅ Always string
+      questionPoints = 0;
     }
 
-    // 2. CONSTRUCT NEW HISTORICAL ANSWER STATE
-    const newAnswer: AnswerState = {
-      questionId: currentQuestion.id,
-      questionSlug: currentQuestion.slug,
-      value: finalValue,
-      selectedOptions: selectedOptionsToSave,
-      points: questionPoints,
-    };
-
-    const updatedAnswers = [...userAnswers, newAnswer];
+    // 2. UPDATE ANSWERS MAP
+    const newAnswerEntry = { [currentQuestion.slug]: finalValue };
+    const updatedAnswersMap = { ...answersMap, ...newAnswerEntry };
     const updatedScore = score + questionPoints;
 
     setScore(updatedScore);
-    setUserAnswers(updatedAnswers);
+    setAnswersMap(updatedAnswersMap);
 
-    // 3. FLUSH TEMPORARY BUFFERS
+    // 3. FLUSH BUFFERS
     setTextInput("");
     setCheckedOptions([]);
 
-    // 4. QUEUE PROGRESSION & DYNAMIC FOLLOW-UP INJECTIONS
+    // 4. QUEUE PROGRESSION
     let updatedQueue = [...visibleQueue];
-    // Remove the current node we just resolved
     updatedQueue.shift();
 
     if (followUpSlugsToInject.length > 0) {
-      // Fetch entire target records matching target relational conditional slugs
       const followUpQuestions = questions.filter(
         (q) => followUpSlugsToInject.includes(q.slug) && q.isActive
       );
-      
-      // Avoid injecting duplicate tasks if they are currently inside active structures
       const filteredFollowUps = followUpQuestions.filter(
         (fq) => !updatedQueue.some((q) => q.id === fq.id)
       );
-
-      // Prepend dependencies immediately into our processing line
       updatedQueue = [...filteredFollowUps, ...updatedQueue];
     }
 
@@ -165,7 +124,6 @@ export default function HeatwaveAssessment({
     if (updatedQueue.length > 0) {
       setCurrentQuestion(updatedQueue[0]);
     } else {
-      // 5. FINALIZE & SYNC DATA CONTEXTS OVER DATABASE ACTIONS
       setIsSaving(true);
       setIsFinished(true);
       const risk = getRiskLevelForScore(updatedScore);
@@ -175,33 +133,14 @@ export default function HeatwaveAssessment({
         const result = await fp.get();
         const visitorId = result.visitorId;
 
-        // Transform AnswerState[] to the expected selections format
-        const selections = updatedAnswers.map((ans) => {
-          // Extract the optionLabel from selectedOptions or from the value
-          let optionLabel = "";
-          if (ans.selectedOptions.length > 0) {
-            optionLabel = ans.selectedOptions.map((o) => o.label).join(", ");
-          } else if (typeof ans.value === "string") {
-            optionLabel = ans.value;
-          } else if (Array.isArray(ans.value)) {
-            optionLabel = ans.value.join(", ");
-          }
-          
-          return {
-            questionId: ans.questionId,
-            optionLabel,
-            points: ans.points,
-          };
-        });
-
         await saveAssessment({
-          postcode: getAnswerValueBySlug(updatedAnswers, "postcode"),
-          ageGroup: getAnswerValueBySlug(updatedAnswers, "age-group"),
-          gender: getAnswerValueBySlug(updatedAnswers, "gender") || "Prefer not to say",
+          postcode: (updatedAnswersMap["postcode"] as string) || "",
+          ageGroup: (updatedAnswersMap["age-group"] as string) || "",
+          gender: (updatedAnswersMap["gender"] as string) || "Prefer not to say",
           totalScore: updatedScore,
           riskLevel: risk.label,
           fingerprint: visitorId,
-          selections,
+          answers: updatedAnswersMap,
         });
       } catch (err) {
         console.error("Failed to securely save submission summary:", err);
@@ -210,7 +149,6 @@ export default function HeatwaveAssessment({
       }
     }
   };
-
   const renderInput = () => {
     if (!currentQuestion) return null;
 
@@ -307,7 +245,7 @@ export default function HeatwaveAssessment({
     setCurrentQuestion(baseQuestions[0] || null);
     setHistory([]);
     setProcessedCount(0);
-    setUserAnswers([]);
+    setAnswersMap({});
     setScore(0);
     setIsFinished(false);
     setIsSaving(false);
