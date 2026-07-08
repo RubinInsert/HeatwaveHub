@@ -4,7 +4,7 @@ import { prisma } from "app/lib/prisma";
 import { ratelimit } from "../lib/ratelimit";
 import { headers } from "next/headers";
 import { createHash } from "crypto";
-import INDEX_TYPE_MAP from "./indexTypeMapping";
+import ASSESSMENT_SCORE_MAP from "./indexTypeMapping";
 type SaveAssessmentData = {
   postcode: string;
   ageGroup: string;
@@ -70,7 +70,71 @@ export async function saveAssessment(data: SaveAssessmentData) {
 }
 
 function calculateRiskLevel(data: SaveAssessmentData): string {
-  // Example
-  console.log(data.answers);
-  return "X score"
+  // Helper function to calculate the average answer score for a single index type
+  const getAverageForIndexType = (indexType: "EXPOSURE" | "SENSITIVITY" | "ADAPTIVE"): number => {
+    // Filter the ASSESSMENT_SCORE_MAP to get only the questions relevant to the specified index type
+    const relevantQuestions = ASSESSMENT_SCORE_MAP.filter(
+      ([_, questionConfig]) => questionConfig.index_type === indexType
+    );
+
+    let totalScoreSum = 0;
+    let answeredQuestionCount = 0;
+    // Iterate through the relevant questions and calculate the average score based on user answers
+    for (const [questionSlug, config] of relevantQuestions) {
+      const userAnswer = data.answers[questionSlug];
+      
+      // Skip missing or empty answers
+      if (!userAnswer || (Array.isArray(userAnswer) && userAnswer.length === 0)) {
+        continue;
+      }
+
+      // Check array first and cleanly process their option slugs.
+      if (Array.isArray(userAnswer)) {
+        let checkboxSum = 0;
+        let validOptionsCount = 0;
+
+        userAnswer.forEach((optionSlug) => {
+          const score = config.options[optionSlug];
+          if (score !== undefined) {
+            checkboxSum += score;
+            validOptionsCount++;
+          }
+        });
+
+        if (validOptionsCount > 0) {
+          totalScoreSum += checkboxSum / validOptionsCount; // Average score for particular checkbox question
+          answeredQuestionCount++;
+        }
+      } 
+      // Handle fallback string variants (just in case)
+      else {
+        const score = config.options[userAnswer];
+        if (score !== undefined) {
+          totalScoreSum += score;
+          answeredQuestionCount++;
+        }
+      }
+    }
+
+    return answeredQuestionCount > 0 ? totalScoreSum / answeredQuestionCount : 0;
+  };
+
+  // 2. Compute the averages for all three index pillars
+  const exposureAvg = getAverageForIndexType("EXPOSURE");
+  const sensitivityAvg = getAverageForIndexType("SENSITIVITY");
+  const adaptiveAvg = getAverageForIndexType("ADAPTIVE");
+
+  // 3. Apply your formula: (EXPOSURE_AVG * SENSITIVITY_AVG) / ADAPTIVE_AVG
+  const finalScore = adaptiveAvg > 0 
+    ? (exposureAvg * sensitivityAvg) / adaptiveAvg 
+    : 0;
+
+  console.log({
+    exposureAvg,
+    sensitivityAvg,
+    adaptiveAvg,
+    finalScore
+  });
+
+  return `${finalScore.toFixed(2)} score`;
 }

@@ -72,7 +72,7 @@ export default function HeatwaveAssessment({
     // 1. CONDITIONAL EVALUATION
     if (type === "RADIO" && payload?.option) {
       const opt = payload.option;
-      finalValue = opt.slug;
+      finalValue = [opt.slug]; // Wrap as an array to indicate pre-defined selection.
       questionPoints = opt.score * currentQuestion.weight;
       if (opt.followup?.length) followUpSlugsToInject = opt.followup;
     } 
