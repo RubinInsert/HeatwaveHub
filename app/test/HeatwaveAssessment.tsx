@@ -38,7 +38,7 @@ export default function HeatwaveAssessment({
 
   // ASSESSMENT STATES
   const [answersMap, setAnswersMap] = useState<AnswersMap>({});
-  const [score, setScore] = useState(0);
+  const [calculatedScore, setCalculatedScore] = useState<number | null>(null);
   const [isFinished, setIsFinished] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -94,9 +94,7 @@ export default function HeatwaveAssessment({
     // 2. UPDATE ANSWERS MAP
     const newAnswerEntry = { [currentQuestion.slug]: finalValue };
     const updatedAnswersMap = { ...answersMap, ...newAnswerEntry };
-    const updatedScore = score + questionPoints;
 
-    setScore(updatedScore);
     setAnswersMap(updatedAnswersMap);
 
     // 3. FLUSH BUFFERS
@@ -126,22 +124,20 @@ export default function HeatwaveAssessment({
     } else {
       setIsSaving(true);
       setIsFinished(true);
-      const risk = getRiskLevelForScore(updatedScore);
 
       try {
         const fp = await FingerprintJS.load();
         const result = await fp.get();
         const visitorId = result.visitorId;
-
-        await saveAssessment({
+        type GenderType = "MALE" | "FEMALE" | "OTHER" | "PREFER_NOT_TO_SAY";
+        const { success, id, error, score  } = await saveAssessment({
           postcode: (updatedAnswersMap["postcode"] as string) || "",
           ageGroup: (updatedAnswersMap["age-group"] as string) || "",
-          gender: (updatedAnswersMap["gender"] as string) || "Prefer not to say",
-          totalScore: updatedScore,
-          riskLevel: risk.label,
+          gender: (updatedAnswersMap["gender"] as GenderType) || "PREFER_NOT_TO_SAY",
           fingerprint: visitorId,
           answers: updatedAnswersMap,
         });
+        setCalculatedScore(score ? parseFloat(score) : null);
       } catch (err) {
         console.error("Failed to securely save submission summary:", err);
       } finally {
@@ -246,7 +242,7 @@ export default function HeatwaveAssessment({
     setHistory([]);
     setProcessedCount(0);
     setAnswersMap({});
-    setScore(0);
+    setCalculatedScore(null);
     setIsFinished(false);
     setIsSaving(false);
   };
@@ -279,18 +275,16 @@ export default function HeatwaveAssessment({
   const percentComplete = Math.min(Math.round((processedCount / totalEstimatedSteps) * 100), 100);
 
   if (isFinished) {
-    const risk = getRiskLevelForScore(score);
     return (
       <div className="max-w-2xl mx-auto p-8 bg-white rounded-3xl shadow-xl border border-slate-100 animate-in fade-in zoom-in duration-500">
-        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 ${risk.bg} ${risk.color}`}>
-          {risk.icon}
-          <span className="font-bold uppercase tracking-wider">{risk.label}</span>
+        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6`}>
+          <span className="font-bold uppercase tracking-wider"> RISK LABEL </span>
         </div>
 
         <h2 className="text-4xl font-black text-slate-900 mb-4">Your Assessment Result</h2>
         <p className="text-slate-600 text-lg mb-8">
-          Your calculated vulnerability score is <span className="font-bold text-slate-900">{score}</span>.
-          {score > 50
+          Your calculated vulnerability score is <span className="font-bold text-slate-900">{calculatedScore}</span>.
+          {calculatedScore !== null && calculatedScore > 50
             ? " We strongly recommend reviewing your heatwave plan with a medical professional."
             : " You have a good foundation, but staying informed is key."}
         </p>

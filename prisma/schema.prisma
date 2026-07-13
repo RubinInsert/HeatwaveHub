@@ -32,6 +32,7 @@ model Assessment {
 model Question {
   id        String   @id @default(cuid())
   order     Int
+  indexType String   @default("NONE")
   text      String   
   slug      String   @unique 
   category  String   
@@ -47,7 +48,7 @@ model Option {
   slug         String
   label        String   // e.g., "Yes"
   icon         String   // e.g., "🏠" or "ShieldCheck"
-  score        Int      // The points this specific button is worth
+  score        Float      // The points this specific button is worth
   questionId   String
   followup     String[] // Array of slugs for follow-up questions
   question     Question @relation(fields: [questionId], references: [id], onDelete: Cascade)

@@ -33,7 +33,7 @@ const questionsData = [
       order: 0,
       slug: "gender",
       category: "Demographics",
-      index_type: "NONE",
+      indexType: "NONE",
       type: "RADIO",
       options: [
         { label: "Male", icon: "👨", score: 0, slug: "male" },
@@ -46,7 +46,7 @@ const questionsData = [
       slug: "heat-information-sources",
       order: 1,
       category: "Risk Profile",
-      index_type: "NONE",
+      indexType: "NONE",
       type: "CHECKBOX",
       options: [
         { label: "Bureau of Meteorology (BOM) or weather app", icon: "❤️", score: 0, slug: "bureau-of-meteorology-bom-or-weather-app" },
@@ -68,7 +68,7 @@ const questionsData = [
       slug: "risk-factors",
       order: 2,
       category: "Heat Exposure",
-      index_type: "EXPOSURE",
+      indexType: "EXPOSURE",
       type: "RADIO",
       options: [
         { label: "None", icon: "❤️", score: 0, slug: "none" },
@@ -82,7 +82,7 @@ const questionsData = [
       slug: "medical-care",
       order: 3,
       category: "Heat Exposure",
-      index_type: "EXPOSURE",
+      indexType: "EXPOSURE",
       type: "RADIO",
       options: [
         { label: "No", icon: "❤️", score: 0, slug: "no" },
@@ -94,7 +94,7 @@ const questionsData = [
       slug: "work-types",
       order: 4,
       category: "Heat Exposure",
-      index_type: "EXPOSURE",
+      indexType: "EXPOSURE",
       type: "CHECKBOX",
       options: [
         { label: "Outdoor work (e.g., construction, landscaping, delivery)", icon: "👣", score: 1, slug: "outdoor-work-eg-construction-landscaping-delivery" },
@@ -107,7 +107,7 @@ const questionsData = [
       slug: "itsi-identification",
       order: 5,
       category: "Heat Exposure",
-      index_type: "SENSITIVITY",
+      indexType: "SENSITIVITY",
       type: "RADIO",
       options: [
         { label: "No", icon: "❤️", score: 0, slug: "no" },
@@ -119,7 +119,7 @@ const questionsData = [
       slug: "postcode",
       order: 6,
       category: "Location",
-      index_type: "SENSITIVITY",
+      indexType: "SENSITIVITY",
       type: "NUMBER",
       options: [],
     },
@@ -128,7 +128,7 @@ const questionsData = [
       slug: "age-group",
       order: 7,
       category: "Demographics",
-      index_type: "SENSITIVITY",
+      indexType: "SENSITIVITY",
       type: "RADIO",
       options: [
         { label: "18 to 64 years", icon: "🧒", score: 0, slug: "18-to-64-years" },
@@ -142,7 +142,7 @@ const questionsData = [
       slug: "dependents",
       order: 8,
       category: "Demographics",
-      index_type: "SENSITIVITY",
+      indexType: "SENSITIVITY",
       type: "RADIO",
       options: [
         { label: "Children under 5 years", icon: "🧒", score: 1, slug: "children-under-5-years" },
@@ -156,7 +156,7 @@ const questionsData = [
       slug: "english-comprehension",
       order: 9,
       category: "Demographics",
-      index_type: "SENSITIVITY",
+      indexType: "SENSITIVITY",
       type: "RADIO",
       options: [
         { label: "Very Well", icon: "🧒", score: 0, slug: "very-well" },
@@ -170,7 +170,7 @@ const questionsData = [
       slug: "general-health",
       order: 10,
       category: "Health Profile",
-      index_type: "SENSITIVITY",
+      indexType: "SENSITIVITY",
       type: "RADIO",
       options: [
         { label: "Excelent", icon: "💧", score: 0, slug: "excelent" },
@@ -184,7 +184,7 @@ const questionsData = [
       slug: "long-term-conditions",
       order: 11,
       category: "Health Profile",
-      index_type: "SENSITIVITY",
+      indexType: "SENSITIVITY",
       type: "RADIO",
       options: [
         { label: "Heart condition", icon: "💧", score: 0.2, slug: "heart-condition" },
@@ -199,7 +199,7 @@ const questionsData = [
     {
       text: "Do you take any medicines that make it harder for your body to handle heat?",
       slug: "heat-sensitive-medicines",
-      index_type: "SENSITIVITY",
+      indexType: "SENSITIVITY",
       order: 12,
       category: "Health Profile",
       type: "RADIO",
@@ -213,7 +213,7 @@ const questionsData = [
       slug: "pregnant-breastfeeding",
       order: 13,
       category: "Health Profile",
-      index_type: "SENSITIVITY",
+      indexType: "SENSITIVITY",
       type: "RADIO",
       options: [
         { label: "No", icon: "💧", score: 0, slug: "no" },
@@ -225,7 +225,7 @@ const questionsData = [
       slug: "daily-assistance",
       order: 14,
       category: "Health Profile",
-      index_type: "SENSITIVITY",
+      indexType: "SENSITIVITY",
       type: "RADIO",
       options: [
         { label: "No, I manage independently", icon: "💧", score: 0, slug: "no-i-manage-independently" },
@@ -238,7 +238,7 @@ const questionsData = [
       slug: "household-situation",
       order: 15,
       category: "Social Connectedness",
-      index_type: "SENSITIVITY",
+      indexType: "SENSITIVITY",
       type: "RADIO",
       options: [
         { label: "I live with others in a household with adequate space", icon: "💧", score: 0, slug: "i-live-with-others-in-a-household-with-adequate-space" },
@@ -251,7 +251,7 @@ const questionsData = [
       slug: "social-support",
       order: 16,
       category: "Social Connectedness",
-      index_type: "SENSITIVITY",
+      indexType: "SENSITIVITY",
       type: "RADIO",
       options: [
         { label: "No", icon: "💧", score: 0, slug: "no" },
@@ -264,7 +264,7 @@ const questionsData = [
       slug: "social-support-person",
       order: 17,
       category: "Social Connectedness",
-      index_type: "SENSITIVITY",
+      indexType: "SENSITIVITY",
       type: "RADIO",
       options: [
         { label: "Neighbour", icon: "💧", score: 1, slug: "neighbour" },
@@ -282,7 +282,7 @@ const questionsData = [
       slug: "cooling-method",
       order: 18,
       category: "Home Cooling",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "Air conditioning (at least one cooled room to retreat to)", icon: "🛑", score: 1, followup: ["cooling-effectiveness", "cooling-affordability"], slug: "air-conditioning-at-least-one-cooled-room-to-retreat-to" },
@@ -297,7 +297,7 @@ const questionsData = [
       isFollowup: true,
       order: 19,
       category: "Home Cooling",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "Yes, it works well", icon: "🛑", score: 1, slug: "yes-it-works-well" },
@@ -312,7 +312,7 @@ const questionsData = [
       isFollowup: true,
       order: 20,
       category: "Home Cooling",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "Yes, always", icon: "🛑", score: 1, slug: "yes-always" },
@@ -327,7 +327,7 @@ const questionsData = [
       slug: "home-built-year",
       order: 21,
       category: "Housing Thermal Performance",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "2003 or later", icon: "🏠", score: 1, slug: "2003-or-later" },
@@ -340,7 +340,7 @@ const questionsData = [
       slug: "home-type",
       order: 22,
       category: "Housing Thermal Performance",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "Detached house", icon: "🏠", score: 1, slug: "detached-house" },
@@ -354,7 +354,7 @@ const questionsData = [
       slug: "wall-material",
       order: 23,
       category: "Housing Thermal Performance",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "Brick", icon: "🧱", score: 0.67, slug: "brick" },
@@ -370,7 +370,7 @@ const questionsData = [
       slug: "roof-type",
       order: 24,
       category: "Housing Thermal Performance",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "Light coloured", icon: "⚪", score: 1, slug: "light-coloured" },
@@ -384,7 +384,7 @@ const questionsData = [
       slug: "home-insulation",
       order: 25,
       category: "Housing Thermal Performance",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "CHECKBOX",
       options: [
         { label: "Window protection (e.g. double glazing or tinting)", icon: "🪟", score: 0.33, slug: "window-protection-eg-double-glazing-or-tinting" },
@@ -399,7 +399,7 @@ const questionsData = [
       slug: "external-shading",
       order: 26,
       category: "Housing Thermal Performance",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "External blinds, awnings, or shutters", icon: "🏁", score: 1, slug: "external-blinds-awnings-or-shutters" },
@@ -412,7 +412,7 @@ const questionsData = [
       slug: "home-modification",
       order: 27,
       category: "Housing Thermal Performance",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "Yes, any changes", icon: "🛠️", score: 1, slug: "yes-any-changes" },
@@ -425,7 +425,7 @@ const questionsData = [
       slug: "routine-flexibility",
       order: 28,
       category: "Personal Adaptation",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "Yes, usually", icon: "✅", score: 1, slug: "yes-usually" },
@@ -438,7 +438,7 @@ const questionsData = [
       slug: "work-study-flexibility",
       order: 29,
       category: "Personal Adaptation",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "Yes", icon: "✅", score: 1, slug: "yes" },
@@ -451,7 +451,7 @@ const questionsData = [
       slug: "cool-retreat-knowledge",
       order: 30,
       category: "Cooling Infrastructure, Transport & Connectivity",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "Yes, and I could access at least one of them", icon: "🏃", score: 1, slug: "yes-and-i-could-access-at-least-one-of-them" },
@@ -464,7 +464,7 @@ const questionsData = [
       slug: "local-amenities",
       order: 31,
       category: "Cooling Infrastructure, Transport & Connectivity",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "CHECKBOX",
       options: [
         { label: "A park, garden, or green space with shade trees", icon: "🌳", score: 0.33, slug: "a-park-garden-or-green-space-with-shade-trees" },
@@ -478,7 +478,7 @@ const questionsData = [
       slug: "heatwave-transport",
       order: 32,
       category: "Cooling Infrastructure, Transport & Connectivity",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "I have my own car", icon: "🚗", score: 1, slug: "i-have-my-own-car" },
@@ -493,7 +493,7 @@ const questionsData = [
       slug: "data-connectivity",
       order: 33,
       category: "Cooling Infrastructure, Transport & Connectivity",
-      index_type: "ADAPTIVE",
+      indexType: "ADAPTIVE",
       type: "RADIO",
       options: [
         { label: "Yes, always", icon: "📶", score: 1, slug: "yes-always" },
@@ -520,6 +520,7 @@ const questionsData = [
         slug: q.slug,
         isFollowup: 'isFollowup' in q ? (q.isFollowup as boolean) : false,
         category: q.category,
+        indexType: q.indexType,
         type: q.type,
         order: q.order,
         options: {
