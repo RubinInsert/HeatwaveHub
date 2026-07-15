@@ -102,7 +102,7 @@ export async function saveAssessment(data: SaveAssessmentData) {
     };
   }
 }
-const SEPERATELY_PROCESSED_QUESTIONS = ["postcode", "long-term-conditions",]
+const SEPERATELY_PROCESSED_QUESTIONS = ["postcode", "long-term-conditions", "roof-type", "roof-colour", "roof-insulation"]
 async function calculateRiskLevel(data: SaveAssessmentData): Promise<string> {
   // Helper function to calculate the average answer score for a single index type
   const scoreMap = await getAssessmentScoreMap()
@@ -127,15 +127,15 @@ async function calculateRiskLevel(data: SaveAssessmentData): Promise<string> {
       if (Array.isArray(userAnswer)) {
         
         let validOptionsCount = 0;
-
+        let totalScoreSum = 0;
         userAnswer.forEach((optionSlug) => {
           const score = config.options[optionSlug];
           if (score !== undefined) {
-            indicators.push(score);
+            totalScoreSum += score;
             validOptionsCount++;
           }
         });
-
+        indicators.push(totalScoreSum / (validOptionsCount || 1)); // Average score for particular checkbox question
         // Average scores outside of function to allow for custom logic on some questions
         // if (validOptionsCount > 0) {
         //   totalScoreSum += indicators.reduce((sum, score) => sum + score, 0) / validOptionsCount; // Average score for particular checkbox question
@@ -157,12 +157,17 @@ async function calculateRiskLevel(data: SaveAssessmentData): Promise<string> {
   // 2. Compute the averages for all three index pillars
   const exposureIndicators = getIndicatorsForIndexType("EXPOSURE", scoreMap);
   const sensitivityIndicators = getIndicatorsForIndexType("SENSITIVITY", scoreMap);
-  // Add exceptions to average sensitivity calculation
+  const adaptiveIndicators = getIndicatorsForIndexType("ADAPTIVE", scoreMap);
+  // QUESTIONS WITH SPECIAL HANDLING (e.g., postcode, long-term-conditions)
+
+  // POSTCODES
   // Look up MMM score based on postcode and average it with the sensitivityAvg if it exists
   const mmmScore = POSTCODE_MMM_MAP[data.postcode as keyof typeof POSTCODE_MMM_MAP];
   if (mmmScore !== undefined) {
   sensitivityIndicators.push(mmmScore);
   }
+
+  // LONG-TERM HEALTH CONDITIONS
   if(data.answers["long-term-conditions"] !== undefined) {
     const longTermConditionsAnswers = data.answers["long-term-conditions"];
 
@@ -181,10 +186,37 @@ async function calculateRiskLevel(data: SaveAssessmentData): Promise<string> {
       }
     });
     sensitivityIndicators.push(conditionsSum);
-  }
+    }
   }
 
-  const adaptiveIndicators = getIndicatorsForIndexType("ADAPTIVE", scoreMap);
+  // ROOF TYPE, ROOF COLOUR, ROOF INSULATION
+  const roofMaterial = data.answers["roof-type"];
+  const roofColour = data.answers["roof-colour"];
+  const roofInsulation = data.answers["roof-insulation"];
+  if (typeof roofMaterial === "string" &&
+      typeof roofColour === "string" &&
+      typeof roofInsulation === "string") {
+          const MATERIAL_BASELINES = {tile: 0.95, slate: 0.90, other: 0.88, metal: 0.80 };
+
+          const COLOUR_PENALTIES = {
+            // tile has slightly distinct incremental tracking, but drops -0.25 overall
+            tile:   { light: 0, medium: 0.10, dark: 0.20 }, 
+            slate:  { light: 0, medium: 0.09, dark: 0.20 },
+            other:  { light: 0, medium: 0.10, dark: 0.21 },
+            metal:  { light: 0, medium: 0.12, dark: 0.25 },
+          };
+
+          const INSULATION_PENALTIES = { yes: 0.00, unsure: 0.25, no: 0.50 };
+          const base = MATERIAL_BASELINES[roofMaterial as keyof typeof MATERIAL_BASELINES] ?? 0.5;
+          const colourPenalty = COLOUR_PENALTIES[roofMaterial as keyof typeof COLOUR_PENALTIES]?.[roofColour as "light" | "medium" | "dark"] ?? 0;
+          const insulationPenalty = INSULATION_PENALTIES[roofInsulation as keyof typeof INSULATION_PENALTIES] ?? 0.25;
+          // Mathematical Penalty Reduction Calculation
+        const calculatedRoofScore = base - colourPenalty - insulationPenalty;
+        const clampedRoofScore = Math.max(0, Math.min(1, parseFloat(calculatedRoofScore.toFixed(2))));
+
+        // Inject the final combined physical indicator value into Adaptive Capacity
+        adaptiveIndicators.push(clampedRoofScore);
+  }
 
   const exposureAvg = exposureIndicators.reduce((sum, score) => sum + score, 0) / (exposureIndicators.length || 1);
   const sensitivityAvg = sensitivityIndicators.reduce((sum, score) => sum + score, 0) / (sensitivityIndicators.length || 1);
