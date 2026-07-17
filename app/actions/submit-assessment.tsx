@@ -217,7 +217,39 @@ async function calculateRiskLevel(data: SaveAssessmentData): Promise<string> {
         // Inject the final combined physical indicator value into Adaptive Capacity
         adaptiveIndicators.push(clampedRoofScore);
   }
+  // HOUSE FEATURES / INSULATION
+  const homeFeatures = data.answers["home-features"];
+  let homeFeaturesSum = 0;
+  if (Array.isArray(homeFeatures)) {
+    // 0.25 per feature, capped at 1.0
+    homeFeatures.forEach((featureSlug) => {
+      if (featureSlug != "none-of-the-above") {
+        homeFeaturesSum += 0.25;
+      }
+    });
+    const clampedFeaturesScore = Math.min(1.0, homeFeaturesSum);
+    adaptiveIndicators.push(clampedFeaturesScore);
+  }
+  // Environmental Ammenities
+  const localAmenities = data.answers["local-amenities"];
+  if (localAmenities !== undefined) {
+    const amenitiesArray = Array.isArray(localAmenities) ? localAmenities : [localAmenities];
+    // Filter out the fallback negative response options if selected
+    const validAmenities = amenitiesArray.filter(slug => slug !== "none-of-these");
+    
+    let localAmenitiesScore = 0;
+    const count = validAmenities.length;
 
+    if (count === 3) {
+      localAmenitiesScore = 1.0;
+    } else if (count === 2) {
+      localAmenitiesScore = 0.5;
+    } else if (count === 1) {
+      localAmenitiesScore = 0.25;
+    } // defaults to 0 if count is 0 or only "none-of-these" is chosen
+
+    adaptiveIndicators.push(localAmenitiesScore);
+  }
   const exposureAvg = exposureIndicators.reduce((sum, score) => sum + score, 0) / (exposureIndicators.length || 1);
   const sensitivityAvg = sensitivityIndicators.reduce((sum, score) => sum + score, 0) / (sensitivityIndicators.length || 1);
   const adaptiveAvg = adaptiveIndicators.reduce((sum, score) => sum + score, 0) / (adaptiveIndicators.length || 1);
