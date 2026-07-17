@@ -102,7 +102,7 @@ export async function saveAssessment(data: SaveAssessmentData) {
     };
   }
 }
-const SEPERATELY_PROCESSED_QUESTIONS = ["postcode", "long-term-conditions", "roof-type", "roof-colour", "roof-insulation"]
+const SEPERATELY_PROCESSED_QUESTIONS = ["postcode", "long-term-conditions", "roof-type", "roof-colour", "roof-insulation", "home-features", "local-amenities"]
 async function calculateRiskLevel(data: SaveAssessmentData): Promise<string> {
   // Helper function to calculate the average answer score for a single index type
   const scoreMap = await getAssessmentScoreMap()
