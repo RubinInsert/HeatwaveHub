@@ -74,26 +74,27 @@ export async function saveAssessment(data: SaveAssessmentData) {
     const userIdentification = `${data.fingerprint}_${data.postcode}_${data.ageGroup}`; // For database submission, combine fingerprint, postcode, and age group to create a unique identifier for the user. This helps in preventing duplicate submissions from the same user.
     const hashedFingerprint = createHash("sha256").update(userIdentification).digest("hex"); // Hash the combined identifier for privacy and security.
     const riskScore = await calculateRiskLevel(data); // Calculate the risk level based on the total score or other criteria.
-    return { success: true, id: 0, score: riskScore };
     const submission = await prisma.assessment.create({
       data: {
         fingerprint: hashedFingerprint,
         postcode: data.postcode,
         ageGroup: data.ageGroup,
-        gender: data.gender, // Matches schema
-        totalScore: data.totalScore,
+        gender: data.gender,
+        totalScore: Math.round(parseFloat(riskScore)), // Parsed safely matching your Int type schema
         riskLevel: riskScore,
 
-        // This is how you handle the "Variable" part (the Symptoms/Answers)
+        // Map the record entries directly to the nested Prisma creation structure
         answers: {
-          create: data.selections.map((sel: any) => ({
-            questionId: sel.questionId,
-            value: sel.optionLabel, // This replaces the old 'symptoms' array
+          create: Object.entries(data.answers).map(([questionSlug, value]) => ({
+            question: {
+              connect: { slug: questionSlug },
+            },
+            value: value,
           })),
         },
       },
     });
-    return { success: true, id: submission.id };
+    return { success: true, id: submission.id, score: riskScore };
   } catch (error) {
     console.error("Database Error:", error);
     return {
@@ -266,5 +267,5 @@ async function calculateRiskLevel(data: SaveAssessmentData): Promise<string> {
     finalScore
   });
 
-  return `${finalScore.toFixed(2)} score`;
+  return finalScore.toFixed(2);
 }

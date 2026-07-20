@@ -11,6 +11,9 @@ import {
   RefreshCw,
   CheckCircle2,
 } from "lucide-react";
+import TextInputQuestion from "./TextInputQuestion";
+import CheckboxGroupQuestion from "./CheckboxQuestion";
+import RadioGroupQuestion from "./RadioQuestion";
 
 // Ensure type definitions align accurately with our database joins
 type QuestionWithOptions = Prisma.QuestionGetPayload<{
@@ -77,10 +80,16 @@ export default function HeatwaveAssessment({
       if (opt.followup?.length) followUpSlugsToInject = opt.followup;
     } 
     else if (type === "CHECKBOX") {
-      if (checkedOptions.length === 0) return;
-      finalValue = checkedOptions.map((o) => o.slug);
-      questionPoints = checkedOptions.reduce((acc, curr) => acc + curr.score, 0) * currentQuestion.weight;
-      checkedOptions.forEach((opt) => {
+      // Extract the list directly from the incoming payload parameters
+      const selectedList = payload?.selectedList;
+      
+      // Guard clause against empty lists using the payload data
+      if (!selectedList || selectedList.length === 0) return; 
+      
+      finalValue = selectedList.map((o) => o.slug);
+      questionPoints = selectedList.reduce((acc, curr) => acc + curr.score, 0) * currentQuestion.weight;
+      
+      selectedList.forEach((opt) => {
         if (opt.followup) followUpSlugsToInject.push(...opt.followup);
       });
     } 
@@ -130,10 +139,13 @@ export default function HeatwaveAssessment({
         const result = await fp.get();
         const visitorId = result.visitorId;
         type GenderType = "MALE" | "FEMALE" | "OTHER" | "PREFER_NOT_TO_SAY";
+        const rawPostcode = updatedAnswersMap["postcode"];
+        const rawAgeGroup = updatedAnswersMap["age-group"];
+        const rawGender = updatedAnswersMap["gender"];
         const { success, id, error, score  } = await saveAssessment({
-          postcode: (updatedAnswersMap["postcode"] as string) || "",
-          ageGroup: (updatedAnswersMap["age-group"] as string) || "",
-          gender: (updatedAnswersMap["gender"] as GenderType) || "PREFER_NOT_TO_SAY",
+          postcode: Array.isArray(rawPostcode) ? rawPostcode[0] : (rawPostcode || ""),
+          ageGroup: Array.isArray(rawAgeGroup) ? rawAgeGroup[0] : (rawAgeGroup || ""),
+          gender: (Array.isArray(rawGender) ? rawGender[0] : rawGender) as GenderType || "PREFER_NOT_TO_SAY",
           fingerprint: visitorId,
           answers: updatedAnswersMap,
         });
@@ -146,92 +158,39 @@ export default function HeatwaveAssessment({
     }
   };
   const renderInput = () => {
-    if (!currentQuestion) return null;
+  if (!currentQuestion) return null;
 
-    switch (currentQuestion.type) {
-      case "TEXT":
-      case "NUMBER":
-        return (
-          <div className="space-y-4">
-            <input
-              type={currentQuestion.type === "NUMBER" ? "number" : "text"}
-              className="w-full p-4 border-2 border-slate-200 rounded-xl focus:border-orange-500 outline-none text-xl text-slate-800"
-              placeholder="Enter details..."
-              value={textInput}
-              onChange={(e) => setTextInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleNext(currentQuestion.type as "TEXT" | "NUMBER", { primitiveValue: textInput });
-                }
-              }}
-            />
-            <button
-              onClick={() => handleNext(currentQuestion.type as "TEXT" | "NUMBER", { primitiveValue: textInput })}
-              disabled={!textInput.trim()}
-              className="w-full martial-gradient py-4 bg-orange-600 disabled:bg-slate-300 text-white rounded-xl font-bold transition-all"
-            >
-              Continue
-            </button>
-          </div>
-        );
+  switch (currentQuestion.type) {
+    case "TEXT":
+    case "NUMBER":
+      return (
+        <TextInputQuestion
+          key={currentQuestion.id}
+          type={currentQuestion.type as "TEXT" | "NUMBER"}
+          onSubmit={(val) =>
+            handleNext(currentQuestion.type as "TEXT" | "NUMBER", { primitiveValue: val })
+          }
+        />
+      );
 
-      case "CHECKBOX":
-        return (
-          <div className="grid grid-cols-1 gap-3">
-            {currentQuestion.options.map((opt) => {
-              const isChecked = checkedOptions.some((o) => o.id === opt.id);
-              return (
-                <label
-                  key={opt.id}
-                  className={`flex items-center gap-3 p-4 bg-slate-50 rounded-xl border-2 transition-all cursor-pointer ${
-                    isChecked ? "border-orange-500 bg-orange-50/30" : "border-transparent"
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    className="w-5 h-5 accent-orange-600 rounded"
-                    checked={isChecked}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setCheckedOptions([...checkedOptions, opt]);
-                      } else {
-                        setCheckedOptions(checkedOptions.filter((o) => o.id !== opt.id));
-                      }
-                    }}
-                  />
-                  {opt.icon && <span className="text-3xl">{opt.icon}</span>}
-                  <span className="text-lg font-medium text-slate-700">{opt.label}</span>
-                </label>
-              );
-            })}
-            <button
-              onClick={() => handleNext("CHECKBOX")}
-              disabled={checkedOptions.length === 0}
-              className="mt-4 w-full py-4 bg-orange-600 disabled:bg-slate-300 text-white rounded-xl font-bold transition-all"
-            >
-              Next Step
-            </button>
-          </div>
-        );
+    case "CHECKBOX":
+      return (
+        <CheckboxGroupQuestion
+          questionId={currentQuestion.id}
+          options={currentQuestion.options}
+          onSubmit={(selectedList) => handleNext("CHECKBOX", { selectedList })}
+        />
+      );
 
-      default: // "RADIO"
-        return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {currentQuestion.options.map((option) => (
-              <button
-                key={option.id}
-                type="button"
-                onClick={() => handleNext("RADIO", { option })}
-                className="flex items-center gap-4 p-6 bg-slate-50 border-2 border-slate-100 rounded-2xl hover:border-orange-500 hover:bg-white transition-all text-left group"
-              >
-                {option.icon && <span className="text-3xl group-hover:scale-110 transition-transform">{option.icon}</span>}
-                <span className="text-xl font-bold text-slate-800">{option.label}</span>
-              </button>
-            ))}
-          </div>
-        );
-    }
-  };
+    default: // "RADIO"
+      return (
+        <RadioGroupQuestion
+          options={currentQuestion.options}
+          onSelect={(option) => handleNext("RADIO", { option })}
+        />
+      );
+  }
+};
 
   const resetAssessment = () => {
     const baseQuestions = questions.filter((q) => !q.isFollowup && q.isActive);
