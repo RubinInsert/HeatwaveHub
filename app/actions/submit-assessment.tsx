@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "app/lib/prisma";
+import { Prisma } from "@prisma-generated/client";
 import { ratelimit } from "../lib/ratelimit";
 import { headers } from "next/headers";
 import { createHash } from "crypto";
@@ -11,8 +12,8 @@ type SaveAssessmentData = {
   ageGroup: string;
   gender: "MALE" | "FEMALE" | "OTHER" | "PREFER_NOT_TO_SAY";
   fingerprint: string;
-  answers: Record<string, string | string[]>;
-};
+  answers: Record<string, unknown>;
+  };
 type AssessmentScoreMap = Record<
   string,
   {
@@ -89,7 +90,7 @@ export async function saveAssessment(data: SaveAssessmentData) {
             question: {
               connect: { slug: questionSlug },
             },
-            value: value,
+            value: value as Prisma.InputJsonValue,
           })),
         },
       },
@@ -106,8 +107,19 @@ export async function saveAssessment(data: SaveAssessmentData) {
 const SEPERATELY_PROCESSED_QUESTIONS = ["postcode", "long-term-conditions", "roof-type", "roof-colour", "roof-insulation", "home-features", "local-amenities"]
 async function calculateRiskLevel(data: SaveAssessmentData): Promise<string> {
   // Helper function to calculate the average answer score for a single index type
-  const scoreMap = await getAssessmentScoreMap()
-  const getIndicatorsForIndexType = (indexType: "EXPOSURE" | "SENSITIVITY" | "ADAPTIVE", scoreMap: AssessmentScoreMap): number[] => {
+    const scoreMap = await getAssessmentScoreMap()
+  
+    // Helper to extract selected slugs from any answer format
+    const extractSelectedSlugs = (answer: unknown): string[] => {
+      if (Array.isArray(answer)) return answer;
+      if (typeof answer === "object" && answer !== null && "selected" in (answer as any)) {
+        return (answer as { selected: string[] }).selected;
+      }
+      if (typeof answer === "string") return [answer];
+      return [];
+    };
+
+    const getIndicatorsForIndexType = (indexType: "EXPOSURE" | "SENSITIVITY" | "ADAPTIVE", scoreMap: AssessmentScoreMap): number[] => {
     // Filter the ASSESSMENT_SCORE_MAP to get only the questions relevant to the specified index type
     const relevantQuestions = Object.entries(scoreMap).filter(
       ([questionSlug, questionConfig]) => questionConfig.indexType === indexType
@@ -125,31 +137,40 @@ async function calculateRiskLevel(data: SaveAssessmentData): Promise<string> {
       }
 
       // Check array first and cleanly process their option slugs.
-      if (Array.isArray(userAnswer)) {
+            if (Array.isArray(userAnswer)) {
         
-        let validOptionsCount = 0;
-        let totalScoreSum = 0;
-        userAnswer.forEach((optionSlug) => {
-          const score = config.options[optionSlug];
-          if (score !== undefined) {
-            totalScoreSum += score;
-            validOptionsCount++;
-          }
-        });
-        indicators.push(totalScoreSum / (validOptionsCount || 1)); // Average score for particular checkbox question
-        // Average scores outside of function to allow for custom logic on some questions
-        // if (validOptionsCount > 0) {
-        //   totalScoreSum += indicators.reduce((sum, score) => sum + score, 0) / validOptionsCount; // Average score for particular checkbox question
-        //   answeredQuestionCount++;
-        // }
-      } 
-      // Handle fallback string variants (just in case)
-      else {
-        const score = config.options[userAnswer];
-        if (score !== undefined) {
-          indicators.push(score);
-        }
-      }
+              let validOptionsCount = 0;
+              let totalScoreSum = 0;
+              userAnswer.forEach((optionSlug) => {
+                const score = config.options[optionSlug];
+                if (score !== undefined) {
+                  totalScoreSum += score;
+                  validOptionsCount++;
+                }
+              });
+              indicators.push(totalScoreSum / (validOptionsCount || 1)); // Average score for particular checkbox question
+            } 
+            // Handle object format { selected: string[], specifiedText: string | null }
+            else if (typeof userAnswer === "object" && userAnswer !== null && "selected" in (userAnswer as any)) {
+              const answerObj = userAnswer as { selected: string[]; specifiedText?: string | null };
+              let validOptionsCount = 0;
+              let totalScoreSum = 0;
+              answerObj.selected.forEach((optionSlug) => {
+                const score = config.options[optionSlug];
+                if (score !== undefined) {
+                  totalScoreSum += score;
+                  validOptionsCount++;
+                }
+              });
+              indicators.push(totalScoreSum / (validOptionsCount || 1));
+            }
+            // Handle fallback string variants (just in case)
+                  else {
+                    const score = config.options[userAnswer as string];
+                    if (score !== undefined) {
+                      indicators.push(score);
+                    }
+                  }
     }
 
     return indicators;
@@ -169,34 +190,27 @@ async function calculateRiskLevel(data: SaveAssessmentData): Promise<string> {
   }
 
   // LONG-TERM HEALTH CONDITIONS
-  if(data.answers["long-term-conditions"] !== undefined) {
-    const longTermConditionsAnswers = data.answers["long-term-conditions"];
+    if(data.answers["long-term-conditions"] !== undefined) {
+      const answersArray = extractSelectedSlugs(data.answers["long-term-conditions"]);
 
-    // Ensure answer is an array
-    const answersArray = Array.isArray(longTermConditionsAnswers)
-    ? longTermConditionsAnswers
-    : [longTermConditionsAnswers];
-
-    let conditionsSum = 0;
-    const answerScores = scoreMap["long-term-conditions"];
-    if (answerScores && answerScores.options) {
-    answersArray.forEach((optionSlug) => {
-      const score = answerScores.options[optionSlug];
-      if (score !== undefined) {
-        conditionsSum += score;
+      let conditionsSum = 0;
+      const answerScores = scoreMap["long-term-conditions"];
+      if (answerScores && answerScores.options) {
+      answersArray.forEach((optionSlug) => {
+        const score = answerScores.options[optionSlug];
+        if (score !== undefined) {
+          conditionsSum += score;
+        }
+      });
+      sensitivityIndicators.push(conditionsSum);
       }
-    });
-    sensitivityIndicators.push(conditionsSum);
     }
-  }
 
   // ROOF TYPE, ROOF COLOUR, ROOF INSULATION
-  const roofMaterial = data.answers["roof-type"];
-  const roofColour = data.answers["roof-colour"];
-  const roofInsulation = data.answers["roof-insulation"];
-  if (typeof roofMaterial === "string" &&
-      typeof roofColour === "string" &&
-      typeof roofInsulation === "string") {
+    const roofMaterial = extractSelectedSlugs(data.answers["roof-type"])[0];
+    const roofColour = extractSelectedSlugs(data.answers["roof-colour"])[0];
+    const roofInsulation = extractSelectedSlugs(data.answers["roof-insulation"])[0];
+    if (roofMaterial && roofColour && roofInsulation) {
           const MATERIAL_BASELINES = {tile: 0.95, slate: 0.90, other: 0.88, metal: 0.80 };
 
           const COLOUR_PENALTIES = {
@@ -219,9 +233,9 @@ async function calculateRiskLevel(data: SaveAssessmentData): Promise<string> {
         adaptiveIndicators.push(clampedRoofScore);
   }
   // HOUSE FEATURES / INSULATION
-  const homeFeatures = data.answers["home-features"];
-  let homeFeaturesSum = 0;
-  if (Array.isArray(homeFeatures)) {
+    const homeFeatures = extractSelectedSlugs(data.answers["home-features"]);
+    let homeFeaturesSum = 0;
+    if (homeFeatures.length > 0) {
     // 0.25 per feature, capped at 1.0
     homeFeatures.forEach((featureSlug) => {
       if (featureSlug != "none-of-the-above") {
@@ -232,9 +246,9 @@ async function calculateRiskLevel(data: SaveAssessmentData): Promise<string> {
     adaptiveIndicators.push(clampedFeaturesScore);
   }
   // Environmental Ammenities
-  const localAmenities = data.answers["local-amenities"];
-  if (localAmenities !== undefined) {
-    const amenitiesArray = Array.isArray(localAmenities) ? localAmenities : [localAmenities];
+    const localAmenities = data.answers["local-amenities"];
+    if (localAmenities !== undefined) {
+      const amenitiesArray = extractSelectedSlugs(localAmenities);
     // Filter out the fallback negative response options if selected
     const validAmenities = amenitiesArray.filter(slug => slug !== "none-of-these");
     

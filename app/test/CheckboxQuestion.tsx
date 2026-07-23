@@ -8,7 +8,8 @@ type Option = Prisma.OptionGetPayload<{}>;
 interface CheckboxGroupQuestionProps {
   questionId: string;
   options: Option[];
-  onSubmit: (selectedOptions: Option[]) => void;
+
+  onSubmit: (selectedOptions: Option[], specifyText?: string) => void;
 }
 
 export default function CheckboxQuestion({
@@ -17,11 +18,13 @@ export default function CheckboxQuestion({
   onSubmit,
 }: CheckboxGroupQuestionProps) {
   const [checkedOptions, setCheckedOptions] = useState<Option[]>([]);
+    const [specifyText, setSpecifyText] = useState("");
 
-  // Flush selections entirely if a new checkbox step arrives
-  useEffect(() => {
-    setCheckedOptions([]);
-  }, [questionId]);
+    // Flush selections entirely if a new checkbox step arrives
+    useEffect(() => {
+      setCheckedOptions([]);
+      setSpecifyText("");
+    }, [questionId]);
 const handleToggle = (opt: Option, isChecking: boolean) => {
     if (!isChecking) {
       // Unchecking an option is always simple: just remove it from the array
@@ -39,9 +42,13 @@ const handleToggle = (opt: Option, isChecking: boolean) => {
     }
   };
   const handleSubmit = () => {
-    if (checkedOptions.length === 0) return;
-    onSubmit(checkedOptions);
-  };
+      if (checkedOptions.length === 0) return;
+      // Pass specifyText if a specify option is among the checked options
+      const specifyOption = checkedOptions.find((o) => o.isSpecify);
+      onSubmit(checkedOptions, specifyOption ? specifyText.trim() || undefined : undefined);
+    };
+
+    const specifyOption = checkedOptions.find((o) => o.isSpecify);
 
   return (
     <div className="grid grid-cols-1 gap-3">
@@ -65,7 +72,22 @@ const handleToggle = (opt: Option, isChecking: boolean) => {
           </label>
         );
       })}
-      <button
+            {specifyOption && (
+              <div className="animate-in fade-in slide-in-from-top-2 p-4 bg-orange-50 rounded-2xl border border-orange-200 flex flex-col sm:flex-row gap-3">
+                <input
+                  type="text"
+                  placeholder="Please specify..."
+                  value={specifyText}
+                  onChange={(e) => setSpecifyText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleSubmit();
+                  }}
+                  className="flex-1 p-4 rounded-xl border border-slate-200 outline-none focus:border-orange-500 text-lg"
+                  autoFocus
+                />
+              </div>
+            )}
+            <button
         onClick={handleSubmit}
         disabled={checkedOptions.length === 0}
         className="mt-4 w-full py-4 bg-orange-600 disabled:bg-slate-300 text-white rounded-xl font-bold transition-all"

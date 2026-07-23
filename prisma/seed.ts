@@ -60,7 +60,7 @@ const questionsData = [
         { label: "Workplace or employer", icon: "💼", score: 0, slug: "workplace-or-employer" },
         { label: "Community groups or organisations", icon: "🤝", score: 0, slug: "community-groups-or-organisations" },
         { label: "Doctor, nurse, or health service", icon: "🏥", score: 0, slug: "doctor-nurse-or-health-service" },
-        { label: "I do not receive this information", icon: "❌", score: 0, slug: "i-do-not-receive-this-information" },
+        { label: "I do not receive this information", icon: "❌", score: 0, slug: "i-do-not-receive-this-information", isNone: true },
       ],
     },
     {
@@ -294,7 +294,7 @@ const questionsData = [
         { label: "Emergency service", icon: "🛡️", score: -1, slug: "emergency-service" },
         { label: "Local council", icon: "🏢", score: -1, slug: "local-council" },
         { label: "Religious organisation", icon: "⛪", score: -1, slug: "religious-organisation" },
-        { label: "Other (please specify)", icon: "💬", score: -1, slug: "other-please-specify" },
+        { label: "Other (please specify)", icon: "💬", score: -1, slug: "other-please-specify", isSpecify: true },
       ],
     },
     {
@@ -384,7 +384,7 @@ const questionsData = [
         { label: "Fibre cement sheeting", icon: "📐", score: 0.5, slug: "fibre-cement-sheeting" },
         { label: "Lightweight cladding (e.g. metal or vinyl)", icon: "⛓️", score: 0.25, slug: "lightweight-cladding-eg-metal-or-vinyl" },
         { label: "Mixed materials", icon: "🔄", score: 0.5, slug: "mixed-materials" },
-        { label: "Other (please specify)", icon: "💬", score: 0.5, slug: "other-please-specify" },
+        { label: "Other (please specify)", icon: "💬", score: 0.5, slug: "other-please-specify", isSpecify: true },
       ],
     },
     {
@@ -398,7 +398,7 @@ const questionsData = [
         { label: "Metal roof (e.g. Colorbond, corrugated steel)", icon: "💿", score: -1, slug: "metal-roof-eg-colorbond-corrugated-steel" },
         { label: "Roof tiles (e.g. concrete or terracotta)", icon: "🧱", score: -1, slug: "roof-tiles-eg-concrete-or-terracotta" },
         { label: "Slate roof", icon: "🪨", score: -1, slug: "slate-roof" },
-        { label: "Other (please specify)", icon: "💬", score: -1, slug: "other-please-specify" },
+        { label: "Other (please specify)", icon: "💬", score: -1, slug: "other-please-specify", isSpecify: true },
       ],
     },
     {
@@ -566,6 +566,7 @@ const questionsData = [
       // Safely check if isNone exists in the seed object, otherwise fall back to false
       isNone: 'isNone' in opt ? (opt.isNone as boolean) : false,
       followup: "followup" in opt && Array.isArray(opt.followup) ? opt.followup : [],
+      isSpecify: 'isSpecify' in opt ? (opt.isSpecify as boolean) : false,
     }));
 
     await prisma.question.create({

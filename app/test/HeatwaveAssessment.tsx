@@ -26,7 +26,7 @@ type SelectedOptionSummary = {
   score: number;
 };
 
-type AnswersMap = Record<string, string | string[]>
+type AnswersMap = Record<string, any>;
 
 export default function HeatwaveAssessment({
   questions,
@@ -63,19 +63,26 @@ export default function HeatwaveAssessment({
 
   const handleNext = async (
     type: "RADIO" | "CHECKBOX" | "TEXT" | "NUMBER",
-    payload?: { option?: any; selectedList?: any[]; primitiveValue?: string | number }
+    payload?: { 
+      option?: any; 
+      specifyText?: string;
+      selectedList?: any[]; 
+      primitiveValue?: string | number 
+    }
   ) => {
     if (isSaving || !currentQuestion) return;
 
-    // ✅ Change type to only string | string[]
-    let finalValue: string | string[] = "";
+    let finalValue: any = null;
     let questionPoints = 0;
     let followUpSlugsToInject: string[] = [];
 
     // 1. CONDITIONAL EVALUATION
     if (type === "RADIO" && payload?.option) {
       const opt = payload.option;
-      finalValue = [opt.slug]; // Wrap as an array to indicate pre-defined selection.
+      finalValue = {
+        selected: [opt.slug], // Wrap as an array to indicate pre-defined selection.
+        specifiedText: payload.specifyText || null,
+      }; 
       questionPoints = opt.score * currentQuestion.weight;
       if (opt.followup?.length) followUpSlugsToInject = opt.followup;
     } 
@@ -86,7 +93,10 @@ export default function HeatwaveAssessment({
       // Guard clause against empty lists using the payload data
       if (!selectedList || selectedList.length === 0) return; 
       
-      finalValue = selectedList.map((o) => o.slug);
+      finalValue = {
+        selected: selectedList.map((o) => o.slug),
+        specifiedText: payload.specifyText || null,
+      };
       questionPoints = selectedList.reduce((acc, curr) => acc + curr.score, 0) * currentQuestion.weight;
       
       selectedList.forEach((opt) => {
@@ -94,11 +104,11 @@ export default function HeatwaveAssessment({
       });
     } 
     else if (type === "TEXT" || type === "NUMBER") {
-      const entry = payload?.primitiveValue ?? textInput;
-      if (!entry.toString().trim()) return;
-      finalValue = String(entry); // ✅ Always string
-      questionPoints = 0;
-    }
+          const entry = payload?.primitiveValue ?? textInput;
+          if (!entry.toString().trim()) return;
+          finalValue = { selected: [], specifiedText: String(entry) };
+          questionPoints = 0;
+        }
 
     // 2. UPDATE ANSWERS MAP
     const newAnswerEntry = { [currentQuestion.slug]: finalValue };
@@ -140,12 +150,21 @@ export default function HeatwaveAssessment({
         const visitorId = result.visitorId;
         type GenderType = "MALE" | "FEMALE" | "OTHER" | "PREFER_NOT_TO_SAY";
         const rawPostcode = updatedAnswersMap["postcode"];
-        const rawAgeGroup = updatedAnswersMap["age-group"];
-        const rawGender = updatedAnswersMap["gender"];
-        const { success, id, error, score  } = await saveAssessment({
-          postcode: Array.isArray(rawPostcode) ? rawPostcode[0] : (rawPostcode || ""),
-          ageGroup: Array.isArray(rawAgeGroup) ? rawAgeGroup[0] : (rawAgeGroup || ""),
-          gender: (Array.isArray(rawGender) ? rawGender[0] : rawGender) as GenderType || "PREFER_NOT_TO_SAY",
+                const rawAgeGroup = updatedAnswersMap["age-group"];
+                const rawGender = updatedAnswersMap["gender"];
+
+                // Helper to extract a string value from any answer format
+                const extractString = (val: any): string => {
+                                  if (typeof val === "string") return val;
+                                  if (Array.isArray(val) && val.length > 0) return val[0];
+                                  if (typeof val === "object" && val !== null && "selected" in val) return val.selected[0] || val.specifiedText || "";
+                                  return "";
+                                };
+
+                const { success, id, error, score  } = await saveAssessment({
+                  postcode: extractString(rawPostcode),
+                  ageGroup: extractString(rawAgeGroup),
+                  gender: (extractString(rawGender) || "PREFER_NOT_TO_SAY") as GenderType,
           fingerprint: visitorId,
           answers: updatedAnswersMap,
         });
@@ -178,15 +197,15 @@ export default function HeatwaveAssessment({
         <CheckboxGroupQuestion
           questionId={currentQuestion.id}
           options={currentQuestion.options}
-          onSubmit={(selectedList) => handleNext("CHECKBOX", { selectedList })}
+          onSubmit={(selectedList, specifyText) => handleNext("CHECKBOX", { selectedList, specifyText })}
         />
       );
 
     default: // "RADIO"
       return (
-        <RadioGroupQuestion
+                <RadioGroupQuestion
           options={currentQuestion.options}
-          onSelect={(option) => handleNext("RADIO", { option })}
+          onSelect={(option, specifyText) => handleNext("RADIO", { option, specifyText })}
         />
       );
   }
