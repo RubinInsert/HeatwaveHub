@@ -261,7 +261,7 @@ export default function HeatwaveAssessment({
 
         <h2 className="text-4xl font-black text-slate-900 mb-4">Your Assessment Result</h2>
         <p className="text-slate-600 text-lg mb-8">
-          Your calculated vulnerability score is <span className="font-bold text-slate-900">{calculatedScore}</span>.
+          Your calculated vulnerability score is <span className="font-bold text-slate-900">{calculatedScore ?? "LOADING"}</span>.
           {calculatedScore !== null && calculatedScore > 50
             ? " We strongly recommend reviewing your heatwave plan with a medical professional."
             : " You have a good foundation, but staying informed is key."}
