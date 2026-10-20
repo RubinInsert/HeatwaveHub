@@ -37,30 +37,30 @@ export default function AboutPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-brand-cream">
       {/* Navigation */}
       <PageNavigation href="/" label="About the Heatwave Hub" />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-orange-50 to-red-50 px-6 py-16">
+      <section className="bg-gradient-to-br from-brand-cream to-brand-golden/30 px-6 py-16">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
-            Building Resilience to Heatwaves in Regional NSW
+          <h2 className="text-heading text-brand-midnight mb-6">
+            Building resilience to heatwaves in regional NSW
           </h2>
-          <p className="text-lg text-gray-700 max-w-3xl">
+          <p className="text-body-lg text-brand-midnight/80 max-w-measure">
             A University of Newcastle-led research project funded by the Australian Government's Disaster Ready Fund, working to improve preparedness for the escalating heatwave threats in New South Wales.
           </p>
         </div>
       </section>
 
-      {/* Project Overview */}
+      {/* Project overview */}
       <section className="max-w-6xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-2 gap-12 Items-start">
           <div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Project Overview
+            <h3 className="text-subheading text-brand-midnight mb-4">
+              Project overview
             </h3>
-            <div className="space-y-4 text-gray-700">
+            <div className="space-y-4 text-body text-brand-midnight/80">
               <p>
                 Heatwaves are Australia’s deadliest natural hazard, and their frequency, duration, and intensity are increasing under climate change. The Heatwave Hub, funded by the Disaster Ready Fund aims to improve understanding of where and why communities are most at risk from extreme heat and to support targeted adaptation and resilience planning across New South Wales (NSW).
               </p>
@@ -73,38 +73,38 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="bg-gray-50 rounded-xl p-8 border border-gray-200">
-            <h4 className="text-xl font-bold text-gray-900 mb-6">
-              Funding & Timeline
+          <div className="bg-brand-cream rounded-xl p-8 border border-brand-midnight/10">
+            <h4 className="text-subheading text-brand-midnight mb-6">
+              Funding & timeline
             </h4>
             <dl className="space-y-4">
               <div>
-                <dt className="text-sm font-semibold text-gray-500 uppercase">
-                  Total Funding
+                <dt className="text-label font-bold text-brand-midnight/70">
+                  Total funding
                 </dt>
-                <dd className="text-3xl font-black text-orange-600">$1.3M</dd>
+                <dd className="text-3xl font-bold text-brand-coral">$1.3M</dd>
               </div>
               <div>
-                <dt className="text-sm font-semibold text-gray-500 uppercase">
+                <dt className="text-label font-bold text-brand-midnight/70">
                   Duration
                 </dt>
-                <dd className="text-lg font-semibold text-gray-900">3 Years</dd>
+                <dd className="text-lg font-bold text-brand-midnight">3 Years</dd>
               </div>
               <div>
-                <dt className="text-sm font-semibold text-gray-500 uppercase">
+                <dt className="text-label font-bold text-brand-midnight/70">
                   Funder
                 </dt>
-                <dd className="text-gray-900">
+                <dd className="text-brand-midnight">
                   Australian Government
                   <br />
                   Disaster Ready Fund
                 </dd>
               </div>
               <div>
-                <dt className="text-sm font-semibold text-gray-500 uppercase">
-                  Lead Institution
+                <dt className="text-label font-bold text-brand-midnight/70">
+                  Lead institution
                 </dt>
-                <dd className="text-gray-900">University of Newcastle</dd>
+                <dd className="text-brand-midnight">University of Newcastle</dd>
               </div>
             </dl>
           </div>
@@ -112,40 +112,40 @@ export default function AboutPage() {
       </section>
 
       {/* Key Features */}
-      <section className="bg-gray-50 px-6 py-16">
+      <section className="bg-brand-midnight/5 px-6 py-16">
         <div className="max-w-6xl mx-auto">
-          <h3 className="text-2xl font-bold text-gray-900 mb-10">
-            What the Hub Delivers
+          <h3 className="text-subheading text-brand-midnight mb-10">
+            What the hub delivers
           </h3>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
-              <MapPinIcon className="w-12 h-12 text-orange-600 mb-4" />
-              <h4 className="text-xl font-bold text-gray-900 mb-3">
-                Risk Assessment & Mapping
+            <div className="bg-white rounded-xl p-8 border border-brand-midnight/10 shadow-sm">
+              <MapPinIcon className="w-12 h-12 text-brand-coral mb-4" />
+              <h4 className="text-xl font-bold text-brand-midnight mb-3">
+                Risk assessment & mapping
               </h4>
-              <p className="text-gray-700">
+              <p className="text-brand-midnight/80">
                 Interactive map ranking NSW LGAs by their current and future
                 heatwave risk using the Combined Heatwave Risk Index (CHRI).
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
-              <ArrowTrendingUpIcon className="w-12 h-12 text-orange-600 mb-4" />
-              <h4 className="text-xl font-bold text-gray-900 mb-3">
-                Preparedness Planning
+            <div className="bg-white rounded-xl p-8 border border-brand-midnight/10 shadow-sm">
+              <ArrowTrendingUpIcon className="w-12 h-12 text-brand-coral mb-4" />
+              <h4 className="text-xl font-bold text-brand-midnight mb-3">
+                Preparedness planning
               </h4>
-              <p className="text-gray-700">
+              <p className="text-brand-midnight/80">
                 Tailored heatwave preparedness strategies co-designed with local
                 government representatives from high-risk areas.
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
-              <UserGroupIcon className="w-12 h-12 text-orange-600 mb-4" />
-              <h4 className="text-xl font-bold text-gray-900 mb-3">
-                Community Education
+            <div className="bg-white rounded-xl p-8 border border-brand-midnight/10 shadow-sm">
+              <UserGroupIcon className="w-12 h-12 text-brand-coral mb-4" />
+              <h4 className="text-xl font-bold text-brand-midnight mb-3">
+                Community education
               </h4>
-              <p className="text-gray-700">
+              <p className="text-brand-midnight/80">
                 Resources and assessments to help individuals and communities
                 understand their heatwave readiness and take action.
               </p>
@@ -156,47 +156,47 @@ export default function AboutPage() {
 
       {/* Research Approach */}
       <section className="max-w-6xl mx-auto px-6 py-16">
-        <h3 className="text-2xl font-bold text-gray-900 mb-10">
-          Our Research Approach
+        <h3 className="text-subheading text-brand-midnight mb-10">
+          Our research approach
         </h3>
         <div className="space-y-6">
-          <div className="border-l-4 border-orange-600 pl-6">
-            <h4 className="text-lg font-bold text-gray-900 mb-2">
-              Evidence Gathering
+          <div className="border-l-4 border-brand-coral pl-6">
+            <h4 className="text-lg font-bold text-brand-midnight mb-2">
+              Evidence gathering
             </h4>
-            <p className="text-gray-700">
+            <p className="text-brand-midnight/80">
               We analyze heatwave risk factors, census data, and community
               vulnerability across all NSW LGAs to create a comprehensive risk
               picture.
             </p>
           </div>
 
-          <div className="border-l-4 border-orange-600 pl-6">
-            <h4 className="text-lg font-bold text-gray-900 mb-2">
-              Community Engagement
+          <div className="border-l-4 border-brand-coral pl-6">
+            <h4 className="text-lg font-bold text-brand-midnight mb-2">
+              Community engagement
             </h4>
-            <p className="text-gray-700">
+            <p className="text-brand-midnight/80">
               Local government representatives from high-risk areas participate
               in workshops to co-design resilience strategies tailored to their
               communities.
             </p>
           </div>
 
-          <div className="border-l-4 border-orange-600 pl-6">
-            <h4 className="text-lg font-bold text-gray-900 mb-2">
-              Digital Collaboration
+          <div className="border-l-4 border-brand-coral pl-6">
+            <h4 className="text-lg font-bold text-brand-midnight mb-2">
+              Digital collaboration
             </h4>
-            <p className="text-gray-700">
+            <p className="text-brand-midnight/80">
               The Heatwave Hub serves as an ongoing platform for collaboration,
               knowledge sharing, and education around heatwave preparedness.
             </p>
           </div>
 
-          <div className="border-l-4 border-orange-600 pl-6">
-            <h4 className="text-lg font-bold text-gray-900 mb-2">
-              Evaluation & Measurement
+          <div className="border-l-4 border-brand-coral pl-6">
+            <h4 className="text-lg font-bold text-brand-midnight mb-2">
+              Evaluation & measurement
             </h4>
-            <p className="text-gray-700">
+            <p className="text-brand-midnight/80">
               Researchers track preparedness improvements in pilot communities
               to measure the effectiveness of interventions and gather insights
               for broader implementation.
@@ -205,25 +205,25 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Research Team */}
-      <section className="bg-gray-50 px-6 py-16">
+      {/* Research team */}
+      <section className="bg-brand-midnight/5 px-6 py-16">
         <div className="max-w-6xl mx-auto">
-          <h3 className="text-2xl font-bold text-gray-900 mb-10">
-            Research Team
+          <h3 className="text-subheading text-brand-midnight mb-10">
+            Research team
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {teamMembers.map((member, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg p-6 border border-gray-200"
+                className="bg-white rounded-lg p-6 border border-brand-midnight/10"
               >
-                <h4 className="font-bold text-gray-900 text-lg">
+                <h4 className="font-bold text-brand-midnight text-lg">
                   {member.name}
                 </h4>
-                <p className="text-orange-600 font-semibold text-sm mt-1">
+                <p className="text-brand-coral font-bold text-sm mt-1">
                   {member.role}
                 </p>
-                <p className="text-gray-600 text-sm mt-2">
+                <p className="text-brand-midnight/80 text-sm mt-2">
                   {member.affiliation}
                 </p>
               </div>
@@ -234,15 +234,15 @@ export default function AboutPage() {
 
       {/* FAQ / More Info */}
       <section className="max-w-6xl mx-auto px-6 py-16">
-        <h3 className="text-2xl font-bold text-gray-900 mb-10">
-          Common Questions
+        <h3 className="text-subheading text-brand-midnight mb-10">
+          Common questions
         </h3>
         <div className="space-y-8">
           <div>
-            <h4 className="text-lg font-bold text-gray-900 mb-3">
+            <h4 className="text-lg font-bold text-brand-midnight mb-3">
               Who is this hub for?
             </h4>
-            <p className="text-gray-700">
+            <p className="text-brand-midnight/80">
               The Heatwave Hub is designed for everyone: individuals looking to
               improve their personal heat readiness, local government staff
               planning community resilience strategies, and researchers studying
@@ -251,16 +251,16 @@ export default function AboutPage() {
           </div>
 
           <div>
-            <h4 className="text-lg font-bold text-gray-900 mb-3">
+            <h4 className="text-lg font-bold text-brand-midnight mb-3">
               How can I use the Heatwave Hub?
             </h4>
-            <p className="text-gray-700 mb-3">You can:</p>
-            <ul className="list-disc list-inside text-gray-700 space-y-2 ml-2">
+            <p className="text-brand-midnight/80 mb-3">You can:</p>
+            <ul className="list-disc list-inside text-brand-midnight/80 space-y-2 ml-2">
               <li>
                 Take the{" "}
                 <Link
                   href="/test"
-                  className="text-orange-600 font-semibold hover:underline"
+                  className="text-brand-coral font-bold hover:underline"
                 >
                   Heatwave Readiness Assessment
                 </Link>{" "}
@@ -270,7 +270,7 @@ export default function AboutPage() {
                 Explore the{" "}
                 <Link
                   href="/heatwave-map"
-                  className="text-orange-600 font-semibold hover:underline"
+                  className="text-brand-coral font-bold hover:underline"
                 >
                   interactive map
                 </Link>{" "}
@@ -280,7 +280,7 @@ export default function AboutPage() {
                 Access{" "}
                 <Link
                   href="/prepare"
-                  className="text-orange-600 font-semibold hover:underline"
+                  className="text-brand-coral font-bold hover:underline"
                 >
                   preparation resources and strategies
                 </Link>{" "}
@@ -290,7 +290,7 @@ export default function AboutPage() {
                 Find{" "}
                 <Link
                   href="/cooling-centres"
-                  className="text-orange-600 font-semibold hover:underline"
+                  className="text-brand-coral font-bold hover:underline"
                 >
                   cooling centres and support services
                 </Link>{" "}
@@ -300,10 +300,10 @@ export default function AboutPage() {
           </div>
 
           <div>
-            <h4 className="text-lg font-bold text-gray-900 mb-3">
+            <h4 className="text-lg font-bold text-brand-midnight mb-3">
               Is my data private?
             </h4>
-            <p className="text-gray-700">
+            <p className="text-brand-midnight/80">
               Yes. Your assessment responses are securely stored and used only
               for research and program evaluation purposes. Data is anonymized
               and reported only in aggregate form to protect individual privacy.
@@ -311,10 +311,10 @@ export default function AboutPage() {
           </div>
 
           <div>
-            <h4 className="text-lg font-bold text-gray-900 mb-3">
+            <h4 className="text-lg font-bold text-brand-midnight mb-3">
               How often is the data updated?
             </h4>
-            <p className="text-gray-700">
+            <p className="text-brand-midnight/80">
               Heatwave risk data is updated as new research and climate
               projections become available. Community feedback and assessment
               data help us continuously improve the hub's resources and
@@ -323,10 +323,10 @@ export default function AboutPage() {
           </div>
 
           <div>
-            <h4 className="text-lg font-bold text-gray-900 mb-3">
+            <h4 className="text-lg font-bold text-brand-midnight mb-3">
               How can my local government get involved?
             </h4>
-            <p className="text-gray-700">
+            <p className="text-brand-midnight/80">
               Contact the research team to discuss how your LGA can participate
               in workshops, co-design preparedness strategies, and access
               aggregated regional data from the hub. Reach out via the contact
@@ -337,47 +337,47 @@ export default function AboutPage() {
       </section>
 
       {/* Call to Action */}
-      <section className="bg-gradient-to-r from-orange-600 to-red-600 px-6 py-16">
-        <div className="max-w-6xl mx-auto text-center text-white">
-          <h3 className="text-3xl font-bold mb-4">
-            Ready to Build Your Resilience?
+      <section className="bg-gradient-to-r from-brand-golden to-brand-coral px-6 py-16">
+        <div className="max-w-6xl mx-auto text-center text-brand-midnight">
+          <h3 className="text-heading mb-4">
+            Ready to build your resilience?
           </h3>
-          <p className="text-lg mb-8 opacity-90">
+          <p className="text-body-lg mb-8">
             Start your journey to better heatwave preparedness today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/test"
-              className="bg-white text-orange-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors"
+              className="bg-brand-midnight text-brand-cream px-8 py-3 rounded-lg font-bold hover:brightness-125 transition-all"
             >
-              Take the Assessment
+              Take the assessment
             </Link>
             <Link
               href="/heatwave-map"
-              className="bg-orange-500 text-white px-8 py-3 rounded-lg font-bold hover:bg-orange-700 transition-colors border-2 border-white"
+              className="bg-brand-cream text-brand-midnight px-8 py-3 rounded-lg font-bold hover:brightness-95 transition-all border-2 border-brand-midnight"
             >
-              Explore the Map
+              Explore the map
             </Link>
           </div>
         </div>
       </section>
 
       {/* Footer Contact */}
-      <section className="bg-gray-50 px-6 py-12 border-t border-gray-200">
+      <section className="bg-white px-6 py-12 border-t border-brand-midnight/10">
         <div className="max-w-6xl mx-auto">
-          <h4 className="font-bold text-gray-900 mb-4">
-            Questions or Feedback?
+          <h4 className="font-bold text-brand-midnight mb-4">
+            Questions or feedback?
           </h4>
-          <p className="text-gray-700 mb-4">
+          <p className="text-brand-midnight/80 mb-4">
             We'd love to hear from you. For inquiries or general feedback please
             contact:
           </p>
-          <div className="bg-white rounded-lg p-6 border border-gray-200">
-            <p className="text-gray-900 font-semibold">
+          <div className="bg-white rounded-lg p-6 border border-brand-midnight/10">
+            <p className="text-brand-midnight font-bold">
               University of Newcastle - Heatwave Hub Team (Contact Link)
             </p>
-            <p className="text-gray-700 mt-2">Led by X, Y, and Z.</p>
-            <p className="text-gray-600 text-sm mt-4">
+            <p className="text-brand-midnight/80 mt-2">Led by X, Y, and Z.</p>
+            <p className="text-brand-midnight/80 text-sm mt-4">
               A project funded by the Australian Government's Disaster Ready
               Fund
             </p>

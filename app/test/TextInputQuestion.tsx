@@ -30,7 +30,7 @@ export default function TextInputQuestion({ type, onSubmit }: TextInputQuestionP
     <div className="space-y-4">
       <input
         type={type === "NUMBER" ? "number" : "text"}
-        className="w-full p-4 border-2 border-slate-200 rounded-xl focus:border-orange-500 outline-none text-xl text-slate-800"
+        className="w-full p-4 border-2 border-brand-midnight/10 rounded-xl focus:border-brand-coral outline-none text-xl text-brand-midnight"
         placeholder="Enter details..."
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
@@ -43,7 +43,7 @@ export default function TextInputQuestion({ type, onSubmit }: TextInputQuestionP
       <button
         onClick={handleSubmit}
         disabled={isDisabled}
-        className="w-full martial-gradient py-4 bg-orange-600 disabled:bg-slate-300 text-white rounded-xl font-bold transition-all"
+        className="w-full martial-gradient py-4 bg-brand-coral disabled:bg-brand-midnight/20 text-brand-midnight rounded-xl font-bold transition-all hover:brightness-95"
       >
         Continue
       </button>

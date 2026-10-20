@@ -19,46 +19,46 @@ export default function SlideTips() {
   // Data: 6 items
   const individualTips = [
     {
-      title: "Cool Your Home",
+      title: "Cool your home",
       description:
         "Prepare your home to make it cooler where possible, e.g. installing fans, or shade cloths. For pre-existing fans and air conditioners, make sure they have been serviced and are working well.",
       icon: HomeModernIcon,
-      color: "bg-orange-100 text-orange-600",
+      color: "bg-brand-turquoise text-brand-midnight",
     },
     {
-      title: "Personal Cooling",
+      title: "Personal cooling",
       description:
         "Consider buying personal cooling items, such as an ice vest or small fans. Get a cooling bag for water and medications.",
       icon: UserGroupIcon,
-      color: "bg-blue-100 text-blue-600",
+      color: "bg-brand-denim text-brand-cream",
     },
     {
-      title: "Health Management",
+      title: "Health management",
       description:
         "Some medical conditions can get worse in extreme heat. Make sure your conditions are well managed and you have a plan in place for when a heatwave or blackout occurs.",
       icon: BeakerIcon,
-      color: "bg-green-100 text-green-600",
+      color: "bg-brand-golden text-brand-midnight",
     },
     {
-      title: "Emergency Planning",
+      title: "Emergency planning",
       description:
         "Plan ahead to make sure you have enough supplies, such as food, water and any medication required.",
       icon: HeartIcon,
-      color: "bg-red-100 text-red-600",
+      color: "bg-brand-coral text-brand-midnight",
     },
     {
-      title: "Pet Preparedness",
+      title: "Pet preparedness",
       description:
         "Make a plan for any pets or animals and ensure they have enough food and water and a cool place to shelter during a heatwave or a blackout.",
       icon: DogIcon,
-      color: "bg-purple-100 text-purple-600",
+      color: "bg-brand-indigo text-brand-cream",
     },
     {
-      title: "Community Resources",
+      title: "Community resources",
       description:
         "Investigate public locations in your local area where you could go to stay cool e.g. community centres, libraries, movie theatres",
       icon: ShoppingBagIcon,
-      color: "bg-yellow-100 text-yellow-600",
+      color: "bg-brand-turquoise text-brand-midnight",
     },
   ];
 
@@ -83,11 +83,11 @@ export default function SlideTips() {
       {/* Header & Controls */}
       <div className="flex flex-col md:flex-row justify-between items-end mb-8">
         <div>
-          <span className="text-orange-600 font-bold tracking-widest uppercase text-sm">
-            For Residents
+          <span className="text-label font-bold tracking-widest text-brand-coral">
+            For residents
           </span>
-          <h2 className="text-4xl md:text-5xl font-black text-gray-900 mt-2">
-            Protect Yourself
+          <h2 className="text-heading text-brand-midnight mt-2">
+            Protect yourself
           </h2>
         </div>
 
@@ -95,14 +95,14 @@ export default function SlideTips() {
         <div className="flex gap-2 mt-4 md:mt-0">
           <button
             onClick={prevSlide}
-            className="p-2 rounded-full border border-gray-300 hover:bg-orange-50 hover:border-orange-300 transition-all text-gray-600"
+            className="p-2 rounded-full border border-brand-midnight/20 hover:bg-brand-cream hover:border-brand-coral/50 transition-all text-brand-midnight/80"
             aria-label="Previous tips"
           >
             <ChevronLeftIcon className="w-5 h-5" />
           </button>
           <button
             onClick={nextSlide}
-            className="p-2 rounded-full border border-gray-300 hover:bg-orange-50 hover:border-orange-300 transition-all text-gray-600"
+            className="p-2 rounded-full border border-brand-midnight/20 hover:bg-brand-cream hover:border-brand-coral/50 transition-all text-brand-midnight/80"
             aria-label="Next tips"
           >
             <ChevronRightIcon className="w-5 h-5" />
@@ -124,17 +124,17 @@ export default function SlideTips() {
               {slideGroup.map((tip) => (
                 <div
                   key={tip.title}
-                  className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow h-full"
+                  className="bg-white p-8 rounded-2xl shadow-sm border border-brand-midnight/10 hover:shadow-md transition-shadow h-full"
                 >
                   <div
                     className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 ${tip.color}`}
                   >
                     <tip.icon className="w-8 h-8" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  <h3 className="text-xl font-bold text-brand-midnight mb-3">
                     {tip.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-body text-brand-midnight/80">
                     {tip.description}
                   </p>
                 </div>
@@ -152,8 +152,8 @@ export default function SlideTips() {
             onClick={() => setCurrentSlide(index)}
             className={`h-2 rounded-full transition-all duration-300 ${
               currentSlide === index
-                ? "w-8 bg-orange-500"
-                : "w-2 bg-gray-300 hover:bg-orange-300"
+                ? "w-8 bg-brand-coral"
+                : "w-2 bg-brand-midnight/20 hover:bg-brand-golden"
             }`}
           />
         ))}

@@ -47,8 +47,8 @@ export default function RadioQuestion({ options, onSelect }: RadioGroupQuestionP
           onClick={() => handleOptionClick(option)}
           className={`flex items-center gap-4 p-6 border-2 rounded-2xl transition-all text-left group
             ${isSelectedPending 
-              ? "border-orange-500 bg-orange-50" 
-              : "border-slate-100 bg-slate-50 hover:border-orange-500 hover:bg-white"
+              ? "border-brand-coral bg-brand-cream" 
+              : "border-brand-midnight/10 bg-brand-cream hover:border-brand-coral hover:bg-white"
             }`}
         >
           {option.icon && (
@@ -56,7 +56,7 @@ export default function RadioQuestion({ options, onSelect }: RadioGroupQuestionP
               {option.icon}
             </span>
           )}
-          <span className="text-xl font-bold text-slate-800">{option.label}</span>
+          <span className="text-xl font-bold text-brand-midnight">{option.label}</span>
         </button>
       );
     })}
@@ -64,7 +64,7 @@ export default function RadioQuestion({ options, onSelect }: RadioGroupQuestionP
 
   {/* Render the text input conditionally below the buttons */}
   {pendingOption?.isSpecify && (
-    <div className="animate-in fade-in slide-in-from-top-2 p-6 bg-orange-50 rounded-2xl border border-orange-200 flex flex-col sm:flex-row gap-4">
+    <div className="animate-in fade-in slide-in-from-top-2 p-6 bg-brand-cream rounded-2xl border border-brand-coral/40 flex flex-col sm:flex-row gap-4">
       <input
         type="text"
         placeholder="Please specify..."
@@ -73,13 +73,13 @@ export default function RadioQuestion({ options, onSelect }: RadioGroupQuestionP
         onKeyDown={(e) => {
           if (e.key === "Enter") handleSpecifySubmit();
         }}
-        className="flex-1 p-4 rounded-xl border border-slate-200 outline-none focus:border-orange-500 text-lg"
+        className="flex-1 p-4 rounded-xl border border-brand-midnight/10 outline-none focus:border-brand-coral text-lg"
         autoFocus
       />
       <button
         onClick={handleSpecifySubmit}
         disabled={!specifyText.trim()}
-        className="px-8 py-4 bg-orange-600 text-white font-bold rounded-xl disabled:opacity-50 transition-opacity"
+        className="px-8 py-4 bg-brand-coral text-brand-midnight font-bold rounded-xl hover:brightness-95 disabled:opacity-50 transition-opacity"
       >
         Confirm
       </button>

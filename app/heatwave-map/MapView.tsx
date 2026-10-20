@@ -170,14 +170,14 @@ export default function MapView() {
               closeOnClick={false}
               className="z-50"
             >
-              <div className="p-2 text-black">
+              <div className="p-2 text-brand-midnight">
                 <h3 className="font-bold border-b mb-1">
-                  {hoverInfo.properties.LGA_NAME || "LGA Details"}
+                  {hoverInfo.properties.LGA_NAME || "LGA details"}
                 </h3>
-                {/* Displays warnings based on census data. E.g. "Vulnerability Warning: High Proportion of Low Income people" */}
+                {/* Displays warnings based on census data. E.g. "Vulnerability Warning: High proportion of Low Income people" */}
                 <CensusWarnings hoverContext={hoverInfo} />{" "}
-                <p className="text-xs text-gray-500 mt-2">
-                  LGA Code: {hoverInfo.properties.LGA_CODE}
+                <p className="text-xs text-brand-midnight/70 mt-2">
+                  LGA code: {hoverInfo.properties.LGA_CODE}
                 </p>
               </div>
             </Popup>

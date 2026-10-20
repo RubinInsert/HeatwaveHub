@@ -1,45 +1,47 @@
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
 import Image from "next/image";
 import NavCard from "./NavCard";
+
 export default function Page() {
   const heatFacts = [
     {
-      title: "Silent Killer",
+      title: "Silent killer",
       description:
         "Heatwaves claim more lives in Australia than any other natural hazard.",
-      color: "border-orange-500",
+      color: "border-brand-coral",
     },
     {
-      title: "Stay Hydrated",
+      title: "Stay hydrated",
       description:
         "Drink plenty of water even if you don't feel thirsty during extreme heat.",
-      color: "border-blue-500",
+      color: "border-brand-denim",
     },
     {
-      title: "Check-In",
+      title: "Check in",
       description:
-        "Look out for elderly neighbors and those living alone during hot spells.",
-      color: "border-green-500",
+        "Look out for elderly neighbours and those living alone during hot spells.",
+      color: "border-brand-turquoise",
     },
   ];
   return (
     <main className="flex min-h-screen flex-col">
-      <section className="p-6">
-        <div className="relative block md:h-64 h-auto w-full overflow-hidden rounded-xl border-4 border-white shadow-xl">
+      <section className="px-6 py-10 md:py-14">
+        <div className="relative block h-auto min-h-[26rem] w-full overflow-hidden rounded-xl border-4 border-white shadow-xl md:min-h-[36rem]">
           <Image
             src="/heatwave-map.png"
-            alt="Australia Heatwave Map"
+            alt="Heat map of Australia"
             fill
             className="object-cover object-center"
             priority
           />
-          <div className="flex h-full items-center p-12 bg-black/40 text-white relative z-10 backdrop-blur-sm hover:backdrop-blur duration-300">
-            <div className="max-w-2xl">
-              <h1 className="text-xl md:text-5xl font-black mb-4 drop-shadow-lg">
-                Centralised Heatwave Info
+          <div className="flex h-full items-center p-8 md:p-16 bg-brand-midnight/70 text-brand-cream relative z-10 backdrop-blur-sm hover:backdrop-blur duration-300">
+            <div className="max-w-4xl">
+              <p className="text-label font-bold text-brand-golden mb-4">
+                Community resilience initiative
+              </p>
+              <h1 className="text-display mb-6 drop-shadow-lg">
+                Centralised heatwave information
               </h1>
-              <p className="text-l md:text-xl opacity-90">
+              <p className="text-body-lg max-w-measure opacity-90">
                 Your go-to resource for building community resilience against
                 heatwaves. Explore tools, resources, and information to help you
                 prepare for and respond to extreme heat events.
@@ -48,74 +50,72 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="flex text-center flex-col md:flex-row gap-4 justify-around text-white font-bold text-2xl mt-12">
+        {/* Call-to-action buttons, ordered left to right as approved.
+            External referral links (e.g. NSW Government resources) are being
+            moved to a dedicated links page, so they are not listed here. */}
+        <div className="mt-12 flex flex-col gap-5 font-bold md:flex-row md:justify-between">
           <NavCard
-            href="/prepare"
-            bgColor="bg-orange-400"
-            iconSrc="/icons/emergency-heat-icon.svg"
-            altText="Heatwave Icon"
-            label="Prepare"
-          />
-          <NavCard
-            href="https://www.climatechange.environment.nsw.gov.au/resources-and-research/climate-risk-ready-nsw-guide"
-            bgColor="bg-green-400"
-            iconSrc="/icons/thermostat-up-icon.svg"
-            altText="Fan Icon"
-            label="LGA Climate Change Maturity Assessment"
-          />
-          <NavCard
-            href="/test"
-            bgColor="bg-blue-400"
-            iconSrc="/icons/assessment-icon.svg"
-            altText="Assessment Icon"
-            label="Test Your Heatwave Readiness Score"
+            href="/about"
+            bgColor="bg-brand-indigo"
+            iconSrc="/icons/question-icon.svg"
+            altText=""
+            label="What is the heatwave hub"
+            textColor="text-brand-cream"
           />
           <NavCard
             href="/heatwave-map"
-            bgColor="bg-yellow-400"
+            bgColor="bg-brand-denim"
             iconSrc="/icons/map-icon.svg"
-            altText="Map Icon"
-            label="View Heatwave Risk Map"
+            altText=""
+            label="View heatwave risk map"
+            textColor="text-brand-cream"
           />
           <NavCard
-            href="/about"
-            bgColor="bg-purple-400"
-            iconSrc="/icons/question-icon.svg"
-            altText="Question Icon"
-            label="What is Heatwave Hub?"
+            href="/test"
+            bgColor="bg-brand-golden"
+            iconSrc="/icons/assessment-icon.svg"
+            altText=""
+            label="Test your heatwave readiness score"
+            textColor="text-brand-midnight"
+            iconClassName="invert"
+          />
+          <NavCard
+            href="/prepare"
+            bgColor="bg-brand-coral"
+            iconSrc="/icons/emergency-heat-icon.svg"
+            altText=""
+            label="Prepare"
+            textColor="text-brand-midnight"
+            iconClassName="invert"
           />
         </div>
       </section>
 
-      <section className="mt-12 md:ml-32 md:mr-32 border-t-8 border-gray-200 hover:border-orange-400 transition-colors duration-200 shadow-lg bg-white rounded-2xl">
+      <section className="mt-12 md:ml-32 md:mr-32 border-t-8 border-brand-indigo hover:border-brand-coral transition-colors duration-200 shadow-lg bg-white rounded-2xl">
         <div className="p-8 md:p-12 ">
           {/* Header Section */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 border-b border-gray-100 pb-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 border-b border-brand-midnight/10 pb-10">
             <div>
-              <h2 className="text-sm font-bold uppercase tracking-widest text-orange-600 mb-2">
-                Safety Guide
-              </h2>
-              <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
-                Stay Aware.
-              </h1>
+              <p className="text-label font-bold text-brand-coral mb-3">
+                Safety guide
+              </p>
+              <h2 className="text-heading">Stay aware</h2>
             </div>
-            <p className="text-gray-500 max-w-xs text-sm">
+            <p className="text-body text-brand-midnight/70 max-w-measure-tight">
               Quick insights to help you navigate extreme heat conditions
               safely.
             </p>
           </div>
 
           {/* Facts Grid */}
-          <div className="flex flex-col md:flex-row justify-center gap-8">
+          <div className="flex flex-col md:flex-row justify-center gap-10 md:gap-14">
             {heatFacts.map((fact) => (
-              <div key={fact.title} className="group">
+              <div key={fact.title} className="group md:max-w-measure-tight">
                 <div
                   className={`h-1 w-12 mb-4 transition-all group-hover:w-full border-t-4 ${fact.color}`}
                 />
-                <h2 className="text-xl font-bold text-gray-800 mb-3">
-                  {fact.title}
-                </h2>
-                <p className="text-gray-600 leading-relaxed text-sm">
+                <h3 className="text-subheading mb-4">{fact.title}</h3>
+                <p className="text-body text-brand-midnight/80">
                   {fact.description}
                 </p>
               </div>
@@ -123,29 +123,19 @@ export default function Page() {
           </div>
 
           {/* Footer Link / Resource Prompt */}
-          <div className="mt-16 pt-8 border-t border-gray-50 flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-gray-700">
-              Other Helpful Resources
-            </h3>
-            <button className="text-blue-600 font-medium hover:underline flex items-center gap-2">
-              View All <span>→</span>
+          <div className="mt-20 pt-10 border-t border-brand-midnight/10 flex flex-wrap items-center justify-between gap-4">
+            <h3 className="text-subheading">Other helpful resources</h3>
+            <button className="text-brand-denim font-bold hover:underline flex items-center gap-2">
+              View all <span aria-hidden="true">→</span>
             </button>
           </div>
         </div>
       </section>
-      <section className="mt-12 flex md:flex-row flex-col items-center justify-evenly p-8 border border-gray-200">
-        <h1 className="text-lg font-semibold w-1/2">
-          {" "}
+      <section className="mt-auto flex md:flex-row flex-col items-center justify-center gap-8 p-10 md:p-12 bg-brand-midnight text-brand-cream">
+        <p className="text-body w-full md:w-1/2 text-center">
           Funding provided by{" "}
-          <span className="font-black">Disaster Ready Fund (DRF) </span>
-        </h1>
-        <Image
-          src="/NEMA-logo.svg"
-          alt="Heatwave Icon"
-          width={100}
-          height={100}
-          className="w-[250px] h-auto object-contain invert"
-        ></Image>
+          <span className="font-bold">Disaster Ready Fund (DRF)</span>
+        </p>
       </section>
     </main>
   );

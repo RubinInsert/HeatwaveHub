@@ -1,7 +1,22 @@
 import "@/app/ui/global.css";
-import { inter } from "@/app/ui/fonts";
+import { arial } from "@/app/ui/fonts";
 import Image from "next/image";
-import PageNavigation from "./components/PageNavigation";
+import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title:
+    "Heatwave Hub — Centralised heatwave information for community resilience",
+  description:
+    "Explore heatwave risk data, preparedness guidance and a personal heatwave readiness assessment for communities across New South Wales.",
+  openGraph: {
+    siteName: "Heatwave Hub",
+    type: "website",
+    title: "Heatwave Hub",
+    description:
+      "Centralised heatwave information for community resilience across New South Wales.",
+  },
+};
 export default function RootLayout({
   children,
 }: {
@@ -9,38 +24,51 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <title>Heatwave Hub - Centralised Heatwave Information for Community Resilience</title>
-      <body className={`${inter.className} antialiased p-0 m-0 h-dvh flex flex-col`}>
-        <header className="shrink-0 w-full h-auto bg-gray-300 border-b-4 border-red-400 flex items-center justify-center md:justify-between gap-4 px-6 flex-wrap py-3">
-          <a href="/" className="text-center md:text-left">
-          <Image
-            src="/heatwave-hub-logo.png"
-            alt="Logo"
-            width={730 / 10}
-            height={827 / 10}
-            unoptimized={false}
-          />
-          </a>
-          <a href="/" className="text-center md:text-left">
-            <h1 className="text-2xl font-black text-blue-900">HEATWAVE HUB</h1>
-            <h2 className="text-xl font-normal text-blue-900">
-              Community Resilience Initiative
-            </h2>
-          </a>
-          <nav className="md:justify-self-end md:ml-auto">
-            <ul className="flex gap-4 items-center justify-center text-center">
-              <li>
-                <a href="/">Home</a>
-              </li>
-              <span className="inline text-gray-400">|</span>
-              <li>
-                <a className="block h-full w-full" href="/heatwave-map">
-                  Find Your LGA's Heatwave Risk
-                </a>
-              </li>
-            </ul>
-          </nav>
+      <body
+        className={`${arial.className} antialiased p-0 m-0 h-dvh flex flex-col`}
+      >
+        <header className="shrink-0 w-full bg-brand-cream border-b-4 border-brand-coral shadow-sm">
+          <div className="flex w-full flex-wrap items-center justify-between gap-x-8 gap-y-4 px-6 py-4">
+            {/* Primary logo: brandmark with the "Heatwave Hub" wordmark */}
+            <Link
+              href="/"
+              className="flex items-center"
+              aria-label="Heatwave Hub — home"
+            >
+              <Image
+                src="/heatwave-hub-primary-logo.svg"
+                alt="Heatwave Hub"
+                width={302}
+                height={263}
+                priority
+                unoptimized
+                className="h-16 w-auto md:h-20"
+              />
+            </Link>
+            <nav aria-label="Primary" className="ml-auto">
+              <ul className="flex flex-wrap items-center justify-center gap-6 text-lg font-bold text-brand-midnight">
+                <li>
+                  <Link
+                    className="hover:text-brand-coral transition-colors"
+                    href="/"
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li aria-hidden="true" className="text-brand-indigo/40">
+                  |
+                </li>
+                <li>
+                  <Link
+                    className="hover:text-brand-coral transition-colors"
+                    href="/heatwave-map"
+                  >
+                    Find your LGA&apos;s heatwave risk
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </header>
         {children}
       </body>

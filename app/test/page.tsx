@@ -25,17 +25,17 @@ export default async function Page() {
   }
   console.log("Active Questions:", questions);
   return (
-    <main className="flex min-h-screen flex-col bg-slate-50">
+    <main className="flex min-h-screen flex-col bg-brand-cream">
       {/* 1. Specialized Assessment Header */}
       <PageNavigation href="/" label="Heatwave Readiness Assessment" />
 
       {/* 2. Hero Context Section */}
       <section className="py-12 px-6">
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <h1 className="text-4xl font-black text-slate-900 mb-4">
-            Heatwave <span className="text-orange-600">Readiness Score</span>
+          <h1 className="text-heading text-brand-midnight mb-4">
+            Heatwave <span className="text-brand-coral">readiness score</span>
           </h1>
-          <p className="text-lg text-slate-600">
+          <p className="text-body text-brand-midnight/80">
             This assessment helps you understand your personal risk levels based
             on health, environment, and preparedness. It takes approximately 2
             minutes.
@@ -49,7 +49,7 @@ export default async function Page() {
         } 
         {hasReqFailed &&
           (
-            <a href="" className="flex flex-col gap-3 items-center max-w-2xl mx-auto p-8 bg-red-600 border border-8 border-red-900 text-white rounded-3xl shadow-xl animate-in fade-in zoom-in duration-500 hover:scale-105">
+            <a href="" className="flex flex-col gap-3 items-center max-w-2xl mx-auto p-8 bg-brand-coral border border-8 border-brand-midnight text-brand-midnight rounded-3xl shadow-xl animate-in fade-in zoom-in duration-500 hover:scale-105">
               <UnplugIcon width={128} height={128}></UnplugIcon>
               <h1 className="text-2xl">The questions could not be found!</h1>
               <p>Try clicking me to refreshing the page.</p>
@@ -57,20 +57,20 @@ export default async function Page() {
           )
         }
         {/* 4. Support/Privacy Footer */}
-        <div className="max-w-2xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-slate-200 pt-8">
+        <div className="max-w-2xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-brand-midnight/10 pt-8">
           <div>
-            <h3 className="font-bold text-slate-800 mb-2">Why take this?</h3>
-            <p className="text-sm text-slate-500">
+            <h3 className="font-bold text-brand-midnight mb-2">Why take this?</h3>
+            <p className="text-sm text-brand-midnight/70">
               Understanding your vulnerability is the first step in disaster
               mitigation. This data aligns with the NSW Health Heatwave
               Framework.
             </p>
           </div>
           <div>
-            <h3 className="font-bold text-slate-800 mb-2">
-              Privacy & Security
+            <h3 className="font-bold text-brand-midnight mb-2">
+              Privacy & security
             </h3>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-brand-midnight/70">
               Your responses are processed locally in your browser. We do not
               collect, store, or share your personal health information.
             </p>

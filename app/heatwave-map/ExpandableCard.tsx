@@ -32,14 +32,14 @@ const ExpandableCard = ({
 
   return (
     <div
-      className={`transition-all duration-300 ease-in-out border border-gray-100 shadow-sm rounded-xl overflow-hidden h-fit w-full max-w-sm ${
-        isOpen ? "ring-2 ring-blue-500 shadow-lg" : ""
+      className={`transition-all duration-300 ease-in-out border border-brand-cream/20 shadow-sm rounded-xl overflow-hidden h-fit w-full max-w-sm ${
+        isOpen ? "ring-2 ring-brand-turquoise shadow-lg" : ""
       } ${bgColor}`}
     >
       {/* Clickable Header Area */}
       {/* md:cursor-default to disable pointer on larger screens because it default to not retractable */}
       <HeaderWrapper isOpen={isOpen} setIsOpen={setIsOpen}>
-        <div className="flex items-center justify-center shrink-0 h-16 w-16 bg-white/50 rounded-lg">
+        <div className="flex items-center justify-center shrink-0 h-16 w-16 bg-brand-cream/20 rounded-lg">
           <Image
             src={iconSrc}
             alt={altText}
@@ -49,12 +49,12 @@ const ExpandableCard = ({
           />
         </div>
 
-        <span className="flex-1 font-bold text-2xl leading-tight text-gray-800">
+        <span className="flex-1 font-bold text-2xl leading-tight text-brand-cream">
           {label}
         </span>
 
         <ChevronDown
-          className={`block md:hidden transition-transform duration-300 text-gray-500 ${isOpen ? "rotate-180" : ""}`}
+          className={`block md:hidden transition-transform duration-300 text-brand-cream/80 ${isOpen ? "rotate-180" : ""}`}
         />
       </HeaderWrapper>
 
@@ -66,7 +66,7 @@ const ExpandableCard = ({
             : "max-h-0 opacity-0 md:max-h-[500px] md:opacity-100"
         }`}
       >
-        <div className="p-4 pt-0 text-sm text-gray-700 leading-relaxed border-t border-black/5">
+        <div className="p-4 pt-0 text-brand-cream/90 leading-relaxed border-t border-brand-cream/20">
           {children}
         </div>
       </div>

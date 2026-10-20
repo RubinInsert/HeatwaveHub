@@ -2,6 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Heatwave Hub brand foundation (Brand Guidelines 2026). */
+@layer base {
+  :root {
+    --brand-midnight: #0f161a;
+    --brand-cream: #efe3be;
+    --brand-indigo: #33365c;
+    --brand-denim: #2a5a8c;
+    --brand-turquoise: #1ac5c5;
+    --brand-golden: #ffc63e;
+    --brand-coral: #ff5c32;
+    --font-arial: Arial, "Helvetica Neue", Helvetica, "Liberation Sans",
+      sans-serif;
+  }
+
+  html {
+    font-family: var(--font-arial);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--brand-cream);
+    color: var(--brand-midnight);
+    /* Generous, accessible line spacing for the brand body size */
+    line-height: 1.6;
+  }
+
+  /* Clarity first: balanced headings, no orphaned words, meaningful emphasis. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 700;
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  /* Accessible, on-brand focus indicator */
+  :focus-visible {
+    outline: 3px solid var(--brand-turquoise);
+    outline-offset: 2px;
+  }
+}
+
 input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;

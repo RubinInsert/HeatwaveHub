@@ -57,23 +57,23 @@ const handleToggle = (opt: Option, isChecking: boolean) => {
         return (
           <label
             key={opt.id}
-            className={`flex items-center gap-3 p-4 bg-slate-50 rounded-xl border-2 transition-all cursor-pointer ${
-              isChecked ? "border-orange-500 bg-orange-50/30" : "border-transparent"
+            className={`flex items-center gap-3 p-4 bg-brand-cream rounded-xl border-2 transition-all cursor-pointer ${
+              isChecked ? "border-brand-coral bg-brand-cream/60" : "border-transparent"
             }`}
           >
             <input
               type="checkbox"
-              className="w-5 h-5 accent-orange-600 rounded"
+              className="w-5 h-5 accent-brand-coral rounded"
               checked={isChecked}
               onChange={(e) => handleToggle(opt, e.target.checked)}
             />
             {opt.icon && <span className="text-3xl">{opt.icon}</span>}
-            <span className="text-lg font-medium text-slate-700">{opt.label}</span>
+            <span className="text-lg font-medium text-brand-midnight/80">{opt.label}</span>
           </label>
         );
       })}
             {specifyOption && (
-              <div className="animate-in fade-in slide-in-from-top-2 p-4 bg-orange-50 rounded-2xl border border-orange-200 flex flex-col sm:flex-row gap-3">
+              <div className="animate-in fade-in slide-in-from-top-2 p-4 bg-brand-cream rounded-2xl border border-brand-coral/40 flex flex-col sm:flex-row gap-3">
                 <input
                   type="text"
                   placeholder="Please specify..."
@@ -82,7 +82,7 @@ const handleToggle = (opt: Option, isChecking: boolean) => {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") handleSubmit();
                   }}
-                  className="flex-1 p-4 rounded-xl border border-slate-200 outline-none focus:border-orange-500 text-lg"
+                  className="flex-1 p-4 rounded-xl border border-brand-midnight/10 outline-none focus:border-brand-coral text-lg"
                   autoFocus
                 />
               </div>
@@ -90,7 +90,7 @@ const handleToggle = (opt: Option, isChecking: boolean) => {
             <button
         onClick={handleSubmit}
         disabled={checkedOptions.length === 0}
-        className="mt-4 w-full py-4 bg-orange-600 disabled:bg-slate-300 text-white rounded-xl font-bold transition-all"
+        className="mt-4 w-full py-4 bg-brand-coral disabled:bg-brand-midnight/20 text-brand-midnight rounded-xl font-bold transition-all hover:brightness-95"
       >
         Next Step
       </button>
